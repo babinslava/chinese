@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getNavContext } from '../../data/lessonNav';
+import radicals from '../../data/radicals.json';
+
+const { prev, next } = getNavContext('lv');
+---
+
+<Layout title="Все 214 ключей Канси — Курс китайского" activePage="lv">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">В</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Справочник</div>
+          <div class="lesson-title">Все 214 ключей Канси</div>
+          <div class="lesson-subtitle">部首 Bùshǒu — Бу̀шо̌у</div>
+        </div>
+      </div>
+      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:16px">Система создана в 1716 году. Каждый иероглиф относится к одному ключу. Отсортированы по количеству черт.</p>
+
+      <div class="search-bar">
+        <input id="rad-search" type="text" placeholder="Поиск по значению, пиньиню или иероглифу...">
+      </div>
+      <div class="filter-btns" id="filter-btns">
+        <button class="filter-btn on" data-group="all">Все</button>
+        {radicals.map(g => (
+          <button class="filter-btn" data-group={g.group}>{g.label}</button>
+        ))}
+      </div>
+
+      <div id="radicals-container">
+        {radicals.map(group => (
+          <div class="radical-group" data-group={group.group}>
+            <div class="radical-group-title">
+              <span>{group.label}</span> {group.items.length} ключей
+            </div>
+            <div class="radical-grid">
+              {group.items.map(r => (
+                <div class="radical-card" data-search={`${r.char} ${r.py} ${r.pron} ${r.meaning}`.toLowerCase()}>
+                  <div class="radical-char">{r.char}</div>
+                  <div class="radical-info">
+                    <div class="radical-py">{r.py}</div>
+                    <div class="radical-pron">{r.pron}</div>
+                    <div class="radical-meaning">{r.meaning}</div>
+                  </div>
+                  <AudioButton text={r.char.split('/')[0]} size="sm" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>
+
+<script is:inline>
+  const radSearch = document.getElementById('rad-search');
+  const filterBtns = document.getElementById('filter-btns');
+  let currentGroup = 'all';
+
+  function applyFilter() {
+    const q = radSearch.value.toLowerCase().trim();
+    document.querySelectorAll('.radical-group').forEach(group => {
+      const matchesGroup = currentGroup === 'all' || group.dataset.group === currentGroup;
+      let visible = 0;
+      group.querySelectorAll('.radical-card').forEach(card => {
+        const show = matchesGroup && (!q || card.dataset.search.includes(q));
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      group.style.display = visible > 0 ? '' : 'none';
+    });
+  }
+
+  radSearch.addEventListener('input', applyFilter);
+  filterBtns.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    currentGroup = btn.dataset.group;
+    applyFilter();
+  });
+</script>

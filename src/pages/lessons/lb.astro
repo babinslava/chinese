@@ -1,0 +1,62 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getNavContext } from '../../data/lessonNav';
+
+const { prev, next } = getNavContext('lb');
+---
+
+<Layout title="Правила написания — Курс китайского" activePage="lb">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">Б</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Правила написания</div>
+          <div class="lesson-subtitle">书写规则 — 7 главных правил</div>
+        </div>
+      </div>
+      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:16px">Иероглифы пишутся в строгом порядке. Правильный порядок делает написание быстрым, ритмичным и красивым.</p>
+      <div class="warn">Если нарушить порядок черт, иероглиф всё равно будет понятен — но рукописный ввод на телефоне может не распознать его.</div>
+      <div style="height:16px"></div>
+      <div class="rules-list">
+        {[
+          {n:"1",title:"Сверху вниз",desc:"Черты, расположенные одна над другой, пишутся сверху вниз.",ex:"三",note:"верхняя горизонталь, средняя, нижняя"},
+          {n:"2",title:"Слева направо",desc:"Черты, расположенные рядом, пишутся слева направо.",ex:"川",note:"левая, средняя, правая вертикаль"},
+          {n:"3",title:"Горизонталь раньше вертикали",desc:"Когда черты пересекаются, горизонтальная пишется первой.",ex:"十",note:"сначала горизонталь, потом вертикаль"},
+          {n:"4",title:"Левая косая раньше правой",desc:"Два косых: сначала левая (撇), потом правая (捺).",ex:"人",note:"сначала левая косая, потом правая"},
+          {n:"5",title:"Внешнее раньше внутреннего",desc:"Рамка: три стороны → содержимое → закрывающая черта.",ex:"国",note:"рамка → содержимое → нижняя черта"},
+          {n:"6",title:"Средняя черта раньше боковых",desc:"Три симметричные вертикали: средняя, потом боковые.",ex:"小",note:"средняя вертикаль, потом точки"},
+          {n:"7",title:"Пронизывающая черта — последней",desc:"Вертикальная черта, пронизывающая иероглиф, пишется последней.",ex:"中",note:"сначала рамка 口, потом вертикаль"},
+        ].map(r => (
+          <div class="rule-item">
+            <div class="rule-n">{r.n}</div>
+            <div class="rule-body">
+              <div class="rule-title">{r.title}</div>
+              <div class="rule-desc">{r.desc}</div>
+              <div class="rule-example">
+                Пример: <span style="font-family:'Noto Sans SC',sans-serif;font-size:1.1rem;color:var(--red)">{r.ex}</span>
+                <AudioButton text={r.ex} size="sm" />
+                — {r.note}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="tip">Поищи на YouTube «stroke order» + любой иероглиф — там есть анимации. Приложение Skritter специально тренирует порядок черт.</div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>
+
+<style>
+  .rules-list { display: grid; gap: 14px; margin: 20px 0; }
+  .rule-item  { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; transition: transform .15s; }
+  .rule-item:hover { transform: translateX(4px); border-color: var(--navy2); }
+  .rule-n     { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--border); flex-shrink: 0; min-width: 36px; line-height: 1; }
+  .rule-title { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .rule-desc  { font-size: .88rem; color: #444; line-height: 1.6; }
+  .rule-example { font-size: .82rem; color: var(--muted); margin-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+</style>

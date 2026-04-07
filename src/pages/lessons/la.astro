@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getNavContext } from '../../data/lessonNav';
+
+const { prev, next } = getNavContext('la');
+---
+
+<Layout title="Черты — Курс китайского" activePage="la">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">А</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Черты</div>
+          <div class="lesson-subtitle">笔画 Bǐhuà — Би̌хуа</div>
+        </div>
+      </div>
+      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:20px">
+        Каждый иероглиф состоит из 8 базовых типов черт. Все иероглифы китайского языка — это комбинации этих восьми движений руки.
+      </p>
+      <div class="stroke-grid">
+        {[
+          {zh:"横 héng",name:"Горизонтальная",dir:"→",desc:"Слева направо. Самая частая черта.",ex:["一","二","王"]},
+          {zh:"竖 shù",name:"Вертикальная",dir:"↓",desc:"Строго вертикально вниз. Может заканчиваться крючком.",ex:["中","十","木"]},
+          {zh:"撇 piě",name:"Левая косая",dir:"↙",desc:"Начинается сверху, уходит влево-вниз.",ex:["人","大","月"]},
+          {zh:"捺 nà",name:"Правая косая",dir:"↘",desc:"Вправо-вниз. Заканчивается с нажимом — «хвост».",ex:["人","大","木"]},
+          {zh:"折 zhé",name:"Перелом / угол",dir:"→↓",desc:"Два направления в одном движении.",ex:["口","日","国"]},
+          {zh:"钩 gōu",name:"Крючок",dir:"↓→",desc:"Вертикаль с резким поворотом в конце.",ex:["小","手","水"]},
+          {zh:"点 diǎn",name:"Точка",dir:"·",desc:"Короткий нажим и отрыв. Может быть под любым углом.",ex:["六","心","文"]},
+          {zh:"提 tí",name:"Подъём",dir:"↗",desc:"Короткая черта вверх-вправо. Часто в левых частях.",ex:["地","冰","打"]},
+        ].map(s => (
+          <div class="stroke-card">
+            <div class="stroke-zh">{s.zh}</div>
+            <div class="stroke-name">{s.name}</div>
+            <div class="stroke-dir">{s.dir}</div>
+            <div class="stroke-desc">{s.desc}</div>
+            <div class="stroke-ex">
+              {s.ex.map(ch => (
+                <span><AudioButton text={ch} size="sm" /> {ch}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="tip">На телефоне при рукописном вводе система распознаёт именно эти типы черт — важно писать в правильном направлении.</div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>
+
+<style>
+  .stroke-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 20px 0; }
+  .stroke-card { background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 16px; transition: transform .15s, box-shadow .15s; }
+  .stroke-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+  .stroke-zh   { font-family: 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--red); font-weight: 700; margin-bottom: 4px; }
+  .stroke-name { font-weight: 700; font-size: .9rem; color: var(--navy); }
+  .stroke-dir  { font-size: 1.4rem; margin: 6px 0; color: var(--navy2); }
+  .stroke-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; margin-top: 6px; }
+  .stroke-ex   { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .stroke-ex span { display: inline-flex; align-items: center; gap: 3px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; color: var(--red); }
+
+  @media (min-width: 500px) {
+    .stroke-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 769px) {
+    .stroke-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

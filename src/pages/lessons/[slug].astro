@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getCollection } from 'astro:content';
+import { getNavContext } from '../../data/lessonNav';
+
+export async function getStaticPaths() {
+  const lessons = await getCollection('lessons');
+  return lessons.map(lesson => ({
+    params: { slug: lesson.data.id },
+    props: { lesson },
+  }));
+}
+
+const { lesson } = Astro.props;
+const { Content } = await lesson.render();
+const { data } = lesson;
+const { prev, next } = getNavContext(data.id);
+---
+
+<Layout title={`${data.title} — Курс китайского`} activePage={data.id}>
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">{String(data.order).padStart(2, '0')}</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">{data.tag}</div>
+          <div class="lesson-title">{data.title}</div>
+          <div class="lesson-subtitle">{data.subtitle}</div>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <Content />
+      </div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>

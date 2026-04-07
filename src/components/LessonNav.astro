@@ -1,0 +1,79 @@
+---
+interface NavItem {
+  id: string;
+  num: string;
+  label: string;
+}
+interface Props {
+  prev: NavItem | null;
+  next: NavItem | null;
+}
+const { prev, next } = Astro.props;
+---
+
+<nav class="lesson-nav">
+  {prev ? (
+    <a class="lesson-nav-btn prev" href={`/lessons/${prev.id}`}>
+      <span class="lesson-nav-arrow">←</span>
+      <span class="lesson-nav-info">
+        <span class="lesson-nav-hint">Назад</span>
+        <span class="lesson-nav-label">{prev.num} · {prev.label}</span>
+      </span>
+    </a>
+  ) : <span />}
+  <a class="lesson-nav-btn home" href="/">
+    <span>Все уроки</span>
+  </a>
+  {next ? (
+    <a class="lesson-nav-btn next" href={`/lessons/${next.id}`}>
+      <span class="lesson-nav-info">
+        <span class="lesson-nav-hint">Далее</span>
+        <span class="lesson-nav-label">{next.num} · {next.label}</span>
+      </span>
+      <span class="lesson-nav-arrow">→</span>
+    </a>
+  ) : <span />}
+</nav>
+
+<style>
+  .lesson-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 2px solid var(--border);
+  }
+  .lesson-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    text-decoration: none;
+    color: var(--text);
+    transition: all .15s;
+  }
+  .lesson-nav-btn:hover {
+    border-color: var(--navy2);
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    transform: translateY(-1px);
+  }
+  .lesson-nav-btn.next { justify-content: flex-end; text-align: right; }
+  .lesson-nav-btn.home { justify-content: center; }
+  .lesson-nav-arrow { font-size: 1.4rem; color: var(--navy2); flex-shrink: 0; }
+  .lesson-nav-info { display: flex; flex-direction: column; }
+  .lesson-nav-hint { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  .lesson-nav-label { font-weight: 700; font-size: .9rem; color: var(--navy); }
+
+  @media (min-width: 769px) {
+    .lesson-nav {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .lesson-nav-btn { flex: 1; }
+    .lesson-nav-btn.home { flex: 0; white-space: nowrap; }
+  }
+</style>

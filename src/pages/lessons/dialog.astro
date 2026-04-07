@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getNavContext } from '../../data/lessonNav';
+import dialogueCafe from '../../data/dialogue_cafe.json';
+
+const { prev, next } = getNavContext('dialog');
+---
+
+<Layout title="Живой диалог — Курс китайского" activePage="dialog">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">💬</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Практика</div>
+          <div class="lesson-title">Живой диалог</div>
+          <div class="lesson-subtitle">在咖啡店 Zài kāfēidiàn — В кафе</div>
+        </div>
+      </div>
+      <div class="dialog">
+        {dialogueCafe.map(row => (
+          <div class="dialog-row">
+            <div class="dialog-who">{row.who}</div>
+            <div class="dialog-body">
+              <div class="dialog-zh">
+                {row.zh}
+                <AudioButton text={row.zh} size="sm" />
+              </div>
+              <div class="dialog-py">{row.py}</div>
+              <div class="dialog-pron">{row.ru_pron}</div>
+              <div class="dialog-ru">{row.ru}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>

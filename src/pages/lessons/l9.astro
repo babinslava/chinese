@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getNavContext } from '../../data/lessonNav';
+
+const { prev, next } = getNavContext('l9');
+---
+
+<Layout title="Устройство иероглифов — Курс китайского" activePage="l9">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">09</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Устройство иероглифов</div>
+          <div class="lesson-subtitle">Пиктограммы, составные, ключи</div>
+        </div>
+      </div>
+
+      <div class="section-title">Пиктограммы — базовые знаки</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Аудио</th><th>Иероглиф</th><th>Пиньинь</th><th>Читай</th><th>Значение</th><th>Логика рисунка</th></tr></thead>
+        <tbody>
+          {[
+            {zh:"山",py:"shān",pron:"Ша̄н",meaning:"Гора",logic:"Три пика, торчащих вверх"},
+            {zh:"日",py:"rì",pron:"Жѝ",meaning:"Солнце / день",logic:"Круг с точкой — солнце"},
+            {zh:"月",py:"yuè",pron:"Юэ̀",meaning:"Луна / месяц",logic:"Форма полумесяца"},
+            {zh:"水",py:"shuǐ",pron:"Шуэ̌й",meaning:"Вода",logic:"Волнистые линии течения"},
+            {zh:"木",py:"mù",pron:"Му̀",meaning:"Дерево",logic:"Ствол с ветвями и корнями"},
+            {zh:"人",py:"rén",pron:"Жэ́н",meaning:"Человек",logic:"Силуэт идущего человека"},
+            {zh:"口",py:"kǒu",pron:"Ко̌у",meaning:"Рот",logic:"Квадратное отверстие"},
+            {zh:"火",py:"huǒ",pron:"Хуо̌",meaning:"Огонь",logic:"Языки пламени вверх"},
+          ].map(r => (
+            <tr>
+              <td><AudioButton text={r.zh} size="sm" /></td>
+              <td class="zh-char">{r.zh}</td>
+              <td>{r.py}</td>
+              <td class="pron">{r.pron}</td>
+              <td>{r.meaning}</td>
+              <td>{r.logic}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+
+      <div class="section-title">Составные иероглифы — логика из частей</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Аудио</th><th>Иероглиф</th><th>Пиньинь</th><th>Читай</th><th>Состав</th><th>Логика</th><th>Значение</th></tr></thead>
+        <tbody>
+          {[
+            {zh:"明",py:"míng",pron:"Ми́н",parts:"日 + 月",logic:"Солнце + Луна = два источника света",meaning:"Яркий / светлый"},
+            {zh:"森",py:"sēn",pron:"Сэ̄н",parts:"木+木+木",logic:"Три дерева вместе",meaning:"Лес"},
+            {zh:"休",py:"xiū",pron:"Сью̄",parts:"人 + 木",logic:"Человек у дерева — отдыхает",meaning:"Отдыхать"},
+            {zh:"好",py:"hǎo",pron:"Ха̌о",parts:"女 + 子",logic:"Женщина + ребёнок",meaning:"Хорошо"},
+            {zh:"男",py:"nán",pron:"На́н",parts:"田 + 力",logic:"Поле + сила = кто работает в поле",meaning:"Мужчина"},
+            {zh:"家",py:"jiā",pron:"Дзья̄",parts:"宀 + 豕",logic:"Крыша + свинья (скот дома)",meaning:"Дом / семья"},
+          ].map(r => (
+            <tr>
+              <td><AudioButton text={r.zh} size="sm" /></td>
+              <td class="zh-char">{r.zh}</td>
+              <td>{r.py}</td>
+              <td class="pron">{r.pron}</td>
+              <td>{r.parts}</td>
+              <td>{r.logic}</td>
+              <td>{r.meaning}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>

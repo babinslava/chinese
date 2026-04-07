@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import LessonNav from '../../components/LessonNav.astro';
+import { getNavContext } from '../../data/lessonNav';
+import top40 from '../../data/top40.json';
+
+const { prev, next } = getNavContext('top40');
+---
+
+<Layout title="Топ-40 ключей — Курс китайского" activePage="top40">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">★</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Справочник</div>
+          <div class="lesson-title">Топ-40 ключей</div>
+          <div class="lesson-subtitle">С ними можно понять большинство иероглифов</div>
+        </div>
+      </div>
+      <div class="top40-grid">
+        {top40.map(r => (
+          <div class="top40-card">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="top40-char">{r.char}</div>
+              <AudioButton text={r.char.split('/')[0]} size="sm" />
+            </div>
+            <div class="top40-meaning">{r.meaning}</div>
+            <div class="top40-pron">{r.pron}</div>
+            <div class="top40-examples">{r.examples}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+    <LessonNav prev={prev} next={next} />
+  </div>
+</Layout>
