@@ -1,0 +1,31 @@
+---
+order: 1
+id: "l1"
+tag: "Фонетика"
+title: "Четыре тона"
+subtitle: "四声 Sìshēng — Сы̀шэ̄н"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+import tones from '../../data/tones.json';
+
+Китайский — тональный язык. Один и тот же слог с разным тоном — это разное слово. Это главное, что нужно усвоить с первого дня.
+
+<div class="tone-cards">
+  {tones.map(t => (
+    <div class={`tone-card ${t.color}`}>
+      <div class="tone-mark">{t.mark}</div>
+      <div class="tone-name">{t.tone}</div>
+      <div class="tone-desc">{t.desc}</div>
+      <div class="tone-ex">
+        <AudioButton text={t.example_zh} size="sm" />
+        {t.example_py} {t.example_zh} — {t.example_meaning}
+      </div>
+      <div class="tone-desc" style="margin-top:6px;color:var(--pron)">{t.ru_pron}</div>
+    </div>
+  ))}
+</div>
+
+<div class="tip">💡 Запомни историей: **Мама** (1й) удивлённо **спрашивает** (2й) про **лошадь** (3й) и **ругается** (4й).</div>
+
+<div class="warn">⚠️ Два 3-х тона подряд: первый меняется на 2-й. «nǐ hǎo» произносится как «ní hǎo».</div>

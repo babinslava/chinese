@@ -1,0 +1,42 @@
+---
+order: 7
+id: "l7"
+tag: "Грамматика"
+title: "Вопросительные слова"
+subtitle: "Порядок слов не меняется!"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+
+В китайском вопросительное слово стоит на месте ответа — порядок слов не меняется.
+
+*По-русски: «ГДЕ ты?» — По-китайски: «Ты находишься ГДЕ?»*
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Иероглифы</th><th>Читай</th><th>Значение</th><th>Пример</th></tr></thead>
+    <tbody>
+      {[
+        {py:"Shéi",           zh:"谁",      pron:"Шэ́й",        ru:"Кто",           ex:"你是谁？ — Ни̌ шѝ шэ́й?"},
+        {py:"Shénme",         zh:"什么",    pron:"Шэ́нмэ",      ru:"Что / Какой",   ex:"这是什么？ — Джэ̀ шѝ шэ́нмэ?"},
+        {py:"Nǎr",            zh:"哪儿",    pron:"На̌р",         ru:"Где",           ex:"你在哪儿？ — Ни̌ цза̀й на̌р?"},
+        {py:"Shénme shíhou",  zh:"什么时候",pron:"Шэ́нмэ ши́хоу",ru:"Когда",         ex:"你什么时候来？"},
+        {py:"Wèishénme",      zh:"为什么",  pron:"Вэ̀йшэ́нмэ",  ru:"Почему",        ex:"你为什么不吃？"},
+        {py:"Zěnme",          zh:"怎么",    pron:"Цзэ̌нмэ",     ru:"Как",           ex:"你怎么去？"},
+        {py:"Duōshao",        zh:"多少",    pron:"Дуо̄шао",      ru:"Сколько (цена)",ex:"这多少钱？"},
+        {py:"Jǐ",             zh:"几",      pron:"Цзи̌",         ru:"Сколько (до 10)",ex:"你有几个兄弟？"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td>{r.py}</td>
+          <td class="zh-char">{r.zh}</td>
+          <td class="pron">{r.pron}</td>
+          <td><strong>{r.ru}</strong></td>
+          <td style="font-size:.82rem">{r.ex}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="tip">💡 <AudioButton text="吗" size="sm" /> **吗 (ма)** в конце = вопрос да/нет. <AudioButton text="呢" size="sm" /> **呢 (нэ)** в конце = «а ты?»: 我很好，你呢？</div>

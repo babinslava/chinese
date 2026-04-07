@@ -1,0 +1,349 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AudioButton from '../components/AudioButton.astro';
+import { getCollection } from 'astro:content';
+
+import radicals from '../data/radicals.json';
+import top40 from '../data/top40.json';
+import dialogueCafe from '../data/dialogue_cafe.json';
+
+// Load & sort MDX lessons
+const lessonEntries = await getCollection('lessons');
+const lessons = lessonEntries.sort((a, b) => a.data.order - b.data.order);
+const renderedLessons = await Promise.all(
+  lessons.map(async (l) => ({ ...l, render: await l.render() }))
+);
+---
+
+<Layout title="普通话 — Курс китайского языка">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Полный курс · Русский язык · С произношением</div>
+    <h1>Учим<br>китайский язык</h1>
+    <p>9 уроков + черты, правила и все 214 ключей Канси. Нажимай 🔊 у любого слова — 👤 откроет носителей на Forvo.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">12</div><div class="stat-l">Уроков</div></div>
+      <div class="stat"><div class="stat-n">214</div><div class="stat-l">Ключей</div></div>
+      <div class="stat"><div class="stat-n">8</div><div class="stat-l">Базовых черт</div></div>
+      <div class="stat"><div class="stat-n">40+</div><div class="stat-l">Топ ключей</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ УРОКИ 1–8 из MDX файлов ══════════════════════════════════ -->
+    {renderedLessons.map(({ data, render: { Content } }) => (
+      <section class="lesson" id={data.id}>
+        <div class="lesson-header">
+          <div class="lesson-num">{String(data.order).padStart(2, '0')}</div>
+          <div class="lesson-meta">
+            <div class="lesson-tag">{data.tag}</div>
+            <div class="lesson-title">{data.title}</div>
+            <div class="lesson-subtitle">{data.subtitle}</div>
+          </div>
+        </div>
+        <div class="lesson-body">
+          <Content />
+        </div>
+      </section>
+    ))}
+
+    <!-- ═══ УРОК 9 — ИЕРОГЛИФЫ ════════════════════════════════════════ -->
+    <section class="lesson" id="l9">
+      <div class="lesson-header">
+        <div class="lesson-num">09</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Устройство иероглифов</div>
+          <div class="lesson-subtitle">Пиктограммы, составные, ключи</div>
+        </div>
+      </div>
+
+      <div class="section-title">Пиктограммы — базовые знаки</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Аудио</th><th>Иероглиф</th><th>Пиньинь</th><th>Читай</th><th>Значение</th><th>Логика рисунка</th></tr></thead>
+        <tbody>
+          {[
+            {zh:"山",py:"shān",pron:"Ша̄н",meaning:"Гора",logic:"Три пика, торчащих вверх"},
+            {zh:"日",py:"rì",pron:"Жѝ",meaning:"Солнце / день",logic:"Круг с точкой — солнце"},
+            {zh:"月",py:"yuè",pron:"Юэ̀",meaning:"Луна / месяц",logic:"Форма полумесяца"},
+            {zh:"水",py:"shuǐ",pron:"Шуэ̌й",meaning:"Вода",logic:"Волнистые линии течения"},
+            {zh:"木",py:"mù",pron:"Му̀",meaning:"Дерево",logic:"Ствол с ветвями и корнями"},
+            {zh:"人",py:"rén",pron:"Жэ́н",meaning:"Человек",logic:"Силуэт идущего человека"},
+            {zh:"口",py:"kǒu",pron:"Ко̌у",meaning:"Рот",logic:"Квадратное отверстие"},
+            {zh:"火",py:"huǒ",pron:"Хуо̌",meaning:"Огонь",logic:"Языки пламени вверх"},
+          ].map(r => (
+            <tr>
+              <td><AudioButton text={r.zh} size="sm" /></td>
+              <td class="zh-char">{r.zh}</td>
+              <td>{r.py}</td>
+              <td class="pron">{r.pron}</td>
+              <td>{r.meaning}</td>
+              <td>{r.logic}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+
+      <div class="section-title">Составные иероглифы — логика из частей</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Аудио</th><th>Иероглиф</th><th>Пиньинь</th><th>Читай</th><th>Состав</th><th>Логика</th><th>Значение</th></tr></thead>
+        <tbody>
+          {[
+            {zh:"明",py:"míng",pron:"Ми́н",parts:"日 + 月",logic:"Солнце + Луна = два источника света",meaning:"Яркий / светлый"},
+            {zh:"森",py:"sēn",pron:"Сэ̄н",parts:"木+木+木",logic:"Три дерева вместе",meaning:"Лес"},
+            {zh:"休",py:"xiū",pron:"Сью̄",parts:"人 + 木",logic:"Человек у дерева — отдыхает",meaning:"Отдыхать"},
+            {zh:"好",py:"hǎo",pron:"Ха̌о",parts:"女 + 子",logic:"Женщина + ребёнок",meaning:"Хорошо"},
+            {zh:"男",py:"nán",pron:"На́н",parts:"田 + 力",logic:"Поле + сила = кто работает в поле",meaning:"Мужчина"},
+            {zh:"家",py:"jiā",pron:"Дзья̄",parts:"宀 + 豕",logic:"Крыша + свинья (скот дома)",meaning:"Дом / семья"},
+          ].map(r => (
+            <tr>
+              <td><AudioButton text={r.zh} size="sm" /></td>
+              <td class="zh-char">{r.zh}</td>
+              <td>{r.py}</td>
+              <td class="pron">{r.pron}</td>
+              <td>{r.parts}</td>
+              <td>{r.logic}</td>
+              <td>{r.meaning}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ═══ УРОК А — ЧЕРТЫ ════════════════════════════════════════════ -->
+    <section class="lesson" id="la">
+      <div class="lesson-header">
+        <div class="lesson-num">А</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Черты</div>
+          <div class="lesson-subtitle">笔画 Bǐhuà — Би̌хуа</div>
+        </div>
+      </div>
+      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:20px">
+        Каждый иероглиф состоит из 8 базовых типов черт. Все иероглифы китайского языка — это комбинации этих восьми движений руки.
+      </p>
+      <div class="stroke-grid">
+        {[
+          {zh:"横 héng",name:"Горизонтальная",dir:"→",desc:"Слева направо. Самая частая черта.",ex:["一","二","王"]},
+          {zh:"竖 shù",name:"Вертикальная",dir:"↓",desc:"Строго вертикально вниз. Может заканчиваться крючком.",ex:["中","十","木"]},
+          {zh:"撇 piě",name:"Левая косая",dir:"↙",desc:"Начинается сверху, уходит влево-вниз.",ex:["人","大","月"]},
+          {zh:"捺 nà",name:"Правая косая",dir:"↘",desc:"Вправо-вниз. Заканчивается с нажимом — «хвост».",ex:["人","大","木"]},
+          {zh:"折 zhé",name:"Перелом / угол",dir:"→↓",desc:"Два направления в одном движении.",ex:["口","日","国"]},
+          {zh:"钩 gōu",name:"Крючок",dir:"↓→",desc:"Вертикаль с резким поворотом в конце.",ex:["小","手","水"]},
+          {zh:"点 diǎn",name:"Точка",dir:"·",desc:"Короткий нажим и отрыв. Может быть под любым углом.",ex:["六","心","文"]},
+          {zh:"提 tí",name:"Подъём",dir:"↗",desc:"Короткая черта вверх-вправо. Часто в левых частях.",ex:["地","冰","打"]},
+        ].map(s => (
+          <div class="stroke-card">
+            <div class="stroke-zh">{s.zh}</div>
+            <div class="stroke-name">{s.name}</div>
+            <div class="stroke-dir">{s.dir}</div>
+            <div class="stroke-desc">{s.desc}</div>
+            <div class="stroke-ex">
+              {s.ex.map(ch => (
+                <span><AudioButton text={ch} size="sm" /> {ch}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="tip">💡 На телефоне при рукописном вводе система распознаёт именно эти типы черт — важно писать в правильном направлении.</div>
+    </section>
+
+    <!-- ═══ УРОК Б — ПРАВИЛА ═══════════════════════════════════════════ -->
+    <section class="lesson" id="lb">
+      <div class="lesson-header">
+        <div class="lesson-num">Б</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Правила написания</div>
+          <div class="lesson-subtitle">书写规则 — 7 главных правил</div>
+        </div>
+      </div>
+      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:16px">Иероглифы пишутся в строгом порядке. Правильный порядок делает написание быстрым, ритмичным и красивым.</p>
+      <div class="warn">Если нарушить порядок черт, иероглиф всё равно будет понятен — но рукописный ввод на телефоне может не распознать его.</div>
+      <div style="height:16px"></div>
+      <div class="rules-list">
+        {[
+          {n:"1",title:"Сверху вниз",desc:"Черты, расположенные одна над другой, пишутся сверху вниз.",ex:"三",note:"верхняя горизонталь, средняя, нижняя"},
+          {n:"2",title:"Слева направо",desc:"Черты, расположенные рядом, пишутся слева направо.",ex:"川",note:"левая, средняя, правая вертикаль"},
+          {n:"3",title:"Горизонталь раньше вертикали",desc:"Когда черты пересекаются, горизонтальная пишется первой.",ex:"十",note:"сначала горизонталь, потом вертикаль"},
+          {n:"4",title:"Левая косая раньше правой",desc:"Два косых: сначала левая (撇), потом правая (捺).",ex:"人",note:"сначала левая косая, потом правая"},
+          {n:"5",title:"Внешнее раньше внутреннего",desc:"Рамка: три стороны → содержимое → закрывающая черта.",ex:"国",note:"рамка → содержимое → нижняя черта"},
+          {n:"6",title:"Средняя черта раньше боковых",desc:"Три симметричные вертикали: средняя, потом боковые.",ex:"小",note:"средняя вертикаль, потом точки"},
+          {n:"7",title:"Пронизывающая черта — последней",desc:"Вертикальная черта, пронизывающая иероглиф, пишется последней.",ex:"中",note:"сначала рамка 口, потом вертикаль"},
+        ].map(r => (
+          <div class="rule-item">
+            <div class="rule-n">{r.n}</div>
+            <div class="rule-body">
+              <div class="rule-title">{r.title}</div>
+              <div class="rule-desc">{r.desc}</div>
+              <div class="rule-example">
+                Пример: <span style="font-family:'Noto Sans SC',sans-serif;font-size:1.1rem;color:var(--red)">{r.ex}</span>
+                <AudioButton text={r.ex} size="sm" />
+                — {r.note}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="tip">💡 Поищи на YouTube «stroke order» + любой иероглиф — там есть анимации. Приложение Skritter специально тренирует порядок черт.</div>
+    </section>
+
+    <!-- ═══ УРОК В — ВСЕ 214 КЛЮЧЕЙ ═══════════════════════════════════ -->
+    <section class="lesson" id="lv">
+      <div class="lesson-header">
+        <div class="lesson-num">В</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Справочник</div>
+          <div class="lesson-title">Все 214 ключей Канси</div>
+          <div class="lesson-subtitle">部首 Bùshǒu — Бу̀шо̌у</div>
+        </div>
+      </div>
+      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:16px">Система создана в 1716 году. Каждый иероглиф относится к одному ключу. Отсортированы по количеству черт.</p>
+
+      <div class="search-bar">
+        <input id="rad-search" type="text" placeholder="Поиск по значению, пиньиню или иероглифу...">
+      </div>
+      <div class="filter-btns" id="filter-btns">
+        <button class="filter-btn on" data-group="all">Все</button>
+        {radicals.map(g => (
+          <button class="filter-btn" data-group={g.group}>{g.label}</button>
+        ))}
+      </div>
+
+      <div id="radicals-container">
+        {radicals.map(group => (
+          <div class="radical-group" data-group={group.group}>
+            <div class="radical-group-title">
+              <span>{group.label}</span> {group.items.length} ключей
+            </div>
+            <div class="radical-grid">
+              {group.items.map(r => (
+                <div class="radical-card" data-search={`${r.char} ${r.py} ${r.pron} ${r.meaning}`.toLowerCase()}>
+                  <div class="radical-char">{r.char}</div>
+                  <div class="radical-info">
+                    <div class="radical-py">{r.py}</div>
+                    <div class="radical-pron">{r.pron}</div>
+                    <div class="radical-meaning">{r.meaning}</div>
+                  </div>
+                  <AudioButton text={r.char.split('/')[0]} size="sm" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══ ТОП-40 КЛЮЧЕЙ ══════════════════════════════════════════════ -->
+    <section class="lesson" id="top40">
+      <div class="lesson-header">
+        <div class="lesson-num">★</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Справочник</div>
+          <div class="lesson-title">Топ-40 ключей</div>
+          <div class="lesson-subtitle">С ними можно понять большинство иероглифов</div>
+        </div>
+      </div>
+      <div class="top40-grid">
+        {top40.map(r => (
+          <div class="top40-card">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div class="top40-char">{r.char}</div>
+              <AudioButton text={r.char.split('/')[0]} size="sm" />
+            </div>
+            <div class="top40-meaning">{r.meaning}</div>
+            <div class="top40-pron">{r.pron}</div>
+            <div class="top40-examples">{r.examples}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ═══ ДИАЛОГ — КАФЕ ══════════════════════════════════════════════ -->
+    <section class="lesson" id="dialog" style="border-bottom:none;margin-bottom:0;padding-bottom:0">
+      <div class="lesson-header">
+        <div class="lesson-num">💬</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Практика</div>
+          <div class="lesson-title">Живой диалог</div>
+          <div class="lesson-subtitle">在咖啡店 Zài kāfēidiàn — В кафе</div>
+        </div>
+      </div>
+      <div class="dialog">
+        {dialogueCafe.map(row => (
+          <div class="dialog-row">
+            <div class="dialog-who">{row.who}</div>
+            <div class="dialog-body">
+              <div class="dialog-zh">
+                {row.zh}
+                <AudioButton text={row.zh} size="sm" />
+              </div>
+              <div class="dialog-py">{row.py}</div>
+              <div class="dialog-pron">{row.ru_pron}</div>
+              <div class="dialog-ru">{row.ru}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  .stroke-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+  .stroke-card { background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 16px; transition: transform .15s, box-shadow .15s; }
+  .stroke-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+  .stroke-zh   { font-family: 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--red); font-weight: 700; margin-bottom: 4px; }
+  .stroke-name { font-weight: 700; font-size: .9rem; color: var(--navy); }
+  .stroke-dir  { font-size: 1.4rem; margin: 6px 0; color: var(--navy2); }
+  .stroke-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; margin-top: 6px; }
+  .stroke-ex   { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .stroke-ex span { display: inline-flex; align-items: center; gap: 3px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; color: var(--red); }
+
+  .rules-list { display: grid; gap: 14px; margin: 20px 0; }
+  .rule-item  { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; transition: transform .15s; }
+  .rule-item:hover { transform: translateX(4px); border-color: var(--navy2); }
+  .rule-n     { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--border); flex-shrink: 0; min-width: 36px; line-height: 1; }
+  .rule-title { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .rule-desc  { font-size: .88rem; color: #444; line-height: 1.6; }
+  .rule-example { font-size: .82rem; color: var(--muted); margin-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+  @media (max-width: 768px) {
+    .stroke-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<script is:inline>
+  const radSearch = document.getElementById('rad-search');
+  const filterBtns = document.getElementById('filter-btns');
+  let currentGroup = 'all';
+
+  function applyFilter() {
+    const q = radSearch.value.toLowerCase().trim();
+    document.querySelectorAll('.radical-group').forEach(group => {
+      const matchesGroup = currentGroup === 'all' || group.dataset.group === currentGroup;
+      let visible = 0;
+      group.querySelectorAll('.radical-card').forEach(card => {
+        const show = matchesGroup && (!q || card.dataset.search.includes(q));
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      group.style.display = visible > 0 ? '' : 'none';
+    });
+  }
+
+  radSearch.addEventListener('input', applyFilter);
+  filterBtns.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    currentGroup = btn.dataset.group;
+    applyFilter();
+  });
+</script>

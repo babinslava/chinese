@@ -1,0 +1,86 @@
+---
+order: 5
+id: "l5"
+tag: "Фонетика"
+title: "Произношение"
+subtitle: "Все сложные звуки с описанием"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+
+## Ретрофлексные (zh, ch, sh, r) — язык загнут назад
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение языка</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"zh", approx:"ДЖ (твёрдое)", pos:"Кончик языка загнут назад к нёбу, не касается зубов", zh:"中", py:"zhōng", ru:"ДЖО̄Н"},
+        {sound:"ch", approx:"Ч (твёрдое)",  pos:"Как zh, но с придыханием — язык дальше назад",        zh:"吃", py:"chī",   ru:"ЧӢ"},
+        {sound:"sh", approx:"Ш (твёрдое)",  pos:"Как русское Ш, но язык загнут ещё дальше назад",     zh:"是", py:"shì",   ru:"ШЍ"},
+        {sound:"r",  approx:"среднее Р/Ж",  pos:"Язык загнут назад, вибрирует слабо — между Р и Ж",   zh:"人", py:"rén",   ru:"ЖЭ́Н"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char">{r.zh} {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Передние мягкие (x, q, j) — язык тянется к зубам
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение языка</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"x", approx:"СЬ (очень мягкое)",   pos:"Кончик языка у нижних зубов, воздух идёт через щель", zh:"西", py:"xī",   ru:"СЬӢ"},
+        {sound:"q", approx:"ЧЬ (очень мягкое)",   pos:"Как мягкое Ч, кончик языка у нижних зубов",          zh:"七", py:"qī",   ru:"ЧЬӢ"},
+        {sound:"j", approx:"ДЗЬ / ДЖЬ (мягкое)", pos:"Мягкое ДЖ, язык у нижних зубов",                     zh:"叫", py:"jiào", ru:"ДЗЬЯ̀О"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char">{r.zh} {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Сложные гласные сочетания
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Звучит как</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {py:"ui",    sound:"УЭЙ",                          zh:"贵", ex:"guì",  ru:"ГУЭЙ"},
+        {py:"iu",    sound:"ЁУ / ЙОУ",                    zh:"六", ex:"liù",  ru:"ЛЁОУ"},
+        {py:"ian",   sound:"ИЕН (как иена)",               zh:"天", ex:"tiān", ru:"ТЬИЭН"},
+        {py:"ie",    sound:"ИЕ / ЙЕ",                     zh:"写", ex:"xiě",  ru:"СЬИЭ̌"},
+        {py:"ü / yu",sound:"Нем. ü — скруглённые губы + И",zh:"鱼", ex:"yú",  ru:"ЮЙ"},
+        {py:"ong",   sound:"УН (с закрытым ртом)",         zh:"中", ex:"zhōng",ru:"ДЖУН"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.py}</strong></td>
+          <td>{r.sound}</td>
+          <td class="zh-char">{r.zh} {r.ex}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="note">🔊 Главное правило: слушай носителей. Транскрипция по-русски — только стартовая точка. Звуки zh/ch/sh/r/x/q/j нужно тренировать на слух минимум 2–3 недели.</div>

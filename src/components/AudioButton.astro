@@ -1,0 +1,63 @@
+---
+interface Props {
+  text: string;        // Chinese text to speak
+  label?: string;      // optional visible label
+  size?: 'sm' | 'md';
+}
+const { text, label, size = 'md' } = Astro.props;
+const safeText = text.replace(/'/g, "\\'");
+const forvoUrl = `https://forvo.com/search/${encodeURIComponent(text)}/zh/`;
+---
+
+<span class={`audio-wrap audio-${size}`}>
+  <button
+    class="audio-btn"
+    title={`Произнести: ${text}`}
+    onclick={`playZh('${safeText}', this)`}
+    aria-label={`Произнести ${text}`}
+  >🔊{label && <span class="audio-label">{label}</span>}</button>
+  <a
+    href={forvoUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="forvo-btn"
+    title="Носители на Forvo"
+  >👤</a>
+</span>
+
+<style>
+  .audio-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    vertical-align: middle;
+  }
+  .audio-btn, .forvo-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.15s, transform 0.1s;
+    line-height: 1;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .audio-sm .audio-btn, .audio-sm .forvo-btn {
+    font-size: 0.85rem;
+    padding: 2px 5px;
+  }
+  .audio-md .audio-btn, .audio-md .forvo-btn {
+    font-size: 1rem;
+    padding: 4px 8px;
+  }
+  .audio-btn:hover  { background: #dbeafe; transform: scale(1.1); }
+  .audio-btn.playing { background: #bfdbfe; animation: pulse 0.6s infinite alternate; }
+  .forvo-btn:hover  { background: #fce7f3; transform: scale(1.1); }
+  .audio-label { font-size: 0.78em; font-weight: 600; color: #1e3a5f; }
+
+  @keyframes pulse { from { opacity:1; } to { opacity:0.5; } }
+</style>
+
+<!-- playZh is defined once in Layout.astro -->

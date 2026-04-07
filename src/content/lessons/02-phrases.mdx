@@ -1,0 +1,41 @@
+---
+order: 2
+id: "l2"
+tag: "Разговорник"
+title: "Базовые фразы"
+subtitle: "Обязательный минимум с первого дня"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+import phrases from '../../data/phrases.json';
+
+Нажимай 🔊 у каждой фразы, чтобы услышать произношение.
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Аудио</th>
+        <th>Пиньинь</th>
+        <th>Иероглифы</th>
+        <th>Читай по-русски</th>
+        <th>Значение</th>
+        <th>Примечание</th>
+      </tr>
+    </thead>
+    <tbody>
+      {phrases.map(p => (
+        <tr>
+          <td><AudioButton text={p.zh} size="sm" /></td>
+          <td>{p.pinyin}</td>
+          <td class="zh-char">{p.zh}</td>
+          <td class="pron">{p.ru_pron}</td>
+          <td><strong>{p.meaning}</strong></td>
+          <td>{p.note}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="tip">💡 Частица **吗 (ма)** — твой главный инструмент. Добавь в конец любого предложения и получишь вопрос да/нет.</div>

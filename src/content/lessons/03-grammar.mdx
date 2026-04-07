@@ -1,0 +1,66 @@
+---
+order: 3
+id: "l3"
+tag: "Грамматика"
+title: "Базовая грамматика"
+subtitle: "Никаких падежей, рода, спряжений"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+
+Структура предложения: **Подлежащее + Глагол + Дополнение** — порядок слов фиксирован, как в английском.
+
+## Местоимения
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Иероглифы</th><th>Читай по-русски</th><th>Значение</th></tr></thead>
+    <tbody>
+      {[
+        {py:"Wǒ", zh:"我", pron:"Во̌", ru:"Я / меня"},
+        {py:"Nǐ", zh:"你", pron:"Ни̌", ru:"Ты / тебя"},
+        {py:"Nín", zh:"您", pron:"Ни́н", ru:"Вы (вежливая форма)"},
+        {py:"Tā", zh:"他", pron:"Та̄", ru:"Он / его"},
+        {py:"Tā", zh:"她", pron:"Та̄", ru:"Она / её (пишется иначе)"},
+        {py:"Wǒmen", zh:"我们", pron:"Во̌мэн", ru:"Мы / нас"},
+        {py:"Nǐmen", zh:"你们", pron:"Ни̌мэн", ru:"Вы (множ.)"},
+        {py:"Tāmen", zh:"他们", pron:"Та̄мэн", ru:"Они / их"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td>{r.py}</td>
+          <td class="zh-char">{r.zh}</td>
+          <td class="pron">{r.pron}</td>
+          <td>{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Отрицание с 不 (bù — «бу̀»)
+
+Ставь 不 перед любым глаголом — и предложение становится отрицательным. Без исключений.
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Утверждение</th><th>Читай</th><th>Отрицание</th><th>Читай</th><th>Перевод</th></tr></thead>
+    <tbody>
+      {[
+        {pos:"Wǒ shì xuéshēng", pos_zh:"我是学生", pos_pron:"Во̌ шѝ сюэ́шэ̄н", neg:"Wǒ bù shì xuéshēng", neg_zh:"我不是学生", neg_pron:"Во̌ бу̀ шѝ сюэ́шэ̄н", ru:"Я студент / не студент"},
+        {pos:"Tā chī ròu", pos_zh:"他吃肉", pos_pron:"Та̄ чӣ жо̀у", neg:"Tā bù chī ròu", neg_zh:"他不吃肉", neg_pron:"Та̄ бу̀ чӣ жо̀у", ru:"Он ест / не ест мясо"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.pos_zh} size="sm" /></td>
+          <td>{r.pos}</td>
+          <td class="pron">{r.pos_pron}</td>
+          <td>{r.neg}</td>
+          <td class="pron">{r.neg_pron}</td>
+          <td>{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="warn">⚠️ «Иметь» отрицается через <AudioButton text="没有" size="sm" /> **没 (méi — мэ́й)**: 我没有 (Во̌ мэ́й ю̌) = У меня нет.</div>

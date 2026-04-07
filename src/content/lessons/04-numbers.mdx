@@ -1,0 +1,33 @@
+---
+order: 4
+id: "l4"
+tag: "Лексика"
+title: "Числа"
+subtitle: "数字 Shùzì — Шу̀цзы"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+import numbers from '../../data/numbers.json';
+
+Числа — основа для дней недели, месяцев, времени и счётных слов.
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Аудио</th><th>Цифра</th><th>Иероглиф</th><th>Пиньинь</th><th>Читай по-русски</th></tr>
+    </thead>
+    <tbody>
+      {numbers.map(n => (
+        <tr>
+          <td><AudioButton text={n.zh} size="sm" /></td>
+          <td class="num-col">{n.num}</td>
+          <td class="zh-char">{n.zh}</td>
+          <td>{n.pinyin}</td>
+          <td class="pron">{n.ru_pron}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="warn">⚠️ «Два» перед счётным словом = <AudioButton text="两" size="sm" /> **两 (liǎng — ля̌н)**, а не 二 (èr). Говори 两个人, НЕ 二个人.</div>

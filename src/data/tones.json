@@ -1,0 +1,7 @@
+[
+  { "mark": "ā", "tone": "1-й тон", "color": "t1", "desc": "Ровно высоко — как поёшь ноту", "example_zh": "妈", "example_py": "mā", "example_meaning": "мама", "ru_pron": "МА̄ (ровно, высоко)" },
+  { "mark": "á", "tone": "2-й тон", "color": "t2", "desc": "Вверх — как удивлённое «а?»", "example_zh": "麻", "example_py": "má", "example_meaning": "конопля", "ru_pron": "МА́ (голос вверх)" },
+  { "mark": "ǎ", "tone": "3-й тон", "color": "t3", "desc": "Вниз затем вверх — «нуу?»", "example_zh": "马", "example_py": "mǎ", "example_meaning": "лошадь", "ru_pron": "МА̌ (вниз-вверх)" },
+  { "mark": "à", "tone": "4-й тон", "color": "t4", "desc": "Резко вниз — как «нет!»", "example_zh": "骂", "example_py": "mà", "example_meaning": "ругать", "ru_pron": "МА̀ (резко вниз)" },
+  { "mark": "a",  "tone": "Нейтр.", "color": "t0", "desc": "Коротко, тихо, без ударения", "example_zh": "吗", "example_py": "ma", "example_meaning": "вопрос", "ru_pron": "ма (коротко)" }
+]

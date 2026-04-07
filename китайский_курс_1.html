@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>普通话 — Курс китайского языка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+SC:wght@400;700&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f2a4a;
+  --navy2: #1B4F8A;
+  --red: #C0392B;
+  --red2: #e74c3c;
+  --gold: #c9972a;
+  --bg: #f8f6f1;
+  --bg2: #fff;
+  --text: #1a1a1a;
+  --muted: #666;
+  --border: #e0dbd0;
+  --pron: #7B5800;
+  --pron-bg: #FFF8E1;
+  --green: #1B5E20;
+  --green-bg: #E8F5E9;
+  --sidebar-w: 280px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Mulish', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ───────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  background: var(--navy);
+  position: fixed;
+  top: 0; left: 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.sidebar-logo .zh { font-family: 'Noto Sans SC', sans-serif; font-size: 2rem; color: var(--red2); display: block; line-height: 1; }
+.sidebar-logo .ru { font-size: .75rem; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .12em; margin-top: 4px; display: block; }
+
+nav { flex: 1; padding: 16px 0; }
+.nav-group { margin-bottom: 4px; }
+.nav-group-title {
+  font-size: .65rem; text-transform: uppercase; letter-spacing: .15em;
+  color: rgba(255,255,255,.35); padding: 12px 24px 4px; display: block;
+}
+.nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 24px; color: rgba(255,255,255,.7);
+  text-decoration: none; font-size: .84rem; font-weight: 600;
+  border-left: 3px solid transparent;
+  transition: all .18s;
+}
+.nav-link:hover, .nav-link.active {
+  color: #fff; background: rgba(255,255,255,.08);
+  border-left-color: var(--red2);
+}
+.nav-link .num {
+  font-size: .7rem; background: rgba(255,255,255,.15);
+  border-radius: 4px; padding: 1px 6px; font-family: monospace; min-width: 24px; text-align: center;
+}
+.nav-link.active .num { background: var(--red2); }
+
+/* ── MAIN ──────────────────────────────────────── */
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ── HERO ──────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #0d2235 50%, #1a0a0a 100%);
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '普通话';
+  position: absolute; right: -20px; top: -30px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14rem; font-weight: 700;
+  color: rgba(255,255,255,.03);
+  line-height: 1; pointer-events: none;
+}
+.hero-label {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .2em;
+  color: var(--red2); margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1.15;
+  margin-bottom: 16px;
+}
+.hero p { color: rgba(255,255,255,.6); font-size: 1.05rem; max-width: 560px; line-height: 1.7; }
+.hero-stats {
+  display: flex; gap: 32px; margin-top: 36px;
+}
+.stat { }
+.stat-n { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--red2); line-height: 1; }
+.stat-l { font-size: .75rem; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .1em; margin-top: 2px; }
+
+/* ── CONTENT ───────────────────────────────────── */
+.content { max-width: 900px; padding: 60px 60px 100px; }
+
+.lesson {
+  padding-bottom: 72px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 72px;
+  animation: fadeUp .4s ease both;
+}
+@keyframes fadeUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: none; } }
+
+.lesson-header {
+  display: flex; align-items: flex-start; gap: 20px;
+  margin-bottom: 28px;
+}
+.lesson-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem; font-weight: 900; line-height: 1;
+  color: var(--border); flex-shrink: 0; min-width: 60px;
+  user-select: none;
+}
+.lesson-meta {}
+.lesson-tag {
+  font-size: .65rem; text-transform: uppercase; letter-spacing: .18em;
+  color: var(--red); font-weight: 700; margin-bottom: 4px;
+}
+.lesson-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 700; color: var(--navy); line-height: 1.2;
+}
+.lesson-subtitle { font-size: .9rem; color: var(--muted); margin-top: 4px; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; color: var(--navy); font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px; border-bottom: 2px solid var(--border);
+}
+
+p.body { font-size: .95rem; line-height: 1.75; color: #333; margin-bottom: 12px; }
+
+/* ── TABLES ────────────────────────────────────── */
+.table-wrap { overflow-x: auto; margin: 16px 0 24px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+thead th {
+  background: var(--navy); color: #fff;
+  padding: 11px 14px; text-align: left; font-weight: 700; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+thead th:first-child { border-radius: 10px 0 0 0; }
+thead th:last-child { border-radius: 0 10px 0 0; }
+tbody tr { transition: background .12s; }
+tbody tr:nth-child(odd) { background: #fff; }
+tbody tr:nth-child(even) { background: #fafaf8; }
+tbody tr:hover { background: #f0f4ff; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+td.zh-char {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 1.6rem; color: var(--red); text-align: center; font-weight: 700;
+}
+td.pron { background: var(--pron-bg); color: var(--pron); font-style: italic; }
+td.num-col { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy2); text-align: center; font-weight: 700; }
+td strong { color: var(--navy); }
+
+/* ── CALLOUTS ──────────────────────────────────── */
+.tip, .note, .pron-note, .rule-box {
+  border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: .9rem; line-height: 1.65;
+}
+.tip { background: var(--green-bg); border-left: 4px solid #4CAF50; color: #1B5E20; }
+.note { background: #FFEBEE; border-left: 4px solid #F44336; color: #B71C1C; }
+.pron-note { background: var(--pron-bg); border-left: 4px solid #FFC107; color: var(--pron); }
+.rule-box { background: #EEF4FF; border-left: 4px solid var(--navy2); }
+.rule-box strong { color: var(--navy); }
+
+/* ── TONE CARDS ────────────────────────────────── */
+.tone-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 20px 0; }
+.tone-card {
+  border-radius: 10px; padding: 18px 14px; text-align: center;
+  border: 1.5px solid var(--border); background: #fff;
+  transition: transform .15s, box-shadow .15s;
+}
+.tone-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+.tone-card.t1 { border-color: #2196F3; }
+.tone-card.t2 { border-color: #4CAF50; }
+.tone-card.t3 { border-color: #FF9800; }
+.tone-card.t4 { border-color: var(--red); }
+.tone-card.t0 { border-color: #9E9E9E; }
+.tone-mark { font-family: 'Noto Sans SC', sans-serif; font-size: 2.4rem; font-weight: 700; color: var(--red); }
+.tone-name { font-weight: 700; font-size: .8rem; color: var(--navy); margin: 6px 0 2px; text-transform: uppercase; letter-spacing: .06em; }
+.tone-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+.tone-ex { margin-top: 8px; font-size: .8rem; font-weight: 700; color: var(--navy2); }
+
+/* ── STROKE CARDS ──────────────────────────────── */
+.stroke-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+.stroke-card {
+  background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 18px 16px; transition: transform .15s, box-shadow .15s;
+}
+.stroke-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+.stroke-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; color: var(--red); font-weight: 700; margin-bottom: 4px; }
+.stroke-name { font-weight: 700; font-size: .9rem; color: var(--navy); }
+.stroke-dir { font-size: 1.4rem; margin: 6px 0; color: var(--navy2); }
+.stroke-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; margin-top: 6px; }
+.stroke-ex { font-family: 'Noto Sans SC', sans-serif; font-size: 1.4rem; color: var(--red); margin-top: 8px; }
+
+/* ── RULES ─────────────────────────────────────── */
+.rules-list { display: grid; gap: 14px; margin: 20px 0; }
+.rule-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 18px 20px; transition: transform .15s;
+}
+.rule-item:hover { transform: translateX(4px); border-color: var(--navy2); }
+.rule-n {
+  font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+  color: var(--border); flex-shrink: 0; min-width: 36px; line-height: 1;
+}
+.rule-body .rule-title { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.rule-body .rule-desc { font-size: .88rem; color: #444; line-height: 1.6; }
+.rule-body .rule-example { font-size: .82rem; color: var(--muted); margin-top: 6px; font-style: italic; }
+.rule-body .rule-example span { font-family: 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--red); font-style: normal; }
+
+/* ── RADICAL SEARCH ────────────────────────────── */
+.search-bar {
+  display: flex; gap: 12px; margin: 20px 0;
+}
+#rad-search {
+  flex: 1; padding: 12px 18px; border: 2px solid var(--border); border-radius: 8px;
+  font-size: .95rem; font-family: 'Mulish', sans-serif; background: #fff;
+  transition: border-color .2s;
+}
+#rad-search:focus { outline: none; border-color: var(--navy2); }
+.filter-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.filter-btn {
+  padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border);
+  background: #fff; font-size: .78rem; font-weight: 700; cursor: pointer;
+  transition: all .15s; font-family: 'Mulish', sans-serif;
+}
+.filter-btn:hover, .filter-btn.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+.radical-group { margin-bottom: 28px; }
+.radical-group-title {
+  font-size: .68rem; text-transform: uppercase; letter-spacing: .15em;
+  color: var(--muted); margin-bottom: 10px; padding: 6px 0;
+  border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+}
+.radical-group-title span { background: var(--navy); color: #fff; border-radius: 4px; padding: 1px 8px; }
+.radical-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+.radical-card {
+  background: #fff; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 12px 14px; display: flex; align-items: center; gap: 12px;
+  transition: all .15s; cursor: default;
+}
+.radical-card:hover { border-color: var(--navy2); box-shadow: 0 4px 12px rgba(0,0,0,.08); transform: translateY(-1px); }
+.radical-char { font-family: 'Noto Sans SC', sans-serif; font-size: 2rem; color: var(--red); font-weight: 700; min-width: 36px; text-align: center; }
+.radical-info { }
+.radical-py { font-size: .72rem; color: var(--navy2); font-weight: 700; }
+.radical-pron { font-size: .68rem; color: var(--pron); font-style: italic; }
+.radical-meaning { font-size: .8rem; color: var(--text); font-weight: 600; margin-top: 2px; }
+.radical-card.hidden { display: none; }
+
+/* ── TOP-40 GRID ────────────────────────────────── */
+.top40-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin: 16px 0; }
+.top40-card {
+  background: #fff; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 12px 14px; transition: all .15s;
+}
+.top40-card:hover { border-color: var(--red); box-shadow: 0 4px 12px rgba(192,57,43,.1); }
+.top40-char { font-family: 'Noto Sans SC', sans-serif; font-size: 2rem; color: var(--red); font-weight: 700; }
+.top40-meaning { font-weight: 700; font-size: .85rem; color: var(--navy); margin: 2px 0; }
+.top40-pron { font-size: .72rem; color: var(--pron); font-style: italic; }
+.top40-examples { font-size: .72rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+/* ── DIALOG ─────────────────────────────────────── */
+.dialog { background: #fff; border-radius: 12px; border: 1.5px solid var(--border); overflow: hidden; margin: 20px 0; }
+.dialog-row { display: flex; padding: 14px 20px; gap: 20px; border-bottom: 1px solid var(--border); transition: background .12s; }
+.dialog-row:last-child { border-bottom: none; }
+.dialog-row:hover { background: #f5f8ff; }
+.dialog-who { font-weight: 700; font-size: .78rem; color: var(--muted); min-width: 80px; padding-top: 2px; text-transform: uppercase; letter-spacing: .06em; }
+.dialog-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; color: var(--navy); flex: 1; }
+.dialog-pron { font-size: .82rem; color: var(--pron); font-style: italic; }
+.dialog-ru { font-size: .82rem; color: var(--muted); }
+
+/* ── MOBILE ─────────────────────────────────────── */
+#menu-btn {
+  display: none; position: fixed; bottom: 24px; right: 24px;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--navy); color: #fff; border: none; cursor: pointer;
+  font-size: 1.4rem; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+@media(max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: none; }
+  #main { margin-left: 0; }
+  .content { padding: 40px 24px 80px; }
+  .hero { padding: 48px 24px; }
+  .hero h1 { font-size: 2rem; }
+  .hero-stats { gap: 20px; }
+  .tone-cards { grid-template-columns: repeat(3, 1fr); }
+  .stroke-grid { grid-template-columns: repeat(2, 1fr); }
+  #menu-btn { display: flex; align-items: center; justify-content: center; }
+}
+
+/* ── PROGRESS BAR ───────────────────────────────── */
+#progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--red); z-index: 999; transform-origin: left; transform: scaleX(0); transition: transform .1s; }
+
+.zh-big { font-family: 'Noto Sans SC', sans-serif; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <span class="zh">普通话</span>
+    <span class="ru">Курс китайского языка</span>
+  </div>
+  <nav>
+    <span class="nav-group-title">Основной курс</span>
+    <a class="nav-link" href="#l1"><span class="num">1</span> Четыре тона</a>
+    <a class="nav-link" href="#l2"><span class="num">2</span> Базовые фразы</a>
+    <a class="nav-link" href="#l3"><span class="num">3</span> Грамматика</a>
+    <a class="nav-link" href="#l4"><span class="num">4</span> Числа</a>
+    <a class="nav-link" href="#l5"><span class="num">5</span> Произношение</a>
+    <a class="nav-link" href="#l6"><span class="num">6</span> Дни и время</a>
+    <a class="nav-link" href="#l7"><span class="num">7</span> Вопросы</a>
+    <a class="nav-link" href="#l8"><span class="num">8</span> Счётные слова</a>
+    <a class="nav-link" href="#l9"><span class="num">9</span> Иероглифы</a>
+    <span class="nav-group-title">Письмо</span>
+    <a class="nav-link" href="#la"><span class="num">А</span> Черты</a>
+    <a class="nav-link" href="#lb"><span class="num">Б</span> Правила</a>
+    <a class="nav-link" href="#lv"><span class="num">В</span> Все 214 ключей</a>
+    <span class="nav-group-title">Справочник</span>
+    <a class="nav-link" href="#top40"><span class="num">★</span> Топ-40 ключей</a>
+    <a class="nav-link" href="#dialog"><span class="num">💬</span> Диалог</a>
+  </nav>
+</aside>
+
+<main id="main">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Полный курс · Русский язык · С произношением</div>
+    <h1>Учим<br>китайский язык</h1>
+    <p>9 уроков основного курса + черты, правила написания и все 214 ключей Канси. Каждая таблица содержит транскрипцию по-русски.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">12</div><div class="stat-l">Уроков</div></div>
+      <div class="stat"><div class="stat-n">214</div><div class="stat-l">Ключей</div></div>
+      <div class="stat"><div class="stat-n">8</div><div class="stat-l">Базовых черт</div></div>
+      <div class="stat"><div class="stat-n">40+</div><div class="stat-l">Топ ключей</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ УРОК 1 — ТОНЫ ══════════════════════════════════════════════ -->
+    <section class="lesson" id="l1">
+      <div class="lesson-header">
+        <div class="lesson-num">01</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Фонетика</div>
+          <div class="lesson-title">Четыре тона</div>
+          <div class="lesson-subtitle">四声 Sìshēng — Сы̀шэ̄н</div>
+        </div>
+      </div>
+      <p class="body">Китайский — тональный язык. Один и тот же слог с разным тоном — это разное слово. Это главное, что нужно усвоить с первого дня.</p>
+      <div class="tone-cards">
+        <div class="tone-card t1">
+          <div class="tone-mark">ā</div>
+          <div class="tone-name">1-й тон</div>
+          <div class="tone-desc">Ровно высоко — как поёшь ноту</div>
+          <div class="tone-ex">mā 妈 — мама</div>
+          <div class="tone-desc" style="margin-top:6px;color:var(--pron)">МА̄ (ровно, высоко)</div>
+        </div>
+        <div class="tone-card t2">
+          <div class="tone-mark">á</div>
+          <div class="tone-name">2-й тон</div>
+          <div class="tone-desc">Вверх — как удивлённое «а?»</div>
+          <div class="tone-ex">má 麻 — конопля</div>
+          <div class="tone-desc" style="margin-top:6px;color:var(--pron)">МА́ (голос вверх)</div>
+        </div>
+        <div class="tone-card t3">
+          <div class="tone-mark">ǎ</div>
+          <div class="tone-name">3-й тон</div>
+          <div class="tone-desc">Вниз затем вверх — «нуу?»</div>
+          <div class="tone-ex">mǎ 马 — лошадь</div>
+          <div class="tone-desc" style="margin-top:6px;color:var(--pron)">МА̌ (вниз-вверх)</div>
+        </div>
+        <div class="tone-card t4">
+          <div class="tone-mark">à</div>
+          <div class="tone-name">4-й тон</div>
+          <div class="tone-desc">Резко вниз — как «нет!»</div>
+          <div class="tone-ex">mà 骂 — ругать</div>
+          <div class="tone-desc" style="margin-top:6px;color:var(--pron)">МА̀ (резко вниз)</div>
+        </div>
+        <div class="tone-card t0">
+          <div class="tone-mark">a</div>
+          <div class="tone-name">Нейтр.</div>
+          <div class="tone-desc">Коротко, тихо, без ударения</div>
+          <div class="tone-ex">ma 吗 — вопрос</div>
+          <div class="tone-desc" style="margin-top:6px;color:var(--pron)">ма (коротко)</div>
+        </div>
+      </div>
+      <div class="tip">💡 Запомни историей: <strong>Мама</strong> (1й) удивлённо <strong>спрашивает</strong> (2й) про <strong>лошадь</strong> (3й) и <strong>ругается</strong> (4й).</div>
+      <div class="note">⚠️ Два 3-х тона подряд: первый меняется на 2-й. «nǐ hǎo» произносится как «ní hǎo».</div>
+    </section>
+
+    <!-- ═══ УРОК 2 — ФРАЗЫ ══════════════════════════════════════════════ -->
+    <section class="lesson" id="l2">
+      <div class="lesson-header">
+        <div class="lesson-num">02</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Разговорник</div>
+          <div class="lesson-title">Базовые фразы</div>
+          <div class="lesson-subtitle">Обязательный минимум с первого дня</div>
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Пиньинь</th><th>Иероглифы</th><th>Читай по-русски</th><th>Значение</th><th>Примечание</th></tr></thead>
+        <tbody>
+          <tr><td>Nǐ hǎo</td><td class="zh-big">你好</td><td class="pron">Ни̌ ха̌о</td><td>Привет</td><td>Буквально: «ты хорошо»</td></tr>
+          <tr><td>Nǐ hǎo ma?</td><td class="zh-big">你好吗？</td><td class="pron">Ни̌ ха̌о ма?</td><td>Как дела?</td><td>吗 (ма) в конце = вопрос да/нет</td></tr>
+          <tr><td>Wǒ hěn hǎo</td><td class="zh-big">我很好</td><td class="pron">Во̌ хэ̌н ха̌о</td><td>У меня всё хорошо</td><td>很 (хэн) = очень</td></tr>
+          <tr><td>Xièxiè</td><td class="zh-big">谢谢</td><td class="pron">Сьесье</td><td>Спасибо</td><td>Мягкое «сь», не «кс»</td></tr>
+          <tr><td>Bù kèqì</td><td class="zh-big">不客气</td><td class="pron">Бу̀ кхэ̀чи̌</td><td>Пожалуйста (ответ)</td><td>Буквально: «не церемонься»</td></tr>
+          <tr><td>Duìbuqǐ</td><td class="zh-big">对不起</td><td class="pron">Дуэ̀йбуци̌</td><td>Извини / Прости</td><td>Серьёзные извинения</td></tr>
+          <tr><td>Méi guānxi</td><td class="zh-big">没关系</td><td class="pron">Мэ́й гуа̄нси</td><td>Ничего страшного</td><td>Буквально: «нет связи»</td></tr>
+          <tr><td>Zàijiàn</td><td class="zh-big">再见</td><td class="pron">Цза̀йцзя̀н</td><td>До свидания</td><td>Буквально: «снова увидимся»</td></tr>
+          <tr><td>Wǒ bù dǒng</td><td class="zh-big">我不懂</td><td class="pron">Во̌ бу̀ до̌н</td><td>Я не понимаю</td><td>Полезно с первого дня!</td></tr>
+          <tr><td>Qǐng zài shuō yī biàn</td><td class="zh-big">请再说一遍</td><td class="pron">Чи̌н цза̀й шуо̄ и бя̀н</td><td>Повторите, пожалуйста</td><td>Дословно: «скажи ещё раз»</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tip">💡 Частица 吗 (ма) — твой главный инструмент. Добавь в конец любого предложения и получишь вопрос.</div>
+    </section>
+
+    <!-- ═══ УРОК 3 — ГРАММАТИКА ══════════════════════════════════════════ -->
+    <section class="lesson" id="l3">
+      <div class="lesson-header">
+        <div class="lesson-num">03</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Грамматика</div>
+          <div class="lesson-title">Базовая грамматика</div>
+          <div class="lesson-subtitle">Никаких падежей, рода, спряжений</div>
+        </div>
+      </div>
+      <p class="body">Структура предложения: <strong>Подлежащее + Глагол + Дополнение</strong> — порядок слов фиксирован, как в английском.</p>
+      <div class="section-title">Местоимения</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Пиньинь</th><th>Иероглифы</th><th>Читай по-русски</th><th>Значение</th></tr></thead>
+        <tbody>
+          <tr><td>Wǒ</td><td class="zh-big">我</td><td class="pron">Во̌</td><td>Я / меня</td></tr>
+          <tr><td>Nǐ</td><td class="zh-big">你</td><td class="pron">Ни̌</td><td>Ты / тебя</td></tr>
+          <tr><td>Nín</td><td class="zh-big">您</td><td class="pron">Ни́н</td><td>Вы (вежливая форма)</td></tr>
+          <tr><td>Tā</td><td class="zh-big">他</td><td class="pron">Та̄</td><td>Он / его</td></tr>
+          <tr><td>Tā</td><td class="zh-big">她</td><td class="pron">Та̄</td><td>Она / её (пишется иначе)</td></tr>
+          <tr><td>Wǒmen</td><td class="zh-big">我们</td><td class="pron">Во̌мэн</td><td>Мы / нас</td></tr>
+          <tr><td>Nǐmen</td><td class="zh-big">你们</td><td class="pron">Ни̌мэн</td><td>Вы (множ.)</td></tr>
+          <tr><td>Tāmen</td><td class="zh-big">他们</td><td class="pron">Та̄мэн</td><td>Они / их</td></tr>
+        </tbody>
+      </table></div>
+      <div class="section-title">Отрицание с 不 (bù — «бу̀»)</div>
+      <p class="body">Ставь 不 перед любым глаголом — и предложение становится отрицательным. Без исключений.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Утверждение</th><th>Читай</th><th>Отрицание</th><th>Читай</th><th>Перевод</th></tr></thead>
+        <tbody>
+          <tr><td>Wǒ shì xuéshēng</td><td class="pron">Во̌ шѝ сюэ́шэ̄н</td><td>Wǒ bù shì xuéshēng</td><td class="pron">Во̌ бу̀ шѝ сюэ́шэ̄н</td><td>Я студент / не студент</td></tr>
+          <tr><td>Tā chī ròu</td><td class="pron">Та̄ чӣ жо̀у</td><td>Tā bù chī ròu</td><td class="pron">Та̄ бу̀ чӣ жо̀у</td><td>Он ест / не ест мясо</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note">⚠️ «Иметь» отрицается через 没 (méi — мэ́й): 我没有 (Во̌ мэ́й ю̌) = У меня нет.</div>
+    </section>
+
+    <!-- ═══ УРОК 4 — ЧИСЛА ══════════════════════════════════════════════ -->
+    <section class="lesson" id="l4">
+      <div class="lesson-header">
+        <div class="lesson-num">04</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Лексика</div>
+          <div class="lesson-title">Числа</div>
+          <div class="lesson-subtitle">数字 Shùzì — Шу̀цзы</div>
+        </div>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Цифра</th><th>Иероглиф</th><th>Пиньинь</th><th>Читай по-русски</th></tr></thead>
+        <tbody>
+          <tr><td class="num-col">0</td><td class="zh-big">零</td><td>líng</td><td class="pron">лин (голос вверх)</td></tr>
+          <tr><td class="num-col">1</td><td class="zh-big">一</td><td>yī</td><td class="pron">ӣ (ровно высоко)</td></tr>
+          <tr><td class="num-col">2</td><td class="zh-big">二</td><td>èr</td><td class="pron">э̀р (резко вниз)</td></tr>
+          <tr><td class="num-col">3</td><td class="zh-big">三</td><td>sān</td><td class="pron">са̄н (ровно)</td></tr>
+          <tr><td class="num-col">4</td><td class="zh-big">四</td><td>sì</td><td class="pron">сы̀ (резко вниз)</td></tr>
+          <tr><td class="num-col">5</td><td class="zh-big">五</td><td>wǔ</td><td class="pron">у̌ (вниз-вверх)</td></tr>
+          <tr><td class="num-col">6</td><td class="zh-big">六</td><td>liù</td><td class="pron">лёу (резко вниз)</td></tr>
+          <tr><td class="num-col">7</td><td class="zh-big">七</td><td>qī</td><td class="pron">чӣ (ровно) — мягкое «чь»</td></tr>
+          <tr><td class="num-col">8</td><td class="zh-big">八</td><td>bā</td><td class="pron">ба̄ (ровно)</td></tr>
+          <tr><td class="num-col">9</td><td class="zh-big">九</td><td>jiǔ</td><td class="pron">цзё̌у (вниз-вверх)</td></tr>
+          <tr><td class="num-col">10</td><td class="zh-big">十</td><td>shí</td><td class="pron">ши́ (голос вверх)</td></tr>
+          <tr><td class="num-col">11</td><td class="zh-big">十一</td><td>shí yī</td><td class="pron">Ши́ ӣ (десять + один)</td></tr>
+          <tr><td class="num-col">20</td><td class="zh-big">二十</td><td>èr shí</td><td class="pron">Э̀р ши́ (два + десять)</td></tr>
+          <tr><td class="num-col">100</td><td class="zh-big">一百</td><td>yī bǎi</td><td class="pron">Ӣ ба̌й</td></tr>
+          <tr><td class="num-col">1 000</td><td class="zh-big">一千</td><td>yī qiān</td><td class="pron">Ӣ чьӣэн</td></tr>
+          <tr><td class="num-col">10 000</td><td class="zh-big">一万</td><td>yī wàn</td><td class="pron">Ӣ ва̀н — своя единица!</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note">⚠️ «Два» перед счётным словом = 两 (liǎng — ля̌н), а не 二 (èr). Говори 两个人 (ля̌н гэ жэ́н), НЕ 二个人.</div>
+    </section>
+
+    <!-- ═══ УРОК 5 — ПРОИЗНОШЕНИЕ ══════════════════════════════════════ -->
+    <section class="lesson" id="l5">
+      <div class="lesson-header">
+        <div class="lesson-num">05</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Фонетика</div>
+          <div class="lesson-title">Произношение</div>
+          <div class="lesson-subtitle">Все сложные звуки с описанием</div>
+        </div>
+      </div>
+      <div class="section-title">Ретрофлексные (zh, ch, sh, r) — язык загнут назад</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Звук</th><th>Приближ.</th><th>Положение языка</th><th>Пример</th><th>Читай</th></tr></thead>
+        <tbody>
+          <tr><td><strong>zh</strong></td><td>ДЖ (твёрдое)</td><td>Кончик языка загнут назад к нёбу, не касается зубов</td><td class="zh-big">中 zhōng</td><td class="pron">ДЖО̄Н</td></tr>
+          <tr><td><strong>ch</strong></td><td>Ч (твёрдое)</td><td>Как zh, но с придыханием — язык дальше назад</td><td class="zh-big">吃 chī</td><td class="pron">ЧӢ</td></tr>
+          <tr><td><strong>sh</strong></td><td>Ш (твёрдое)</td><td>Как русское Ш, но язык загнут ещё дальше назад</td><td class="zh-big">是 shì</td><td class="pron">ШЍ</td></tr>
+          <tr><td><strong>r</strong></td><td>среднее Р/Ж</td><td>Язык загнут назад, вибрирует слабо — между Р и Ж</td><td class="zh-big">人 rén</td><td class="pron">ЖЭ́Н</td></tr>
+        </tbody>
+      </table></div>
+      <div class="section-title">Передние мягкие (x, q, j) — язык тянется к зубам</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Звук</th><th>Приближ.</th><th>Положение языка</th><th>Пример</th><th>Читай</th></tr></thead>
+        <tbody>
+          <tr><td><strong>x</strong></td><td>СЬ (очень мягкое)</td><td>Кончик языка у нижних зубов, воздух идёт через щель</td><td class="zh-big">西 xī</td><td class="pron">СЬӢ</td></tr>
+          <tr><td><strong>q</strong></td><td>ЧЬ (очень мягкое)</td><td>Как мягкое Ч, кончик языка у нижних зубов</td><td class="zh-big">七 qī</td><td class="pron">ЧЬӢ</td></tr>
+          <tr><td><strong>j</strong></td><td>ДЗЬ / ДЖЬ (мягкое)</td><td>Мягкое ДЖ, язык у нижних зубов</td><td class="zh-big">叫 jiào</td><td class="pron">ДЗЬЯ̀О</td></tr>
+        </tbody>
+      </table></div>
+      <div class="section-title">Сложные гласные сочетания</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Пиньинь</th><th>Звучит как</th><th>Пример</th><th>Читай</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ui</strong></td><td>УЭЙ</td><td class="zh-big">贵 guì</td><td class="pron">ГУЭЙ</td></tr>
+          <tr><td><strong>iu</strong></td><td>ЁУ / ЙОУ</td><td class="zh-big">六 liù</td><td class="pron">ЛЁОУ</td></tr>
+          <tr><td><strong>ian</strong></td><td>ИЕН (как иена)</td><td class="zh-big">天 tiān</td><td class="pron">ТЬИЭН</td></tr>
+          <tr><td><strong>ie</strong></td><td>ИЕ / ЙЕ</td><td class="zh-big">写 xiě</td><td class="pron">СЬИЭ̌</td></tr>
+          <tr><td><strong>ü / yu</strong></td><td>Нем. ü — скруглённые губы + И</td><td class="zh-big">鱼 yú</td><td class="pron">ЮЙ</td></tr>
+          <tr><td><strong>ong</strong></td><td>УН (с закрытым ртом)</td><td class="zh-big">中 zhōng</td><td class="pron">ДЖУН</td></tr>
+        </tbody>
+      </table></div>
+      <div class="pron-note">🔊 Главное правило: слушай носителей. Транскрипция по-русски — только стартовая точка. Звуки zh/ch/sh/r/x/q/j нужно тренировать на слух минимум 2-3 недели.</div>
+    </section>
+
+    <!-- ═══ УРОК 6 — ДНИ И ВРЕМЯ ══════════════════════════════════════ -->
+    <section class="lesson" id="l6">
+      <div class="lesson-header">
+        <div class="lesson-num">06</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Лексика</div>
+          <div class="lesson-title">Дни недели и время суток</div>
+          <div class="lesson-subtitle">星期 Xīngqī — числа + неделя</div>
+        </div>
+      </div>
+      <div class="section-title">Дни недели</div>
+      <p class="body">星期 (xīngqī — Сӣнчӣ = неделя) + цифра. Выучил числа — знаешь дни!</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>День</th><th>Иероглифы</th><th>Пиньинь</th><th>Читай по-русски</th></tr></thead>
+        <tbody>
+          <tr><td>Понедельник</td><td class="zh-big">星期一</td><td>Xīngqī yī</td><td class="pron">Сӣнчӣ ӣ</td></tr>
+          <tr><td>Вторник</td><td class="zh-big">星期二</td><td>Xīngqī èr</td><td class="pron">Сӣнчӣ э̀р</td></tr>
+          <tr><td>Среда</td><td class="zh-big">星期三</td><td>Xīngqī sān</td><td class="pron">Сӣнчӣ са̄н</td></tr>
+          <tr><td>Четверг</td><td class="zh-big">星期四</td><td>Xīngqī sì</td><td class="pron">Сӣнчӣ сы̀</td></tr>
+          <tr><td>Пятница</td><td class="zh-big">星期五</td><td>Xīngqī wǔ</td><td class="pron">Сӣнчӣ у̌</td></tr>
+          <tr><td>Суббота</td><td class="zh-big">星期六</td><td>Xīngqī liù</td><td class="pron">Сӣнчӣ лёу</td></tr>
+          <tr><td>Воскресенье</td><td class="zh-big">星期日</td><td>Xīngqī rì</td><td class="pron">Сӣнчӣ жѝ</td></tr>
+        </tbody>
+      </table></div>
+      <div class="section-title">Время суток</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Пиньинь</th><th>Иероглифы</th><th>Читай</th><th>Значение</th><th>Приветствие</th></tr></thead>
+        <tbody>
+          <tr><td>Zǎoshang</td><td class="zh-big">早上</td><td class="pron">Цза̌ошан</td><td>Утро</td><td>早上好 — Доброе утро</td></tr>
+          <tr><td>Zhōngwǔ</td><td class="zh-big">中午</td><td class="pron">Джо̄нъу̌</td><td>Полдень</td><td>—</td></tr>
+          <tr><td>Xiàwǔ</td><td class="zh-big">下午</td><td class="pron">Ся̀у̌</td><td>После полудня</td><td>下午好 — Добрый день</td></tr>
+          <tr><td>Wǎnshang</td><td class="zh-big">晚上</td><td class="pron">Ва̌ншан</td><td>Вечер</td><td>晚上好 — Добрый вечер</td></tr>
+          <tr><td>Wǎn'ān</td><td class="zh-big">晚安</td><td class="pron">Ва̌н'а̄н</td><td>Спокойной ночи</td><td>Перед сном</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ═══ УРОК 7 — ВОПРОСЫ ════════════════════════════════════════════ -->
+    <section class="lesson" id="l7">
+      <div class="lesson-header">
+        <div class="lesson-num">07</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Грамматика</div>
+          <div class="lesson-title">Вопросительные слова</div>
+          <div class="lesson-subtitle">Порядок слов не меняется!</div>
+        </div>
+      </div>
+      <p class="body">В китайском вопросительное слово стоит на месте ответа — порядок слов не меняется. <em>По-русски: «ГДЕ ты?» — По-китайски: «Ты находишься ГДЕ?»</em></p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Пиньинь</th><th>Иероглифы</th><th>Читай</th><th>Значение</th><th>Пример</th></tr></thead>
+        <tbody>
+          <tr><td>Shéi</td><td class="zh-big">谁</td><td class="pron">Шэ́й</td><td>Кто</td><td>你是谁？ — Ни̌ шѝ шэ́й? (Кто ты?)</td></tr>
+          <tr><td>Shénme</td><td class="zh-big">什么</td><td class="pron">Шэ́нмэ</td><td>Что / Какой</td><td>这是什么？ — Джэ̀ шѝ шэ́нмэ? (Что это?)</td></tr>
+          <tr><td>Nǎr</td><td class="zh-big">哪儿</td><td class="pron">На̌р</td><td>Где</td><td>你在哪儿？ — Ни̌ цза̀й на̌р? (Где ты?)</td></tr>
+          <tr><td>Shénme shíhou</td><td class="zh-big">什么时候</td><td class="pron">Шэ́нмэ ши́хоу</td><td>Когда</td><td>你什么时候来？ — Когда придёшь?</td></tr>
+          <tr><td>Wèishénme</td><td class="zh-big">为什么</td><td class="pron">Вэ̀йшэ́нмэ</td><td>Почему</td><td>你为什么不吃？ — Почему не ешь?</td></tr>
+          <tr><td>Zěnme</td><td class="zh-big">怎么</td><td class="pron">Цзэ̌нмэ</td><td>Как</td><td>你怎么去？ — Как доберёшься?</td></tr>
+          <tr><td>Duōshao</td><td class="zh-big">多少</td><td class="pron">Дуо̄шао</td><td>Сколько (цена)</td><td>这多少钱？ — Сколько стоит?</td></tr>
+          <tr><td>Jǐ</td><td class="zh-big">几</td><td class="pron">Цзи̌</td><td>Сколько (до 10)</td><td>你有几个兄弟？ — Сколько братьев?</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tip">💡 吗 (ма) в конце = вопрос да/нет. 呢 (нэ) в конце = «а ты?»: 我很好，你呢？</div>
+    </section>
+
+    <!-- ═══ УРОК 8 — СЧЁТНЫЕ СЛОВА ════════════════════════════════════ -->
+    <section class="lesson" id="l8">
+      <div class="lesson-header">
+        <div class="lesson-num">08</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Грамматика</div>
+          <div class="lesson-title">Счётные слова</div>
+          <div class="lesson-subtitle">量词 Liàngcí — Ля̀нцы</div>
+        </div>
+      </div>
+      <p class="body">Структура: <strong>Число + Счётное слово + Существительное</strong>. Нельзя сказать «три книга» — всегда нужно слово-мера между числом и предметом.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Слово</th><th>Пиньинь</th><th>Читай</th><th>Для чего</th><th>Пример</th><th>Читай пример</th></tr></thead>
+        <tbody>
+          <tr><td class="zh-big">个</td><td>gè</td><td class="pron">гэ̀</td><td>Люди и большинство предметов</td><td>三个人 — три человека</td><td class="pron">Са̄н гэ̀ жэ́н</td></tr>
+          <tr><td class="zh-big">本</td><td>běn</td><td class="pron">бэ̌н</td><td>Книги, тетради</td><td>两本书 — две книги</td><td class="pron">Ля̌н бэ̌н шӯ</td></tr>
+          <tr><td class="zh-big">张</td><td>zhāng</td><td class="pron">джа̄н</td><td>Плоские: бумага, стол, билет</td><td>一张纸 — лист бумаги</td><td class="pron">Ӣ джа̄н джи̌</td></tr>
+          <tr><td class="zh-big">条</td><td>tiáo</td><td class="pron">тья́о</td><td>Длинные гибкие: рыба, брюки</td><td>一条鱼 — одна рыба</td><td class="pron">Ӣ тья́о юй</td></tr>
+          <tr><td class="zh-big">杯</td><td>bēi</td><td class="pron">бэ̄й</td><td>Напитки в стакане/чашке</td><td>两杯茶 — два чая</td><td class="pron">Ля̌н бэ̄й ча́</td></tr>
+          <tr><td class="zh-big">只</td><td>zhī</td><td class="pron">джӣ</td><td>Животные, птицы</td><td>一只猫 — одна кошка</td><td class="pron">Ӣ джӣ мао̄</td></tr>
+          <tr><td class="zh-big">辆</td><td>liàng</td><td class="pron">ля̀н</td><td>Транспортные средства</td><td>三辆车 — три машины</td><td class="pron">Са̄н ля̀н чэ̄</td></tr>
+          <tr><td class="zh-big">双</td><td>shuāng</td><td class="pron">шуа̄н</td><td>Парные: обувь, носки</td><td>一双鞋 — пара обуви</td><td class="pron">Ӣ шуа̄н сье́</td></tr>
+          <tr><td class="zh-big">瓶</td><td>píng</td><td class="pron">пи́н</td><td>Напитки в бутылке</td><td>一瓶水 — бутылка воды</td><td class="pron">Ӣ пи́н шуэ̌й</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tip">💡 Не знаешь счётное слово — используй 个 (гэ̀). Это универсальный вариант, тебя поймут.</div>
+      <div class="note">⚠️ Два перед счётным словом = 两 (liǎng — ля̌н), а не 二 (èr — э̀р). Всегда 两个, никогда 二个.</div>
+    </section>
+
+    <!-- ═══ УРОК 9 — ИЕРОГЛИФЫ ════════════════════════════════════════ -->
+    <section class="lesson" id="l9">
+      <div class="lesson-header">
+        <div class="lesson-num">09</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Устройство иероглифов</div>
+          <div class="lesson-subtitle">Пиктограммы, составные, ключи</div>
+        </div>
+      </div>
+      <div class="section-title">Пиктограммы — базовые знаки</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Иероглиф</th><th>Пиньинь</th><th>Читай</th><th>Значение</th><th>Логика рисунка</th></tr></thead>
+        <tbody>
+          <tr><td class="zh-big">山</td><td>shān</td><td class="pron">Ша̄н</td><td>Гора</td><td>Три пика, торчащих вверх</td></tr>
+          <tr><td class="zh-big">日</td><td>rì</td><td class="pron">Жѝ</td><td>Солнце / день</td><td>Круг с точкой — солнце</td></tr>
+          <tr><td class="zh-big">月</td><td>yuè</td><td class="pron">Юэ̀</td><td>Луна / месяц</td><td>Форма полумесяца</td></tr>
+          <tr><td class="zh-big">水</td><td>shuǐ</td><td class="pron">Шуэ̌й</td><td>Вода</td><td>Волнистые линии течения</td></tr>
+          <tr><td class="zh-big">木</td><td>mù</td><td class="pron">Му̀</td><td>Дерево</td><td>Ствол с ветвями и корнями</td></tr>
+          <tr><td class="zh-big">人</td><td>rén</td><td class="pron">Жэ́н</td><td>Человек</td><td>Силуэт идущего человека</td></tr>
+          <tr><td class="zh-big">口</td><td>kǒu</td><td class="pron">Ко̌у</td><td>Рот</td><td>Квадратное отверстие</td></tr>
+          <tr><td class="zh-big">火</td><td>huǒ</td><td class="pron">Хуо̌</td><td>Огонь</td><td>Языки пламени вверх</td></tr>
+        </tbody>
+      </table></div>
+      <div class="section-title">Составные иероглифы — логика из частей</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Иероглиф</th><th>Пиньинь</th><th>Читай</th><th>Состав</th><th>Логика</th><th>Значение</th></tr></thead>
+        <tbody>
+          <tr><td class="zh-big">明</td><td>míng</td><td class="pron">Ми́н</td><td>日 + 月</td><td>Солнце + Луна = два источника света</td><td>Яркий / светлый</td></tr>
+          <tr><td class="zh-big">森</td><td>sēn</td><td class="pron">Сэ̄н</td><td>木+木+木</td><td>Три дерева вместе</td><td>Лес</td></tr>
+          <tr><td class="zh-big">休</td><td>xiū</td><td class="pron">Сью̄</td><td>人 + 木</td><td>Человек у дерева — отдыхает</td><td>Отдыхать</td></tr>
+          <tr><td class="zh-big">好</td><td>hǎo</td><td class="pron">Ха̌о</td><td>女 + 子</td><td>Женщина + ребёнок</td><td>Хорошо</td></tr>
+          <tr><td class="zh-big">男</td><td>nán</td><td class="pron">На́н</td><td>田 + 力</td><td>Поле + сила = кто работает в поле</td><td>Мужчина</td></tr>
+          <tr><td class="zh-big">家</td><td>jiā</td><td class="pron">Дзья̄</td><td>宀 + 豕</td><td>Крыша + свинья (скот дома)</td><td>Дом / семья</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ═══ УРОК А — ЧЕРТЫ ═══════════════════════════════════════════ -->
+    <section class="lesson" id="la">
+      <div class="lesson-header">
+        <div class="lesson-num">А</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Черты</div>
+          <div class="lesson-subtitle">笔画 Bǐhuà — Би̌хуа</div>
+        </div>
+      </div>
+      <p class="body">Каждый иероглиф состоит из 8 базовых типов черт. Все иероглифы китайского языка — это комбинации этих восьми движений руки.</p>
+      <div class="stroke-grid">
+        <div class="stroke-card">
+          <div class="stroke-zh">横 héng</div>
+          <div class="stroke-name">Горизонтальная</div>
+          <div class="stroke-dir">→</div>
+          <div class="stroke-desc">Слева направо. Самая частая черта. Одно уверенное движение.</div>
+          <div class="stroke-ex">一 二 王</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">竖 shù</div>
+          <div class="stroke-name">Вертикальная</div>
+          <div class="stroke-dir">↓</div>
+          <div class="stroke-desc">Строго вертикально вниз. Может заканчиваться крючком или без.</div>
+          <div class="stroke-ex">中 十 木</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">撇 piě</div>
+          <div class="stroke-name">Левая косая</div>
+          <div class="stroke-dir">↙</div>
+          <div class="stroke-desc">Начинается сверху, уходит влево-вниз. Рука не отрывается.</div>
+          <div class="stroke-ex">人 大 月</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">捺 nà</div>
+          <div class="stroke-name">Правая косая</div>
+          <div class="stroke-dir">↘</div>
+          <div class="stroke-desc">Вправо-вниз. Заканчивается с нажимом — «хвост».</div>
+          <div class="stroke-ex">人 大 木</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">折 zhé</div>
+          <div class="stroke-name">Перелом / угол</div>
+          <div class="stroke-dir">→↓</div>
+          <div class="stroke-desc">Два направления в одном движении — горизонталь, потом резко вниз.</div>
+          <div class="stroke-ex">口 日 国</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">钩 gōu</div>
+          <div class="stroke-name">Крючок</div>
+          <div class="stroke-dir">↓←</div>
+          <div class="stroke-desc">Добавляется к другим чертам в конце. Маленький резкий крюк.</div>
+          <div class="stroke-ex">子 小 水</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">点 diǎn</div>
+          <div class="stroke-name">Точка</div>
+          <div class="stroke-dir">•</div>
+          <div class="stroke-desc">Маленькое движение с нажимом. Может смотреть вправо или влево.</div>
+          <div class="stroke-ex">六 心 文</div>
+        </div>
+        <div class="stroke-card">
+          <div class="stroke-zh">提 tí</div>
+          <div class="stroke-name">Подъём</div>
+          <div class="stroke-dir">↗</div>
+          <div class="stroke-desc">Короткая черта вверх-вправо. Часто в левых частях иероглифа.</div>
+          <div class="stroke-ex">地 冰 打</div>
+        </div>
+      </div>
+      <div class="tip">💡 На телефоне при рукописном вводе система распознаёт именно эти типы черт — важно писать в правильном направлении.</div>
+    </section>
+
+    <!-- ═══ УРОК Б — ПРАВИЛА ══════════════════════════════════════════ -->
+    <section class="lesson" id="lb">
+      <div class="lesson-header">
+        <div class="lesson-num">Б</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Письмо</div>
+          <div class="lesson-title">Правила написания</div>
+          <div class="lesson-subtitle">书写规则 Shūxiě guīzé — 7 главных правил</div>
+        </div>
+      </div>
+      <p class="body">Иероглифы пишутся в строгом порядке. Правильный порядок делает написание быстрым, ритмичным и красивым.</p>
+      <div class="note">⚠️ Если нарушить порядок черт, иероглиф всё равно будет понятен — но рукописный ввод на телефоне может не распознать его.</div>
+      <div style="height:16px"></div>
+      <div class="rules-list">
+        <div class="rule-item">
+          <div class="rule-n">1</div>
+          <div class="rule-body">
+            <div class="rule-title">Сверху вниз</div>
+            <div class="rule-desc">Черты, расположенные одна над другой, пишутся сверху вниз. Сначала верхняя часть, потом нижняя.</div>
+            <div class="rule-example">Пример: <span>三</span> — верхняя горизонталь, средняя, нижняя</div>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-n">2</div>
+          <div class="rule-body">
+            <div class="rule-title">Слева направо</div>
+            <div class="rule-desc">Черты, расположенные рядом, пишутся слева направо. Сначала левая часть, потом правая.</div>
+            <div class="rule-example">Пример: <span>川</span> — левая, средняя, правая вертикаль</div>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-n">3</div>
+          <div class="rule-body">
+            <div class="rule-title">Горизонталь раньше вертикали</div>
+            <div class="rule-desc">Когда черты пересекаются, горизонтальная пишется первой, потом вертикальная.</div>
+            <div class="rule-example">Пример: <span>十</span> — сначала горизонталь, потом вертикаль</div>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-n">4</div>
+          <div class="rule-body">
+            <div class="rule-title">Левая косая раньше правой</div>
+            <div class="rule-desc">Две косые черты, образующие «крышу»: сначала левая (撇), потом правая (捺).</div>
+            <div class="rule-example">Пример: <span>人</span> — сначала левая косая, потом правая</div>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-n">5</div>
+          <div class="rule-body">
+            <div class="rule-title">Внешнее раньше внутреннего</div>
+            <div class="rule-desc">Если иероглиф имеет «рамку» — сначала три стороны рамки, потом содержимое, потом закрывающая черта снизу.</div>
+            <div class="rule-example">Пример: <span>国</span> — рамка → содержимое → нижняя черта</div>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-n">6</div>
+          <div class="rule-body">
+            <div class="rule-title">Средняя черта раньше боковых</div>
+            <div class="rule-desc">Если три вертикальные черты симметричны — сначала средняя, потом левая, потом правая.</div>
+            <div class="rule-example">Пример: <span>小</span> — средняя вертикаль, потом левая, потом правая точки</div>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-n">7</div>
+          <div class="rule-body">
+            <div class="rule-title">Пронизывающая черта — последней</div>
+            <div class="rule-desc">Вертикальная черта, пронизывающая иероглиф насквозь, пишется самой последней.</div>
+            <div class="rule-example">Пример: <span>中</span> — сначала рамка 口, потом пронизывающая вертикаль</div>
+          </div>
+        </div>
+      </div>
+      <div class="tip">💡 Поищи на YouTube «stroke order» + любой иероглиф — там есть анимации. Приложение Skritter специально тренирует порядок черт.</div>
+    </section>
+
+    <!-- ═══ УРОК В — ВСЕ 214 КЛЮЧЕЙ ══════════════════════════════════ -->
+    <section class="lesson" id="lv">
+      <div class="lesson-header">
+        <div class="lesson-num">В</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Справочник</div>
+          <div class="lesson-title">Все 214 ключей Канси</div>
+          <div class="lesson-subtitle">部首 Bùshǒu — Бу̀шо̌у</div>
+        </div>
+      </div>
+      <p class="body">Система создана в 1716 году. Каждый иероглиф относится к одному ключу. Ключи отсортированы по количеству черт.</p>
+      <div class="search-bar">
+        <input id="rad-search" type="text" placeholder="Поиск по значению, пиньиню или иероглифу...">
+      </div>
+      <div class="filter-btns" id="filter-btns">
+        <button class="filter-btn on" data-group="all">Все</button>
+        <button class="filter-btn" data-group="1">1 черта</button>
+        <button class="filter-btn" data-group="2">2 черты</button>
+        <button class="filter-btn" data-group="3">3 черты</button>
+        <button class="filter-btn" data-group="4">4 черты</button>
+        <button class="filter-btn" data-group="5">5 черт</button>
+        <button class="filter-btn" data-group="6">6 черт</button>
+        <button class="filter-btn" data-group="7">7 черт</button>
+        <button class="filter-btn" data-group="8+">8+ черт</button>
+      </div>
+      <div id="radicals-container"></div>
+    </section>
+
+    <!-- ═══ ТОП-40 КЛЮЧЕЙ ══════════════════════════════════════════════ -->
+    <section class="lesson" id="top40">
+      <div class="lesson-header">
+        <div class="lesson-num">★</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Справочник</div>
+          <div class="lesson-title">Топ-40 ключей</div>
+          <div class="lesson-subtitle">С ними можно понять большинство иероглифов</div>
+        </div>
+      </div>
+      <div class="top40-grid" id="top40-grid"></div>
+    </section>
+
+    <!-- ═══ ДИАЛОГ ══════════════════════════════════════════════════════ -->
+    <section class="lesson" id="dialog" style="border-bottom:none;margin-bottom:0;padding-bottom:0">
+      <div class="lesson-header">
+        <div class="lesson-num">💬</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Практика</div>
+          <div class="lesson-title">Живой диалог</div>
+          <div class="lesson-subtitle">在咖啡店 Zài kāfēidiàn — В кафе</div>
+        </div>
+      </div>
+      <div class="dialog">
+        <div class="dialog-row">
+          <div class="dialog-who">Ты</div>
+          <div>
+            <div class="dialog-zh">你好！这是什么？</div>
+            <div class="dialog-pron">Ни̌ ха̌о! Джэ̀ шѝ шэ́нмэ?</div>
+            <div class="dialog-ru">Привет! Что это?</div>
+          </div>
+        </div>
+        <div class="dialog-row">
+          <div class="dialog-who">Официант</div>
+          <div>
+            <div class="dialog-zh">这是茶。你要吗？</div>
+            <div class="dialog-pron">Джэ̀ шѝ ча́. Ни̌ яо̀ ма?</div>
+            <div class="dialog-ru">Это чай. Будете?</div>
+          </div>
+        </div>
+        <div class="dialog-row">
+          <div class="dialog-who">Ты</div>
+          <div>
+            <div class="dialog-zh">好的。多少钱？</div>
+            <div class="dialog-pron">Ха̌о дэ. Дуо̄шао чьиэ́н?</div>
+            <div class="dialog-ru">Хорошо. Сколько стоит?</div>
+          </div>
+        </div>
+        <div class="dialog-row">
+          <div class="dialog-who">Официант</div>
+          <div>
+            <div class="dialog-zh">两杯茶，二十块。</div>
+            <div class="dialog-pron">Ля̌н бэ̄й ча́, э̀рши́ куа̀й.</div>
+            <div class="dialog-ru">Два чая — 20 юаней.</div>
+          </div>
+        </div>
+        <div class="dialog-row">
+          <div class="dialog-who">Ты</div>
+          <div>
+            <div class="dialog-zh">谢谢！</div>
+            <div class="dialog-pron">Сьесье!</div>
+            <div class="dialog-ru">Спасибо!</div>
+          </div>
+        </div>
+        <div class="dialog-row">
+          <div class="dialog-who">Официант</div>
+          <div>
+            <div class="dialog-zh">不客气！</div>
+            <div class="dialog-pron">Бу̀ кхэ̀чи̌!</div>
+            <div class="dialog-ru">Пожалуйста!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const RADICALS = [
+  {group:"1",label:"1 черта",items:[
+    {char:"一",py:"yī",pron:"ӣ",meaning:"один, горизонт"},
+    {char:"丨",py:"gǔn",pron:"гу̌н",meaning:"вертикаль"},
+    {char:"丶",py:"zhǔ",pron:"джу̌",meaning:"точка"},
+    {char:"丿",py:"piě",pron:"пье̌",meaning:"косая левая"},
+    {char:"乙",py:"yǐ",pron:"и̌",meaning:"крюк, второй"},
+    {char:"亅",py:"jué",pron:"дзюэ́",meaning:"крюк вертикальный"},
+  ]},
+  {group:"2",label:"2 черты",items:[
+    {char:"二",py:"èr",pron:"э̀р",meaning:"два"},
+    {char:"亠",py:"tóu",pron:"то́у",meaning:"крышка"},
+    {char:"人/亻",py:"rén",pron:"жэ́н",meaning:"человек"},
+    {char:"儿",py:"ér",pron:"э́р",meaning:"ноги человека"},
+    {char:"入",py:"rù",pron:"жу̀",meaning:"входить"},
+    {char:"八",py:"bā",pron:"ба̄",meaning:"восемь, делить"},
+    {char:"冂",py:"jiōng",pron:"дзё̄н",meaning:"рамка"},
+    {char:"冖",py:"mì",pron:"мѝ",meaning:"покрывало"},
+    {char:"冫",py:"bīng",pron:"бӣн",meaning:"лёд"},
+    {char:"几",py:"jī",pron:"дзӣ",meaning:"стол, несколько"},
+    {char:"凵",py:"kǎn",pron:"кха̌н",meaning:"ёмкость"},
+    {char:"刀/刂",py:"dāo",pron:"да̄о",meaning:"нож"},
+    {char:"力",py:"lì",pron:"лѝ",meaning:"сила"},
+    {char:"勹",py:"bāo",pron:"ба̄о",meaning:"обёртка"},
+    {char:"匕",py:"bǐ",pron:"би̌",meaning:"ложка"},
+    {char:"匚",py:"fāng",pron:"фа̄н",meaning:"ящик"},
+    {char:"十",py:"shí",pron:"ши́",meaning:"десять"},
+    {char:"卜",py:"bǔ",pron:"бу̌",meaning:"гадать"},
+    {char:"卩",py:"jié",pron:"дзье́",meaning:"печать"},
+    {char:"厂",py:"hǎn",pron:"ха̌н",meaning:"склон, завод"},
+    {char:"厶",py:"sī",pron:"сы̄",meaning:"частный"},
+    {char:"又",py:"yòu",pron:"ёу̀",meaning:"снова, рука"},
+  ]},
+  {group:"3",label:"3 черты",items:[
+    {char:"口",py:"kǒu",pron:"ко̌у",meaning:"рот"},
+    {char:"囗",py:"wéi",pron:"вэ́й",meaning:"ограждение"},
+    {char:"土",py:"tǔ",pron:"тху̌",meaning:"земля"},
+    {char:"士",py:"shì",pron:"шѝ",meaning:"учёный, воин"},
+    {char:"夕",py:"xī",pron:"сьӣ",meaning:"вечер"},
+    {char:"大",py:"dà",pron:"да̀",meaning:"большой"},
+    {char:"女",py:"nǚ",pron:"нюй",meaning:"женщина"},
+    {char:"子",py:"zǐ",pron:"цзы̌",meaning:"ребёнок"},
+    {char:"宀",py:"mián",pron:"мье́н",meaning:"крыша"},
+    {char:"寸",py:"cùn",pron:"цу̀н",meaning:"дюйм, мера"},
+    {char:"小",py:"xiǎo",pron:"сья̌о",meaning:"маленький"},
+    {char:"山",py:"shān",pron:"ша̄н",meaning:"гора"},
+    {char:"川",py:"chuān",pron:"чуа̄н",meaning:"река"},
+    {char:"工",py:"gōng",pron:"го̄н",meaning:"работа"},
+    {char:"己",py:"jǐ",pron:"дзи̌",meaning:"себя"},
+    {char:"巾",py:"jīn",pron:"дзӣн",meaning:"ткань"},
+    {char:"广",py:"guǎng",pron:"гуа̌н",meaning:"навес"},
+    {char:"弓",py:"gōng",pron:"го̄н",meaning:"лук (оружие)"},
+    {char:"彡",py:"shān",pron:"ша̄н",meaning:"волосы, украшение"},
+    {char:"彳",py:"chì",pron:"чѝ",meaning:"шаг, идти"},
+  ]},
+  {group:"4",label:"4 черты",items:[
+    {char:"心/忄",py:"xīn",pron:"сьӣн",meaning:"сердце, чувства"},
+    {char:"戈",py:"gē",pron:"гэ̄",meaning:"алебарда"},
+    {char:"手/扌",py:"shǒu",pron:"шо̌у",meaning:"рука"},
+    {char:"文",py:"wén",pron:"вэ́н",meaning:"письмо, культура"},
+    {char:"斤",py:"jīn",pron:"дзӣн",meaning:"топор"},
+    {char:"方",py:"fāng",pron:"фа̄н",meaning:"квадрат, сторона"},
+    {char:"日",py:"rì",pron:"жѝ",meaning:"солнце, день"},
+    {char:"月",py:"yuè",pron:"юэ̀",meaning:"луна, месяц"},
+    {char:"木",py:"mù",pron:"му̀",meaning:"дерево"},
+    {char:"止",py:"zhǐ",pron:"джи̌",meaning:"остановиться"},
+    {char:"毛",py:"máo",pron:"мао́",meaning:"волос, шерсть"},
+    {char:"水/氵",py:"shuǐ",pron:"шуэ̌й",meaning:"вода"},
+    {char:"火/灬",py:"huǒ",pron:"хуо̌",meaning:"огонь"},
+    {char:"父",py:"fù",pron:"фу̀",meaning:"отец"},
+    {char:"牛",py:"niú",pron:"ньёу",meaning:"бык, корова"},
+    {char:"犬/犭",py:"quǎn",pron:"цюэ̌н",meaning:"собака"},
+  ]},
+  {group:"5",label:"5 черт",items:[
+    {char:"玉/王",py:"yù",pron:"юй",meaning:"нефрит"},
+    {char:"瓜",py:"guā",pron:"гуа̄",meaning:"дыня"},
+    {char:"生",py:"shēng",pron:"шэ̄н",meaning:"рождаться"},
+    {char:"田",py:"tián",pron:"тье́н",meaning:"поле"},
+    {char:"白",py:"bái",pron:"ба́й",meaning:"белый"},
+    {char:"皮",py:"pí",pron:"пхи́",meaning:"кожа"},
+    {char:"目",py:"mù",pron:"му̀",meaning:"глаз"},
+    {char:"矛",py:"máo",pron:"мао́",meaning:"копьё"},
+    {char:"石",py:"shí",pron:"ши́",meaning:"камень"},
+    {char:"示/礻",py:"shì",pron:"шѝ",meaning:"знак, ритуал"},
+    {char:"禾",py:"hé",pron:"хэ́",meaning:"злак, зерно"},
+    {char:"穴",py:"xué",pron:"сюэ́",meaning:"пещера"},
+    {char:"立",py:"lì",pron:"лѝ",meaning:"стоять"},
+  ]},
+  {group:"6",label:"6 черт",items:[
+    {char:"竹",py:"zhú",pron:"джу́",meaning:"бамбук"},
+    {char:"米",py:"mǐ",pron:"ми̌",meaning:"рис"},
+    {char:"纟",py:"sī",pron:"сы̄",meaning:"нить, шёлк"},
+    {char:"网/罒",py:"wǎng",pron:"уа̌н",meaning:"сеть"},
+    {char:"羊",py:"yáng",pron:"ян́",meaning:"овца, коза"},
+    {char:"羽",py:"yǔ",pron:"юй",meaning:"перо, крыло"},
+    {char:"老",py:"lǎo",pron:"лао̌",meaning:"старый"},
+    {char:"耳",py:"ěr",pron:"э̌р",meaning:"ухо"},
+    {char:"肉/月",py:"ròu",pron:"жо̀у",meaning:"мясо, тело"},
+    {char:"自",py:"zì",pron:"цзы̀",meaning:"себя, нос"},
+    {char:"舟",py:"zhōu",pron:"джо̄у",meaning:"лодка"},
+    {char:"色",py:"sè",pron:"сэ̀",meaning:"цвет"},
+    {char:"艹",py:"cǎo",pron:"цао̌",meaning:"трава, растение"},
+    {char:"虫",py:"chóng",pron:"чо́н",meaning:"насекомое"},
+    {char:"血",py:"xuè",pron:"сюэ̀",meaning:"кровь"},
+    {char:"行",py:"xíng",pron:"сьи́н",meaning:"идти, ряд"},
+    {char:"衤",py:"yī",pron:"ӣ",meaning:"одежда"},
+  ]},
+  {group:"7",label:"7 черт",items:[
+    {char:"见",py:"jiàn",pron:"дзья̀н",meaning:"видеть"},
+    {char:"角",py:"jiǎo",pron:"дзья̌о",meaning:"рог, угол"},
+    {char:"言/讠",py:"yán",pron:"е́н",meaning:"слова, речь"},
+    {char:"谷",py:"gǔ",pron:"гу̌",meaning:"долина"},
+    {char:"豆",py:"dòu",pron:"до̀у",meaning:"бобы"},
+    {char:"贝",py:"bèi",pron:"бэ̀й",meaning:"раковина, деньги"},
+    {char:"赤",py:"chì",pron:"чѝ",meaning:"красный"},
+    {char:"走",py:"zǒu",pron:"цзо̌у",meaning:"идти"},
+    {char:"足/⻊",py:"zú",pron:"цзу́",meaning:"нога, стопа"},
+    {char:"身",py:"shēn",pron:"шэ̄н",meaning:"тело"},
+    {char:"车",py:"chē",pron:"чэ̄",meaning:"машина, телега"},
+    {char:"酉",py:"yǒu",pron:"ёу̌",meaning:"алкоголь"},
+    {char:"里",py:"lǐ",pron:"ли̌",meaning:"деревня, мера"},
+  ]},
+  {group:"8+",label:"8+ черт",items:[
+    {char:"钅",py:"jīn",pron:"дзӣн",meaning:"металл, золото"},
+    {char:"长",py:"cháng",pron:"ча́н",meaning:"длинный"},
+    {char:"门",py:"mén",pron:"мэ́н",meaning:"ворота, дверь"},
+    {char:"阝",py:"fù/yì",pron:"фу̀/ѝ",meaning:"холм / город"},
+    {char:"隹",py:"zhuī",pron:"джуэ̄й",meaning:"птица с коротким хвостом"},
+    {char:"雨",py:"yǔ",pron:"юй",meaning:"дождь"},
+    {char:"青",py:"qīng",pron:"чьӣн",meaning:"синий, зелёный"},
+    {char:"非",py:"fēi",pron:"фэ̄й",meaning:"нет, не"},
+    {char:"面",py:"miàn",pron:"мьѐн",meaning:"лицо, поверхность"},
+    {char:"革",py:"gé",pron:"гэ́",meaning:"кожа (выделанная)"},
+    {char:"音",py:"yīn",pron:"ӣн",meaning:"звук, музыка"},
+    {char:"页",py:"yè",pron:"ѐ",meaning:"страница"},
+    {char:"风",py:"fēng",pron:"фэ̄н",meaning:"ветер"},
+    {char:"飞",py:"fēi",pron:"фэ̄й",meaning:"летать"},
+    {char:"食/饣",py:"shí",pron:"ши́",meaning:"еда, кормить"},
+    {char:"马",py:"mǎ",pron:"ма̌",meaning:"лошадь"},
+    {char:"骨",py:"gǔ",pron:"гу̌",meaning:"кость"},
+    {char:"高",py:"gāo",pron:"га̄о",meaning:"высокий"},
+    {char:"鬼",py:"guǐ",pron:"гуэ̌й",meaning:"призрак"},
+    {char:"鱼",py:"yú",pron:"юй",meaning:"рыба"},
+    {char:"鸟",py:"niǎo",pron:"нья̌о",meaning:"птица"},
+    {char:"鹿",py:"lù",pron:"лу̀",meaning:"олень"},
+    {char:"龙",py:"lóng",pron:"ло́н",meaning:"дракон"},
+    {char:"龟",py:"guī",pron:"гуэ̄й",meaning:"черепаха"},
+  ]},
+];
+
+const TOP40 = [
+  {char:"人/亻",meaning:"Человек",pron:"жэ́н",examples:"他 (он), 你 (ты), 们 (мн.ч.), 做 (делать)"},
+  {char:"口",meaning:"Рот",pron:"ко̌у",examples:"吃 (есть), 喝 (пить), 说 (говорить), 吗 (вопрос)"},
+  {char:"手/扌",meaning:"Рука",pron:"шо̌у",examples:"打 (бить), 拿 (держать), 找 (искать)"},
+  {char:"心/忄",meaning:"Сердце",pron:"сьӣн",examples:"想 (думать), 爱 (любить), 忘 (забыть)"},
+  {char:"言/讠",meaning:"Речь",pron:"е́н",examples:"说 (говорить), 请 (просить), 谢 (спасибо)"},
+  {char:"水/氵",meaning:"Вода",pron:"шуэ̌й",examples:"海 (море), 河 (река), 洗 (мыть)"},
+  {char:"木",meaning:"Дерево",pron:"му̀",examples:"树 (дерево), 桌 (стол), 椅 (стул)"},
+  {char:"女",meaning:"Женщина",pron:"нюй",examples:"妈 (мама), 她 (она), 好 (хорошо)"},
+  {char:"目",meaning:"Глаз",pron:"му̀",examples:"看 (смотреть), 眼 (глаз), 睡 (спать)"},
+  {char:"足/⻊",meaning:"Нога",pron:"цзу́",examples:"跑 (бежать), 跳 (прыгать), 路 (дорога)"},
+  {char:"火/灬",meaning:"Огонь",pron:"хуо̌",examples:"热 (горячий), 灯 (лампа), 烧 (гореть)"},
+  {char:"日",meaning:"Солнце/день",pron:"жѝ",examples:"明 (яркий), 时 (время), 早 (рано)"},
+  {char:"月/肉",meaning:"Луна/тело",pron:"юэ̀",examples:"胖 (толстый), 脸 (лицо), 背 (спина)"},
+  {char:"土",meaning:"Земля",pron:"тху̌",examples:"地 (земля), 坐 (сидеть), 城 (город)"},
+  {char:"金/钅",meaning:"Металл",pron:"дзӣн",examples:"钱 (деньги), 银 (серебро), 铁 (железо)"},
+  {char:"食/饣",meaning:"Еда",pron:"ши́",examples:"饭 (рис/еда), 饿 (голодный), 饮 (пить)"},
+  {char:"艹",meaning:"Трава",pron:"цао̌",examples:"花 (цветок), 茶 (чай), 菜 (овощ)"},
+  {char:"虫",meaning:"Насекомое",pron:"чо́н",examples:"蛇 (змея), 蚊 (комар), 虾 (креветка)"},
+  {char:"贝",meaning:"Деньги",pron:"бэ̀й",examples:"买 (покупать), 卖 (продавать), 贵 (дорогой)"},
+  {char:"车",meaning:"Машина",pron:"чэ̄",examples:"辆 (счётное), 轮 (колесо), 辆 (транспорт)"},
+  {char:"马",meaning:"Лошадь",pron:"ма̌",examples:"骑 (ехать верхом), 驾 (управлять)"},
+  {char:"鸟",meaning:"Птица",pron:"нья̌о",examples:"鸡 (курица), 鸭 (утка), 鹅 (гусь)"},
+  {char:"鱼",meaning:"Рыба",pron:"юй",examples:"鲸 (кит), 鲤 (карп), 鲜 (свежий)"},
+  {char:"门",meaning:"Дверь",pron:"мэ́н",examples:"问 (спрашивать), 间 (промежуток), 闭 (закрыть)"},
+  {char:"宀",meaning:"Крыша",pron:"мье́н",examples:"家 (дом), 安 (безопасный), 室 (комната)"},
+  {char:"王",meaning:"Правитель",pron:"уа́н",examples:"玩 (играть), 球 (мяч), 现 (сейчас)"},
+  {char:"力",meaning:"Сила",pron:"лѝ",examples:"努 (стараться), 动 (двигаться), 功 (заслуга)"},
+  {char:"大",meaning:"Большой",pron:"да̀",examples:"太 (слишком), 天 (небо), 夫 (муж)"},
+  {char:"小",meaning:"Маленький",pron:"сья̌о",examples:"少 (мало), 尖 (острый)"},
+  {char:"山",meaning:"Гора",pron:"ша̄н",examples:"岛 (остров), 岸 (берег), 峰 (пик)"},
+  {char:"田",meaning:"Поле",pron:"тье́н",examples:"男 (мужчина), 画 (рисовать), 界 (граница)"},
+  {char:"石",meaning:"Камень",pron:"ши́",examples:"破 (ломать), 碗 (пиала), 碑 (стела)"},
+  {char:"竹",meaning:"Бамбук",pron:"джу́",examples:"笔 (ручка), 筷 (палочки), 答 (отвечать)"},
+  {char:"米",meaning:"Рис",pron:"ми̌",examples:"糖 (сахар), 粒 (зерно), 粉 (порошок)"},
+  {char:"纟",meaning:"Нить",pron:"сы̄",examples:"红 (красный), 绿 (зелёный), 线 (нить)"},
+  {char:"雨",meaning:"Дождь",pron:"юй",examples:"雪 (снег), 云 (облако), 雷 (гром)"},
+  {char:"疒",meaning:"Болезнь",pron:"нэ̀",examples:"病 (болеть), 疼 (боль), 痛 (боль)"},
+  {char:"示/礻",meaning:"Ритуал",pron:"шѝ",examples:"福 (счастье), 神 (дух/бог), 礼 (подарок)"},
+  {char:"阝",meaning:"Холм/город",pron:"фу̀",examples:"阶 (ступенька), 队 (отряд), 院 (двор)"},
+  {char:"页",meaning:"Голова",pron:"ѐ",examples:"顶 (вершина), 题 (тема), 颜 (лицо)"},
+];
+
+// ── RENDER RADICALS ───────────────────────────────────────────────────────
+function renderRadicals(filter = 'all', search = '') {
+  const container = document.getElementById('radicals-container');
+  container.innerHTML = '';
+  const q = search.toLowerCase();
+  RADICALS.forEach(group => {
+    if (filter !== 'all' && group.group !== filter) return;
+    const items = group.items.filter(r =>
+      !q || r.char.includes(q) || r.py.toLowerCase().includes(q) || r.meaning.includes(q) || r.pron.includes(q)
+    );
+    if (!items.length) return;
+    const div = document.createElement('div');
+    div.className = 'radical-group';
+    div.innerHTML = `<div class="radical-group-title"><span>${group.label}</span> ${items.length} ключей</div>
+      <div class="radical-grid">${items.map(r => `
+        <div class="radical-card">
+          <div class="radical-char">${r.char}</div>
+          <div class="radical-info">
+            <div class="radical-py">${r.py}</div>
+            <div class="radical-pron">${r.pron}</div>
+            <div class="radical-meaning">${r.meaning}</div>
+          </div>
+        </div>`).join('')}</div>`;
+    container.appendChild(div);
+  });
+}
+
+// ── RENDER TOP40 ──────────────────────────────────────────────────────────
+function renderTop40() {
+  document.getElementById('top40-grid').innerHTML = TOP40.map(r => `
+    <div class="top40-card">
+      <div class="top40-char">${r.char}</div>
+      <div class="top40-meaning">${r.meaning}</div>
+      <div class="top40-pron">${r.pron}</div>
+      <div class="top40-examples">${r.examples}</div>
+    </div>`).join('');
+}
+
+// ── SEARCH & FILTER ───────────────────────────────────────────────────────
+let currentGroup = 'all';
+document.getElementById('rad-search').addEventListener('input', e => renderRadicals(currentGroup, e.target.value));
+document.getElementById('filter-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  currentGroup = btn.dataset.group;
+  renderRadicals(currentGroup, document.getElementById('rad-search').value);
+});
+
+// ── PROGRESS BAR ──────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const el = document.getElementById('progress');
+  const s = document.documentElement;
+  const pct = s.scrollTop / (s.scrollHeight - s.clientHeight);
+  el.style.transform = `scaleX(${pct})`;
+});
+
+// ── ACTIVE NAV ────────────────────────────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+renderRadicals();
+renderTop40();
+</script>
+</body>
+</html>

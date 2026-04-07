@@ -1,0 +1,43 @@
+---
+order: 8
+id: "l8"
+tag: "Грамматика"
+title: "Счётные слова"
+subtitle: "量词 Liàngcí — Ля̀нцы"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+
+Структура: **Число + Счётное слово + Существительное**. Нельзя сказать «три книга» — всегда нужно слово-мера между числом и предметом.
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Слово</th><th>Пиньинь</th><th>Читай</th><th>Для чего</th><th>Пример</th></tr></thead>
+    <tbody>
+      {[
+        {zh:"个", py:"gè",    pron:"гэ̀",    for:"Люди и большинство предметов",  ex:"三个人 — три человека",  ex_pron:"Са̄н гэ̀ жэ́н"},
+        {zh:"本", py:"běn",   pron:"бэ̌н",   for:"Книги, тетради",                ex:"两本书 — две книги",     ex_pron:"Ля̌н бэ̌н шӯ"},
+        {zh:"张", py:"zhāng", pron:"джа̄н",  for:"Плоские: бумага, стол, билет",  ex:"一张纸 — лист бумаги",  ex_pron:"Ӣ джа̄н джи̌"},
+        {zh:"条", py:"tiáo",  pron:"тья́о",  for:"Длинные гибкие: рыба, брюки",   ex:"一条鱼 — одна рыба",    ex_pron:"Ӣ тья́о юй"},
+        {zh:"杯", py:"bēi",   pron:"бэ̄й",   for:"Напитки в стакане/чашке",       ex:"两杯茶 — два чая",      ex_pron:"Ля̌н бэ̄й ча́"},
+        {zh:"只", py:"zhī",   pron:"джӣ",   for:"Животные, птицы",               ex:"一只猫 — одна кошка",   ex_pron:"Ӣ джӣ мао̄"},
+        {zh:"辆", py:"liàng", pron:"ля̀н",   for:"Транспортные средства",          ex:"三辆车 — три машины",   ex_pron:"Са̄н ля̀н чэ̄"},
+        {zh:"双", py:"shuāng",pron:"шуа̄н",  for:"Парные: обувь, носки",          ex:"一双鞋 — пара обуви",   ex_pron:"Ӣ шуа̄н сье́"},
+        {zh:"瓶", py:"píng",  pron:"пи́н",   for:"Напитки в бутылке",             ex:"一瓶水 — бутылка воды", ex_pron:"Ӣ пи́н шуэ̌й"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td class="zh-char">{r.zh}</td>
+          <td>{r.py}</td>
+          <td class="pron">{r.pron}</td>
+          <td>{r.for}</td>
+          <td style="font-size:.82rem">{r.ex} <span class="pron" style="font-style:italic">{r.ex_pron}</span></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="tip">💡 Не знаешь счётное слово — используй <AudioButton text="个" size="sm" /> **个 (гэ̀)**. Это универсальный вариант, тебя поймут.</div>
+
+<div class="warn">⚠️ «Два» перед счётным словом = <AudioButton text="两" size="sm" /> **两 (liǎng — ля̌н)**, а не 二 (èr). Всегда 两个, никогда 二个.</div>

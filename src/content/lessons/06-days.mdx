@@ -1,0 +1,64 @@
+---
+order: 6
+id: "l6"
+tag: "Лексика"
+title: "Дни недели и время суток"
+subtitle: "星期 Xīngqī — числа + неделя"
+---
+
+import AudioButton from '../../components/AudioButton.astro';
+
+## Дни недели
+
+<AudioButton text="星期" /> 星期 (xīngqī — Сӣнчӣ = неделя) + цифра. Выучил числа — знаешь дни!
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>День</th><th>Иероглифы</th><th>Пиньинь</th><th>Читай по-русски</th></tr></thead>
+    <tbody>
+      {[
+        {ru:"Понедельник", zh:"星期一", py:"Xīngqī yī",  pron:"Сӣнчӣ ӣ"},
+        {ru:"Вторник",     zh:"星期二", py:"Xīngqī èr",  pron:"Сӣнчӣ э̀р"},
+        {ru:"Среда",       zh:"星期三", py:"Xīngqī sān", pron:"Сӣнчӣ са̄н"},
+        {ru:"Четверг",     zh:"星期四", py:"Xīngqī sì",  pron:"Сӣнчӣ сы̀"},
+        {ru:"Пятница",     zh:"星期五", py:"Xīngqī wǔ",  pron:"Сӣнчӣ у̌"},
+        {ru:"Суббота",     zh:"星期六", py:"Xīngqī liù", pron:"Сӣнчӣ лёу"},
+        {ru:"Воскресенье", zh:"星期日", py:"Xīngqī rì",  pron:"Сӣнчӣ жѝ"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td>{r.ru}</td>
+          <td class="zh-char">{r.zh}</td>
+          <td>{r.py}</td>
+          <td class="pron">{r.pron}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Время суток
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Иероглифы</th><th>Читай</th><th>Значение</th><th>Приветствие</th></tr></thead>
+    <tbody>
+      {[
+        {py:"Zǎoshang", zh:"早上", pron:"Цза̌ошан", ru:"Утро",           greet:"早上好 — Доброе утро"},
+        {py:"Zhōngwǔ",  zh:"中午", pron:"Джо̄нъу̌",  ru:"Полдень",        greet:"—"},
+        {py:"Xiàwǔ",    zh:"下午", pron:"Ся̀у̌",     ru:"После полудня",  greet:"下午好 — Добрый день"},
+        {py:"Wǎnshang", zh:"晚上", pron:"Ва̌ншан",   ru:"Вечер",          greet:"晚上好 — Добрый вечер"},
+        {py:"Wǎn'ān",   zh:"晚安", pron:"Ва̌н'а̄н",  ru:"Спокойной ночи", greet:"Перед сном"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td>{r.py}</td>
+          <td class="zh-char">{r.zh}</td>
+          <td class="pron">{r.pron}</td>
+          <td>{r.ru}</td>
+          <td>{r.greet}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
