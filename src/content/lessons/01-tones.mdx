@@ -7,6 +7,7 @@ subtitle: "四声 Sìshēng — Сы̀шэ̄н"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 import tones from '../../data/tones.json';
 
 Китайский — тональный язык. Один и тот же слог с разным тоном — это разное слово. Это главное, что нужно усвоить с первого дня.
@@ -19,7 +20,7 @@ import tones from '../../data/tones.json';
       <div class="tone-desc">{t.desc}</div>
       <div class="tone-ex">
         <AudioButton text={t.example_zh} size="sm" />
-        {t.example_py} {t.example_zh} — {t.example_meaning}
+        {t.example_py} <Word zh={t.example_zh} py={t.example_py} meaning={t.example_meaning} /> — {t.example_meaning}
       </div>
       <div class="tone-desc" style="margin-top:6px;color:var(--pron)">{t.ru_pron}</div>
     </div>

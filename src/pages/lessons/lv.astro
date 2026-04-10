@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 import LessonNav from '../../components/LessonNav.astro';
 import { getNavContext } from '../../data/lessonNav';
 import radicals from '../../data/radicals.json';
@@ -19,7 +20,7 @@ const { prev, next } = getNavContext('lv');
           <div class="lesson-subtitle">部首 Bùshǒu — Бу̀шо̌у</div>
         </div>
       </div>
-      <p style="font-size:.95rem;line-height:1.75;color:#333;margin-bottom:16px">Система создана в 1716 году. Каждый иероглиф относится к одному ключу. Отсортированы по количеству черт.</p>
+      <p style="font-size:.95rem;line-height:1.75;color:var(--text);margin-bottom:16px">Система создана в 1716 году. Каждый иероглиф относится к одному ключу. Отсортированы по количеству черт.</p>
 
       <div class="search-bar">
         <input id="rad-search" type="text" placeholder="Поиск по значению, пиньиню или иероглифу...">
@@ -40,7 +41,7 @@ const { prev, next } = getNavContext('lv');
             <div class="radical-grid">
               {group.items.map(r => (
                 <div class="radical-card" data-search={`${r.char} ${r.py} ${r.pron} ${r.meaning}`.toLowerCase()}>
-                  <div class="radical-char">{r.char}</div>
+                  <div class="radical-char"><Word zh={r.char.split('/')[0]} py={r.py} meaning={r.meaning} /></div>
                   <div class="radical-info">
                     <div class="radical-py">{r.py}</div>
                     <div class="radical-pron">{r.pron}</div>

@@ -1,0 +1,116 @@
+---
+/**
+ * Inline word component: shows Chinese character as a link
+ * with pinyin tooltip on hover. Links to /vocab/{char}.
+ *
+ * Usage: <Word zh="好" py="hǎo" meaning="хорошо" />
+ * Or minimal: <Word zh="好" py="hǎo" /> (meaning shown only if provided)
+ */
+interface Props {
+  zh: string;
+  py: string;
+  pron?: string;
+  meaning?: string;
+  /** Show audio button inline */
+  audio?: boolean;
+}
+
+const { zh, py, pron, meaning, audio = false } = Astro.props;
+const href = `/vocab/${encodeURIComponent(zh)}`;
+const tooltip = meaning ? `${py} — ${meaning}` : py;
+const safeText = zh.replace(/'/g, "\\'");
+---
+
+<span class="word-wrap" data-tooltip={tooltip}>
+  <a class="word-link" href={href}>{zh}</a>
+  {audio && (
+    <button
+      class="word-audio"
+      onclick={`playZh('${safeText}', this)`}
+      title={`Произнести: ${zh}`}
+      aria-label={`Произнести ${zh}`}
+    >🔊</button>
+  )}
+</span>
+
+<style>
+  .word-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    vertical-align: baseline;
+  }
+  .word-link {
+    font-family: 'Noto Sans SC', sans-serif;
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1.5px dotted var(--red);
+    font-weight: 700;
+    transition: all .15s;
+    cursor: pointer;
+  }
+  .word-link:hover {
+    color: var(--navy2);
+    border-bottom-color: var(--navy2);
+  }
+
+  /* Tooltip */
+  .word-wrap::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--navy);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: .78rem;
+    font-family: 'Mulish', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s;
+    z-index: 50;
+    line-height: 1.4;
+  }
+  .word-wrap::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--navy);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s;
+    z-index: 50;
+  }
+  .word-wrap:hover::after,
+  .word-wrap:hover::before {
+    opacity: 1;
+  }
+
+  /* Touch: show tooltip on tap (focus) */
+  .word-link:focus ~ .word-wrap::after,
+  .word-wrap:focus-within::after,
+  .word-wrap:focus-within::before {
+    opacity: 1;
+  }
+
+  .word-audio {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: .75rem;
+    padding: 0 2px;
+    line-height: 1;
+    transition: transform .1s;
+  }
+  .word-audio:hover { transform: scale(1.15); }
+  .word-audio.playing { animation: pulse .6s infinite alternate; }
+  @keyframes pulse { from { opacity:1; } to { opacity:0.5; } }
+</style>

@@ -7,6 +7,7 @@ subtitle: "星期 Xīngqī — числа + неделя"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 
 ## Дни недели
 
@@ -28,7 +29,7 @@ import AudioButton from '../../components/AudioButton.astro';
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
           <td>{r.ru}</td>
-          <td class="zh-char">{r.zh}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.ru} /></td>
           <td>{r.py}</td>
           <td class="pron">{r.pron}</td>
         </tr>
@@ -53,7 +54,7 @@ import AudioButton from '../../components/AudioButton.astro';
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
           <td>{r.py}</td>
-          <td class="zh-char">{r.zh}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.ru} /></td>
           <td class="pron">{r.pron}</td>
           <td>{r.ru}</td>
           <td>{r.greet}</td>

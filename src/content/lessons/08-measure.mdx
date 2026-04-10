@@ -7,6 +7,7 @@ subtitle: "量词 Liàngcí — Ля̀нцы"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 
 Структура: **Число + Счётное слово + Существительное**. Нельзя сказать «три книга» — всегда нужно слово-мера между числом и предметом.
 
@@ -27,7 +28,7 @@ import AudioButton from '../../components/AudioButton.astro';
       ].map(r => (
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
-          <td class="zh-char">{r.zh}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.for} /></td>
           <td>{r.py}</td>
           <td class="pron">{r.pron}</td>
           <td>{r.for}</td>

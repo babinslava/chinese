@@ -7,6 +7,7 @@ subtitle: "Порядок слов не меняется!"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 
 В китайском вопросительное слово стоит на месте ответа — порядок слов не меняется.
 
@@ -29,7 +30,7 @@ import AudioButton from '../../components/AudioButton.astro';
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
           <td>{r.py}</td>
-          <td class="zh-char">{r.zh}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.ru} /></td>
           <td class="pron">{r.pron}</td>
           <td><strong>{r.ru}</strong></td>
           <td style="font-size:.82rem">{r.ex}</td>

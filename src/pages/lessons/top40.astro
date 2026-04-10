@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 import LessonNav from '../../components/LessonNav.astro';
 import { getNavContext } from '../../data/lessonNav';
 import top40 from '../../data/top40.json';
@@ -23,7 +24,8 @@ const { prev, next } = getNavContext('top40');
         {top40.map(r => (
           <div class="top40-card">
             <div style="display:flex;align-items:center;gap:8px">
-              <div class="top40-char">{r.char}</div>
+              <Word zh={r.char.split('/')[0]} py="" meaning={r.meaning} />
+              {r.char.includes('/') && <span class="top40-alt">/ {r.char.split('/')[1]}</span>}
               <AudioButton text={r.char.split('/')[0]} size="sm" />
             </div>
             <div class="top40-meaning">{r.meaning}</div>

@@ -3,21 +3,122 @@ order: 5
 id: "l5"
 tag: "Фонетика"
 title: "Произношение"
-subtitle: "Все сложные звуки с описанием"
+subtitle: "Полная таблица всех звуков пиньиня"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 
-## Ретрофлексные (zh, ch, sh, r) — язык загнут назад
+Пиньинь — это система записи китайского латиницей. Но буквы читаются **не как в английском**. Ниже — все звуки с объяснением.
+
+## Согласные: губные (b, p, m, f)
 
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение языка</th><th>Пример</th><th>Читай</th></tr></thead>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"b", approx:"Б (без голоса)", pos:"Как русское Б, но без вибрации связок — глухое, без придыхания", zh:"八", py:"bā", ru:"БА̄"},
+        {sound:"p", approx:"П (с придыханием)", pos:"Как русское П, но с сильным выдохом — поднеси ладонь ко рту", zh:"瓶", py:"píng", ru:"ПИ́Н"},
+        {sound:"m", approx:"М", pos:"Как русское М — губы сомкнуты, звук через нос", zh:"妈", py:"mā", ru:"МА̄"},
+        {sound:"f", approx:"Ф", pos:"Как русское Ф — верхние зубы касаются нижней губы", zh:"饭", py:"fàn", ru:"ФА̀Н"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Согласные: зубные (d, t, n, l)
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"d", approx:"Д (без голоса)", pos:"Кончик языка у верхних зубов, без вибрации связок", zh:"大", py:"dà", ru:"ДА̀"},
+        {sound:"t", approx:"Т (с придыханием)", pos:"Как Д, но с сильным выдохом", zh:"天", py:"tiān", ru:"ТЬИЭ̄Н"},
+        {sound:"n", approx:"Н", pos:"Как русское Н — кончик языка у верхних зубов, звук через нос", zh:"你", py:"nǐ", ru:"НИ̌"},
+        {sound:"l", approx:"Л", pos:"Как русское Л — кончик языка у верхних зубов, воздух по бокам", zh:"来", py:"lái", ru:"ЛА́Й"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Согласные: задненёбные (g, k, h)
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"g", approx:"Г (без голоса)", pos:"Задняя часть языка у нёба, без вибрации связок", zh:"贵", py:"guì", ru:"ГУЭ̀Й"},
+        {sound:"k", approx:"К (с придыханием)", pos:"Как Г, но с сильным выдохом", zh:"口", py:"kǒu", ru:"КО̌У"},
+        {sound:"h", approx:"Х", pos:"Как русское Х, но мягче — задняя часть языка приподнята", zh:"好", py:"hǎo", ru:"ХА̌О"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Согласные: свистящие (z, c, s)
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"z", approx:"ДЗ (без голоса)", pos:"Кончик языка у верхних зубов, краткий — как «ц» в «цапля», но звонче", zh:"在", py:"zài", ru:"ЦЗА̀Й"},
+        {sound:"c", approx:"Ц (с придыханием)", pos:"Как русское Ц, но с сильным выдохом", zh:"茶", py:"chá", ru:"ЦХА́"},
+        {sound:"s", approx:"С", pos:"Как русское С — кончик языка у нижних зубов", zh:"三", py:"sān", ru:"СА̄Н"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Согласные: ретрофлексные (zh, ch, sh, r) — язык загнут назад
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
     <tbody>
       {[
         {sound:"zh", approx:"ДЖ (твёрдое)", pos:"Кончик языка загнут назад к нёбу, не касается зубов", zh:"中", py:"zhōng", ru:"ДЖО̄Н"},
         {sound:"ch", approx:"Ч (твёрдое)",  pos:"Как zh, но с придыханием — язык дальше назад",        zh:"吃", py:"chī",   ru:"ЧӢ"},
-        {sound:"sh", approx:"Ш (твёрдое)",  pos:"Как русское Ш, но язык загнут ещё дальше назад",     zh:"是", py:"shì",   ru:"ШЍ"},
+        {sound:"sh", approx:"Ш (твёрдое)",  pos:"Как русское Ш, но язык загнут ещё дальше назад",     zh:"是", py:"shì",   ru:"ШЪ"},
         {sound:"r",  approx:"среднее Р/Ж",  pos:"Язык загнут назад, вибрирует слабо — между Р и Ж",   zh:"人", py:"rén",   ru:"ЖЭ́Н"},
       ].map(r => (
         <tr>
@@ -25,7 +126,7 @@ import AudioButton from '../../components/AudioButton.astro';
           <td><strong>{r.sound}</strong></td>
           <td>{r.approx}</td>
           <td>{r.pos}</td>
-          <td class="zh-char">{r.zh} {r.py}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
           <td class="pron">{r.ru}</td>
         </tr>
       ))}
@@ -33,23 +134,25 @@ import AudioButton from '../../components/AudioButton.astro';
   </table>
 </div>
 
-## Передние мягкие (x, q, j) — язык тянется к зубам
+<div class="warn">zh/ch/sh/r и z/c/s — две разные серии! Ретрофлексные (zh/ch/sh/r) — язык **загнут назад**. Свистящие (z/c/s) — язык **у зубов**. Путать их — самая частая ошибка.</div>
+
+## Согласные: передние мягкие (j, q, x) — язык тянется к зубам
 
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение языка</th><th>Пример</th><th>Читай</th></tr></thead>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
     <tbody>
       {[
-        {sound:"x", approx:"СЬ (очень мягкое)",   pos:"Кончик языка у нижних зубов, воздух идёт через щель", zh:"西", py:"xī",   ru:"СЬӢ"},
-        {sound:"q", approx:"ЧЬ (очень мягкое)",   pos:"Как мягкое Ч, кончик языка у нижних зубов",          zh:"七", py:"qī",   ru:"ЧЬӢ"},
-        {sound:"j", approx:"ДЗЬ / ДЖЬ (мягкое)", pos:"Мягкое ДЖ, язык у нижних зубов",                     zh:"叫", py:"jiào", ru:"ДЗЬЯ̀О"},
+        {sound:"j", approx:"ДЗЬ / ДЖЬ (мягкое)", pos:"Мягкое ДЖ, кончик языка у нижних зубов",                     zh:"叫", py:"jiào", ru:"ДЗЬЯ̀О"},
+        {sound:"q", approx:"ЧЬ (очень мягкое)",   pos:"Как мягкое Ч, кончик языка у нижних зубов, с придыханием",   zh:"七", py:"qī",   ru:"ЧЬӢ"},
+        {sound:"x", approx:"СЬ (очень мягкое)",   pos:"Кончик языка у нижних зубов, воздух идёт через щель",         zh:"西", py:"xī",   ru:"СЬӢ"},
       ].map(r => (
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
           <td><strong>{r.sound}</strong></td>
           <td>{r.approx}</td>
           <td>{r.pos}</td>
-          <td class="zh-char">{r.zh} {r.py}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
           <td class="pron">{r.ru}</td>
         </tr>
       ))}
@@ -57,25 +160,80 @@ import AudioButton from '../../components/AudioButton.astro';
   </table>
 </div>
 
-## Сложные гласные сочетания
+## Полугласные (y, w)
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Звук</th><th>Приближ.</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {sound:"y", approx:"Й", pos:"Как русское Й перед гласной — язык приподнят к нёбу", zh:"要", py:"yào", ru:"ЯО̀"},
+        {sound:"w", approx:"У (краткое)", pos:"Губы округлены, как краткое У перед гласной", zh:"我", py:"wǒ", ru:"ВО̌"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.sound}</strong></td>
+          <td>{r.approx}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} /> {r.py}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Простые гласные (финали)
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Звучит как</th><th>Положение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {py:"a",  sound:"А",   pos:"Рот широко открыт, как в «папа»",                zh:"大", ex:"dà",   ru:"ДА̀"},
+        {py:"o",  sound:"О",   pos:"Губы округлены, как русское О",                    zh:"我", ex:"wǒ",   ru:"ВО̌"},
+        {py:"e",  sound:"Э (глухое)", pos:"Рот полуоткрыт, звук из горла — не «е», а скорее «ы-э»", zh:"喝", ex:"hē", ru:"ХЭ̄"},
+        {py:"i",  sound:"И",   pos:"Как русское И, губы растянуты",                    zh:"你", ex:"nǐ",   ru:"НИ̌"},
+        {py:"u",  sound:"У",   pos:"Губы вытянуты в трубочку, как в «ухо»",           zh:"五", ex:"wǔ",   ru:"У̌"},
+        {py:"ü",  sound:"Ю (нем. ü)", pos:"Губы округлены как для У, но произносишь И — важнейший звук!", zh:"鱼", ex:"yú", ru:"ЮЙ"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.py}</strong></td>
+          <td>{r.sound}</td>
+          <td>{r.pos}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.ex} /> {r.ex}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Составные гласные (дифтонги)
 
 <div class="table-wrap">
   <table>
     <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Звучит как</th><th>Пример</th><th>Читай</th></tr></thead>
     <tbody>
       {[
-        {py:"ui",    sound:"УЭЙ",                          zh:"贵", ex:"guì",  ru:"ГУЭЙ"},
-        {py:"iu",    sound:"ЁУ / ЙОУ",                    zh:"六", ex:"liù",  ru:"ЛЁОУ"},
-        {py:"ian",   sound:"ИЕН (как иена)",               zh:"天", ex:"tiān", ru:"ТЬИЭН"},
-        {py:"ie",    sound:"ИЕ / ЙЕ",                     zh:"写", ex:"xiě",  ru:"СЬИЭ̌"},
-        {py:"ü / yu",sound:"Нем. ü — скруглённые губы + И",zh:"鱼", ex:"yú",  ru:"ЮЙ"},
-        {py:"ong",   sound:"УН (с закрытым ртом)",         zh:"中", ex:"zhōng",ru:"ДЖУН"},
+        {py:"ai",   sound:"АЙ",    zh:"买", ex:"mǎi",  ru:"МА̌Й"},
+        {py:"ei",   sound:"ЭЙ",    zh:"没", ex:"méi",  ru:"МЭ́Й"},
+        {py:"ao",   sound:"АО",    zh:"好", ex:"hǎo",  ru:"ХА̌О"},
+        {py:"ou",   sound:"ОУ",    zh:"口", ex:"kǒu",  ru:"КО̌У"},
+        {py:"ia",   sound:"Я",     zh:"家", ex:"jiā",  ru:"ДЗЬЯ̄"},
+        {py:"ie",   sound:"ИЕ",    zh:"写", ex:"xiě",  ru:"СЬИЭ̌"},
+        {py:"iu",   sound:"ЁУ",    zh:"六", ex:"liù",  ru:"ЛЁОУ"},
+        {py:"ua",   sound:"УА",    zh:"花", ex:"huā",  ru:"ХУА̄"},
+        {py:"uo",   sound:"УО",    zh:"火", ex:"huǒ",  ru:"ХУО̌"},
+        {py:"ui",   sound:"УЭЙ",   zh:"贵", ex:"guì",  ru:"ГУЭ̀Й"},
+        {py:"üe",   sound:"ЮЭ",    zh:"月", ex:"yuè",  ru:"ЮЭ̀"},
       ].map(r => (
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
           <td><strong>{r.py}</strong></td>
           <td>{r.sound}</td>
-          <td class="zh-char">{r.zh} {r.ex}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.ex} /> {r.ex}</td>
           <td class="pron">{r.ru}</td>
         </tr>
       ))}
@@ -83,4 +241,70 @@ import AudioButton from '../../components/AudioButton.astro';
   </table>
 </div>
 
-<div class="note">🔊 Главное правило: слушай носителей. Транскрипция по-русски — только стартовая точка. Звуки zh/ch/sh/r/x/q/j нужно тренировать на слух минимум 2–3 недели.</div>
+## Носовые финали (-n, -ng, -an, -en, -ang, -eng, -ong...)
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Звучит как</th><th>Разница</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {py:"an",   sound:"АН",   diff:"Язык касается зубов на Н",               zh:"三", ex:"sān",    ru:"СА̄Н"},
+        {py:"ang",  sound:"АН (в нос)", diff:"Рот открыт, звук через нос — как «банк»", zh:"张", ex:"zhāng", ru:"ДЖА̄Н"},
+        {py:"en",   sound:"ЭН",   diff:"Язык касается зубов на Н",               zh:"人", ex:"rén",    ru:"ЖЭ́Н"},
+        {py:"eng",  sound:"ЭН (в нос)", diff:"Звук через нос, рот чуть открыт",         zh:"风", ex:"fēng",  ru:"ФЭ̄Н"},
+        {py:"in",   sound:"ИН",   diff:"Как русское «ин»",                       zh:"您", ex:"nín",    ru:"НИ́Н"},
+        {py:"ing",  sound:"ИН (в нос)", diff:"Как «инг» в английском king",             zh:"星", ex:"xīng",  ru:"СЬӢ̄Н"},
+        {py:"ong",  sound:"УН (в нос)", diff:"Губы округлены, звук через нос",          zh:"中", ex:"zhōng", ru:"ДЖО̄Н"},
+        {py:"un",   sound:"УН",   diff:"Язык касается зубов на Н",               zh:"春", ex:"chūn",  ru:"ЧӮН"},
+        {py:"ian",  sound:"ИЕН",  diff:"И + ЕН, как «иена»",                    zh:"天", ex:"tiān",   ru:"ТЬИЭ̄Н"},
+        {py:"iang", sound:"ЯН (в нос)", diff:"И + АН через нос",                       zh:"想", ex:"xiǎng", ru:"СЬЯ̌Н"},
+        {py:"uan",  sound:"УАН",  diff:"У + АН",                                 zh:"万", ex:"wàn",    ru:"ВА̀Н"},
+        {py:"uang", sound:"УАН (в нос)", diff:"У + АН через нос",                      zh:"王", ex:"wáng",  ru:"ВА́Н"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.py}</strong></td>
+          <td>{r.sound}</td>
+          <td style="font-size:.82rem">{r.diff}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.ex} /> {r.ex}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="warn">**-n** и **-ng** — критическая разница! **-n**: язык упирается в верхние зубы (закрытый звук). **-ng**: рот открыт, звук идёт через нос (как английское -ng в «king»). Путать их = говорить другое слово.</div>
+
+## Особые случаи
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Аудио</th><th>Пиньинь</th><th>Звучит как</th><th>Объяснение</th><th>Пример</th><th>Читай</th></tr></thead>
+    <tbody>
+      {[
+        {py:"zi",  sound:"ЦЗЫ",  note:"После z/c/s буква «i» читается как глухое «ы» — не «зи»!",     zh:"字", ex:"zì",   ru:"ЦЗЫ̀"},
+        {py:"ci",  sound:"ЦЫ",   note:"То же — глухое «ы» после Ц с придыханием",                      zh:"次", ex:"cì",   ru:"ЦЫ̀"},
+        {py:"si",  sound:"СЫ",   note:"Глухое «ы» после С",                                              zh:"四", ex:"sì",   ru:"СЫ̀"},
+        {py:"zhi", sound:"ДЖР",  note:"После zh/ch/sh/r буква «i» — это ретрофлексное «р/ы»",           zh:"知", ex:"zhī",  ru:"ДЖР̄"},
+        {py:"chi", sound:"ЧР",   note:"Ретрофлексное «р/ы» — язык загнут назад",                        zh:"吃", ex:"chī",  ru:"ЧР̄"},
+        {py:"shi", sound:"ШР",   note:"Ретрофлексное «р/ы»",                                              zh:"是", ex:"shì",  ru:"ШР̀"},
+        {py:"ri",  sound:"ЖР",   note:"Ретрофлексное «р» — самый необычный звук",                       zh:"日", ex:"rì",   ru:"ЖР̀"},
+        {py:"er",  sound:"АР",   note:"Эризация — язык загнут назад на «р»",                             zh:"二", ex:"èr",   ru:"А̀Р"},
+      ].map(r => (
+        <tr>
+          <td><AudioButton text={r.zh} size="sm" /></td>
+          <td><strong>{r.py}</strong></td>
+          <td>{r.sound}</td>
+          <td style="font-size:.82rem">{r.note}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.ex} /> {r.ex}</td>
+          <td class="pron">{r.ru}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="tip">Правило парности: **b/p**, **d/t**, **g/k**, **z/c**, **zh/ch**, **j/q** — в каждой паре первый **без придыхания**, второй **с придыханием**. Поднеси ладонь ко рту: если чувствуешь выдох — это вторая буква пары.</div>
+
+<div class="note">Главное правило: слушай носителей. Транскрипция по-русски — только стартовая точка. Звуки zh/ch/sh/r/x/q/j нужно тренировать на слух.</div>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 import LessonNav from '../../components/LessonNav.astro';
 import { getNavContext } from '../../data/lessonNav';
 
@@ -35,7 +36,7 @@ const { prev, next } = getNavContext('l9');
           ].map(r => (
             <tr>
               <td><AudioButton text={r.zh} size="sm" /></td>
-              <td class="zh-char">{r.zh}</td>
+              <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.meaning} /></td>
               <td>{r.py}</td>
               <td class="pron">{r.pron}</td>
               <td>{r.meaning}</td>
@@ -59,7 +60,7 @@ const { prev, next } = getNavContext('l9');
           ].map(r => (
             <tr>
               <td><AudioButton text={r.zh} size="sm" /></td>
-              <td class="zh-char">{r.zh}</td>
+              <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.meaning} /></td>
               <td>{r.py}</td>
               <td class="pron">{r.pron}</td>
               <td>{r.parts}</td>

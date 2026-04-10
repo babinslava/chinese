@@ -7,6 +7,7 @@ subtitle: "Никаких падежей, рода, спряжений"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 
 Структура предложения: **Подлежащее + Глагол + Дополнение** — порядок слов фиксирован, как в английском.
 
@@ -29,7 +30,7 @@ import AudioButton from '../../components/AudioButton.astro';
         <tr>
           <td><AudioButton text={r.zh} size="sm" /></td>
           <td>{r.py}</td>
-          <td class="zh-char">{r.zh}</td>
+          <td class="zh-char"><Word zh={r.zh} py={r.py} meaning={r.ru} /></td>
           <td class="pron">{r.pron}</td>
           <td>{r.ru}</td>
         </tr>

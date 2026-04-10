@@ -43,6 +43,16 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
         ))}
       </div>
     </div>
+
+    <div class="toc-section">
+      <h2 class="toc-heading">Инструменты</h2>
+      <div class="toc-grid">
+        <a class="toc-card vocab" href="/vocab">
+          <div class="toc-num">字</div>
+          <div class="toc-label">Словарь</div>
+        </a>
+      </div>
+    </div>
   </div>
 </Layout>
 
@@ -52,7 +62,7 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
     font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
     font-weight: 700;
-    color: var(--navy);
+    color: var(--heading);
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 2px solid var(--border);
@@ -80,6 +90,7 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
     transform: translateY(-2px);
   }
   .toc-card.ref { border-left: 4px solid var(--red); }
+  .toc-card.vocab { border-left: 4px solid var(--navy2); }
   .toc-num {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
@@ -93,7 +104,7 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
   .toc-label {
     font-weight: 700;
     font-size: 1rem;
-    color: var(--navy);
+    color: var(--heading);
   }
 
   @media (min-width: 500px) {

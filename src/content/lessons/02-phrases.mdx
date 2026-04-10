@@ -7,6 +7,7 @@ subtitle: "Обязательный минимум с первого дня"
 ---
 
 import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
 import phrases from '../../data/phrases.json';
 
 Нажимай 🔊 у каждой фразы, чтобы услышать произношение.
@@ -28,7 +29,7 @@ import phrases from '../../data/phrases.json';
         <tr>
           <td><AudioButton text={p.zh} size="sm" /></td>
           <td>{p.pinyin}</td>
-          <td class="zh-char">{p.zh}</td>
+          <td class="zh-char"><Word zh={p.zh} py={p.pinyin} meaning={p.meaning} /></td>
           <td class="pron">{p.ru_pron}</td>
           <td><strong>{p.meaning}</strong></td>
           <td>{p.note}</td>

@@ -1,0 +1,249 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import Word from '../../components/Word.astro';
+import { getAllVocab, type VocabEntry } from '../../data/vocab';
+
+export function getStaticPaths() {
+  const all = getAllVocab();
+  return all.map(entry => ({
+    params: { char: entry.zh },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: VocabEntry };
+
+// Find related words (same radical or same tag)
+const all = getAllVocab();
+const related = all.filter(v =>
+  v.zh !== entry.zh && (
+    (entry.radical_meaning && v.radical_meaning === entry.radical_meaning) ||
+    (entry.radical_sound && v.radical_sound === entry.radical_sound) ||
+    v.tags.some(t => entry.tags.includes(t) && t !== 'compound')
+  )
+).slice(0, 12);
+
+const tagMap: Record<string, { label: string; href: string }> = {
+  tones: { label: 'Тоны', href: '/lessons/l1' },
+  phrases: { label: 'Фразы', href: '/lessons/l2' },
+  grammar: { label: 'Грамматика', href: '/lessons/l3' },
+  numbers: { label: 'Числа', href: '/lessons/l4' },
+  pronunciation: { label: 'Произношение', href: '/lessons/l5' },
+  days: { label: 'Дни и время', href: '/lessons/l6' },
+  questions: { label: 'Вопросы', href: '/lessons/l7' },
+  measure: { label: 'Счётные слова', href: '/lessons/l8' },
+  hieroglyphs: { label: 'Иероглифы', href: '/lessons/l9' },
+  cafe: { label: 'Диалог — кафе', href: '/lessons/dialog' },
+  radicals: { label: 'Ключи', href: '/lessons/lv' },
+  compound: { label: 'Составные', href: '/lessons/l9' },
+  pronoun: { label: 'Местоимения', href: '/lessons/l3' },
+  family: { label: 'Семья', href: '/lessons/l2' },
+  animal: { label: 'Животные', href: '/lessons/l8' },
+};
+---
+
+<Layout title={`${entry.zh} ${entry.py} — Словарь`} activePage="vocab">
+  <div class="content">
+    <div class="word-hero">
+      <div class="word-char">{entry.zh}</div>
+      <AudioButton text={entry.zh} size="md" />
+      <div class="word-info">
+        <div class="word-py">{entry.py}</div>
+        {entry.pron && <div class="word-pron">{entry.pron}</div>}
+        <div class="word-meaning">{entry.meaning}</div>
+      </div>
+    </div>
+
+    {(entry.radical_meaning || entry.radical_sound) && (
+      <div class="word-radicals">
+        <h2 class="section-title">Структура иероглифа</h2>
+        <div class="radical-roles">
+          {entry.radical_meaning && (
+            <div class="radical-role">
+              <span class="role-badge meaning">Значение</span>
+              <span class="radical-char">{entry.radical_meaning}</span>
+              <span class="radical-desc">Этот ключ определяет <strong>смысл</strong> иероглифа</span>
+            </div>
+          )}
+          {entry.radical_sound && (
+            <div class="radical-role">
+              <span class="role-badge sound">Звук</span>
+              <span class="radical-char">{entry.radical_sound}</span>
+              <span class="radical-desc">Этот ключ подсказывает <strong>произношение</strong></span>
+            </div>
+          )}
+        </div>
+        {entry.radical_meaning && entry.radical_sound && (
+          <div class="tip">
+            Иероглиф <strong>{entry.zh}</strong> = <span class="highlight-meaning">{entry.radical_meaning}</span> (значение) + <span class="highlight-sound">{entry.radical_sound}</span> (звук) → <strong>{entry.py}</strong>
+          </div>
+        )}
+      </div>
+    )}
+
+    {entry.tags.length > 0 && (
+      <div class="word-tags">
+        <h2 class="section-title">Встречается в уроках</h2>
+        <div class="tag-list">
+          {entry.tags.map(tag => {
+            const info = tagMap[tag];
+            return info ? (
+              <a class="tag-link" href={info.href}>{info.label}</a>
+            ) : null;
+          })}
+        </div>
+      </div>
+    )}
+
+    {related.length > 0 && (
+      <div class="word-related">
+        <h2 class="section-title">Похожие слова</h2>
+        <div class="related-grid">
+          {related.map(v => (
+            <a class="related-card" href={`/vocab/${encodeURIComponent(v.zh)}`}>
+              <span class="related-zh">{v.zh}</span>
+              <span class="related-py">{v.py}</span>
+              <span class="related-meaning">{v.meaning}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <nav class="back-nav">
+      <a href="/vocab">← Весь словарь</a>
+      <a href="/">На главную</a>
+    </nav>
+  </div>
+</Layout>
+
+<style>
+  .word-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    gap: 12px;
+  }
+  .word-char {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+  .word-py { font-size: 1.4rem; color: var(--navy2); font-weight: 700; }
+  .word-pron { font-size: 1rem; color: var(--pron); font-style: italic; }
+  .word-meaning { font-size: 1.2rem; color: var(--text); margin-top: 4px; font-weight: 600; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--heading);
+    font-weight: 700;
+    margin: 28px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* Radical roles */
+  .radical-roles { display: flex; flex-direction: column; gap: 12px; }
+  .radical-role {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    flex-wrap: wrap;
+  }
+  .role-badge {
+    font-size: .72rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    flex-shrink: 0;
+  }
+  .role-badge.meaning { background: var(--meaning-bg); color: var(--meaning-fg); border: 1px solid var(--meaning-border); }
+  .role-badge.sound { background: var(--sound-bg); color: var(--sound-fg); border: 1px solid var(--sound-border); }
+
+  .radical-char {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 1.6rem;
+    color: var(--red);
+    font-weight: 700;
+    min-width: 36px;
+  }
+  .radical-desc { font-size: .88rem; color: var(--muted); }
+
+  .highlight-meaning { color: var(--meaning-fg); font-weight: 700; }
+  .highlight-sound { color: var(--sound-fg); font-weight: 700; }
+
+  /* Tags */
+  .tag-list { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag-link {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    color: var(--heading);
+    font-size: .82rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .15s;
+  }
+  .tag-link:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  /* Related */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all .15s;
+  }
+  .related-card:hover { border-color: var(--navy2); transform: translateY(-1px); }
+  .related-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.4rem; color: var(--red); font-weight: 700; }
+  .related-py { font-size: .75rem; color: var(--navy2); font-weight: 600; }
+  .related-meaning { font-size: .8rem; color: var(--muted); }
+
+  /* Back nav */
+  .back-nav {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 2px solid var(--border);
+  }
+  .back-nav a {
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--navy2);
+    text-decoration: none;
+  }
+  .back-nav a:hover { text-decoration: underline; }
+
+  @media (min-width: 500px) {
+    .related-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 769px) {
+    .word-hero { padding: 60px 20px; }
+    .word-char { font-size: 8rem; }
+    .related-grid { grid-template-columns: repeat(4, 1fr); }
+    .radical-roles { flex-direction: row; }
+    .radical-role { flex: 1; }
+  }
+</style>
