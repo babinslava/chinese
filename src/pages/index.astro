@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { lessonNav } from '../data/lessonNav';
+import { url } from '../data/baseUrl';
 
 const mainLessons = lessonNav.filter(l => l.id.startsWith('l') && !isNaN(Number(l.id.slice(1))));
 const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
@@ -24,7 +25,7 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
       <h2 class="toc-heading">Основной курс</h2>
       <div class="toc-grid">
         {mainLessons.map(l => (
-          <a class="toc-card" href={`/lessons/${l.id}`}>
+          <a class="toc-card" href={url(`/lessons/${l.id}`)}>
             <div class="toc-num">{l.num}</div>
             <div class="toc-label">{l.label}</div>
           </a>
@@ -36,7 +37,7 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
       <h2 class="toc-heading">Письмо & Справочник</h2>
       <div class="toc-grid">
         {refLessons.map(l => (
-          <a class="toc-card ref" href={`/lessons/${l.id}`}>
+          <a class="toc-card ref" href={url(`/lessons/${l.id}`)}>
             <div class="toc-num">{l.num}</div>
             <div class="toc-label">{l.label}</div>
           </a>
@@ -47,7 +48,7 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
     <div class="toc-section">
       <h2 class="toc-heading">Инструменты</h2>
       <div class="toc-grid">
-        <a class="toc-card vocab" href="/vocab">
+        <a class="toc-card vocab" href={url('/vocab')}>
           <div class="toc-num">字</div>
           <div class="toc-label">Словарь</div>
         </a>

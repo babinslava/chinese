@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
 import Word from '../../components/Word.astro';
 import { getAllVocab, type VocabEntry } from '../../data/vocab';
+import { url } from '../../data/baseUrl';
 
 export function getStaticPaths() {
   const all = getAllVocab();
@@ -25,21 +26,21 @@ const related = all.filter(v =>
 ).slice(0, 12);
 
 const tagMap: Record<string, { label: string; href: string }> = {
-  tones: { label: 'Тоны', href: '/lessons/l1' },
-  phrases: { label: 'Фразы', href: '/lessons/l2' },
-  grammar: { label: 'Грамматика', href: '/lessons/l3' },
-  numbers: { label: 'Числа', href: '/lessons/l4' },
-  pronunciation: { label: 'Произношение', href: '/lessons/l5' },
-  days: { label: 'Дни и время', href: '/lessons/l6' },
-  questions: { label: 'Вопросы', href: '/lessons/l7' },
-  measure: { label: 'Счётные слова', href: '/lessons/l8' },
-  hieroglyphs: { label: 'Иероглифы', href: '/lessons/l9' },
-  cafe: { label: 'Диалог — кафе', href: '/lessons/dialog' },
-  radicals: { label: 'Ключи', href: '/lessons/lv' },
-  compound: { label: 'Составные', href: '/lessons/l9' },
-  pronoun: { label: 'Местоимения', href: '/lessons/l3' },
-  family: { label: 'Семья', href: '/lessons/l2' },
-  animal: { label: 'Животные', href: '/lessons/l8' },
+  tones: { label: 'Тоны', href: url('/lessons/l1') },
+  phrases: { label: 'Фразы', href: url('/lessons/l2') },
+  grammar: { label: 'Грамматика', href: url('/lessons/l3') },
+  numbers: { label: 'Числа', href: url('/lessons/l4') },
+  pronunciation: { label: 'Произношение', href: url('/lessons/l5') },
+  days: { label: 'Дни и время', href: url('/lessons/l6') },
+  questions: { label: 'Вопросы', href: url('/lessons/l7') },
+  measure: { label: 'Счётные слова', href: url('/lessons/l8') },
+  hieroglyphs: { label: 'Иероглифы', href: url('/lessons/l9') },
+  cafe: { label: 'Диалог — кафе', href: url('/lessons/dialog') },
+  radicals: { label: 'Ключи', href: url('/lessons/lv') },
+  compound: { label: 'Составные', href: url('/lessons/l9') },
+  pronoun: { label: 'Местоимения', href: url('/lessons/l3') },
+  family: { label: 'Семья', href: url('/lessons/l2') },
+  animal: { label: 'Животные', href: url('/lessons/l8') },
 };
 ---
 
@@ -101,7 +102,7 @@ const tagMap: Record<string, { label: string; href: string }> = {
         <h2 class="section-title">Похожие слова</h2>
         <div class="related-grid">
           {related.map(v => (
-            <a class="related-card" href={`/vocab/${encodeURIComponent(v.zh)}`}>
+            <a class="related-card" href={url(`/vocab/${encodeURIComponent(v.zh)}`)}>
               <span class="related-zh">{v.zh}</span>
               <span class="related-py">{v.py}</span>
               <span class="related-meaning">{v.meaning}</span>
@@ -112,8 +113,8 @@ const tagMap: Record<string, { label: string; href: string }> = {
     )}
 
     <nav class="back-nav">
-      <a href="/vocab">← Весь словарь</a>
-      <a href="/">На главную</a>
+      <a href={url('/vocab')}>← Весь словарь</a>
+      <a href={url('/')}>На главную</a>
     </nav>
   </div>
 </Layout>

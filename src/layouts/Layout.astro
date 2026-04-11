@@ -1,4 +1,6 @@
 ---
+import { url } from '../data/baseUrl';
+
 interface Props {
   title?: string;
   activePage?: string;
@@ -6,22 +8,22 @@ interface Props {
 const { title = 'Курс китайского языка', activePage = '' } = Astro.props;
 
 const navItems = [
-  { href: '/lessons/l1', id: 'l1', num: '1', label: 'Четыре тона' },
-  { href: '/lessons/l2', id: 'l2', num: '2', label: 'Базовые фразы' },
-  { href: '/lessons/l3', id: 'l3', num: '3', label: 'Грамматика' },
-  { href: '/lessons/l4', id: 'l4', num: '4', label: 'Числа' },
-  { href: '/lessons/l5', id: 'l5', num: '5', label: 'Произношение' },
-  { href: '/lessons/l6', id: 'l6', num: '6', label: 'Дни и время' },
-  { href: '/lessons/l7', id: 'l7', num: '7', label: 'Вопросы' },
-  { href: '/lessons/l8', id: 'l8', num: '8', label: 'Счётные слова' },
-  { href: '/lessons/l9', id: 'l9', num: '9', label: 'Иероглифы' },
+  { href: url('/lessons/l1'), id: 'l1', num: '1', label: 'Четыре тона' },
+  { href: url('/lessons/l2'), id: 'l2', num: '2', label: 'Базовые фразы' },
+  { href: url('/lessons/l3'), id: 'l3', num: '3', label: 'Грамматика' },
+  { href: url('/lessons/l4'), id: 'l4', num: '4', label: 'Числа' },
+  { href: url('/lessons/l5'), id: 'l5', num: '5', label: 'Произношение' },
+  { href: url('/lessons/l6'), id: 'l6', num: '6', label: 'Дни и время' },
+  { href: url('/lessons/l7'), id: 'l7', num: '7', label: 'Вопросы' },
+  { href: url('/lessons/l8'), id: 'l8', num: '8', label: 'Счётные слова' },
+  { href: url('/lessons/l9'), id: 'l9', num: '9', label: 'Иероглифы' },
 ];
 const refItems = [
-  { href: '/lessons/la', id: 'la', num: 'А', label: 'Черты' },
-  { href: '/lessons/lb', id: 'lb', num: 'Б', label: 'Правила' },
-  { href: '/lessons/lv', id: 'lv', num: 'В', label: 'Все 214 ключей' },
-  { href: '/lessons/top40', id: 'top40', num: '★', label: 'Топ-40 ключей' },
-  { href: '/lessons/dialog', id: 'dialog', num: '💬', label: 'Диалог' },
+  { href: url('/lessons/la'), id: 'la', num: 'А', label: 'Черты' },
+  { href: url('/lessons/lb'), id: 'lb', num: 'Б', label: 'Правила' },
+  { href: url('/lessons/lv'), id: 'lv', num: 'В', label: 'Все 214 ключей' },
+  { href: url('/lessons/top40'), id: 'top40', num: '★', label: 'Топ-40 ключей' },
+  { href: url('/lessons/dialog'), id: 'dialog', num: '💬', label: 'Диалог' },
 ];
 
 const allItems = [...navItems, ...refItems];
@@ -260,7 +262,7 @@ const allItems = [...navItems, ...refItems];
   <div id="progress"></div>
 
   <aside id="sidebar">
-    <a href="/" class="sidebar-logo" style="text-decoration:none">
+    <a href={url('/')} class="sidebar-logo" style="text-decoration:none">
       <span class="zh">普通话</span>
       <span class="ru">Курс китайского языка</span>
     </a>
@@ -278,7 +280,7 @@ const allItems = [...navItems, ...refItems];
         </a>
       ))}
       <span class="nav-group-title">Инструменты</span>
-      <a class={`nav-link${activePage === 'vocab' ? ' active' : ''}`} href="/vocab">
+      <a class={`nav-link${activePage === 'vocab' ? ' active' : ''}`} href={url('/vocab')}>
         <span class="num">字</span> Словарь
       </a>
     </nav>

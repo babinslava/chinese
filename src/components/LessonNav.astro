@@ -1,4 +1,6 @@
 ---
+import { url } from '../data/baseUrl';
+
 interface NavItem {
   id: string;
   num: string;
@@ -13,7 +15,7 @@ const { prev, next } = Astro.props;
 
 <nav class="lesson-nav">
   {prev ? (
-    <a class="lesson-nav-btn prev" href={`/lessons/${prev.id}`}>
+    <a class="lesson-nav-btn prev" href={url(`/lessons/${prev.id}`)}>
       <span class="lesson-nav-arrow">←</span>
       <span class="lesson-nav-info">
         <span class="lesson-nav-hint">Назад</span>
@@ -21,11 +23,11 @@ const { prev, next } = Astro.props;
       </span>
     </a>
   ) : <span />}
-  <a class="lesson-nav-btn home" href="/">
+  <a class="lesson-nav-btn home" href={url('/')}>
     <span>Все уроки</span>
   </a>
   {next ? (
-    <a class="lesson-nav-btn next" href={`/lessons/${next.id}`}>
+    <a class="lesson-nav-btn next" href={url(`/lessons/${next.id}`)}>
       <span class="lesson-nav-info">
         <span class="lesson-nav-hint">Далее</span>
         <span class="lesson-nav-label">{next.num} · {next.label}</span>

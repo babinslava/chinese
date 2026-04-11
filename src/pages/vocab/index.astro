@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
 import { getAllVocab } from '../../data/vocab';
+import { url } from '../../data/baseUrl';
 
 const allVocab = getAllVocab();
 
@@ -44,7 +45,7 @@ const sorted = allVocab.sort((a, b) => a.py.localeCompare(b.py, 'en'));
         {sorted.map(v => (
           <a
             class="vocab-card"
-            href={`/vocab/${encodeURIComponent(v.zh)}`}
+            href={url(`/vocab/${encodeURIComponent(v.zh)}`)}
             data-search={`${v.zh} ${v.py} ${v.pron || ''} ${v.meaning}`.toLowerCase()}
           >
             <div class="vocab-zh">{v.zh}</div>
