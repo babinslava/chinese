@@ -74,6 +74,16 @@ const allItems = [...navItems, ...refItems];
       display: flex; min-height: 100vh;
     }
 
+    /* scrollbar styling */
+    * { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent; }
+    *::-webkit-scrollbar { width: 6px; height: 6px; }
+    *::-webkit-scrollbar-track { background: transparent; }
+    *::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+    *::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
+    #main { scrollbar-color: color-mix(in srgb, var(--text) 20%, transparent) transparent; }
+    #main::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text) 20%, transparent); }
+    #main::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--text) 35%, transparent); }
+
     /* sidebar — mobile first: hidden by default */
     #sidebar {
       width: var(--sidebar-w); height: 100vh;
