@@ -1,0 +1,239 @@
+---
+/**
+ * Illustration for a textbook dialogue.
+ *
+ * The original HSK textbook prints licensed stock photos next to each dialogue;
+ * these are hand-drawn stand-ins in the site palette — a flat scene of one to
+ * three figures plus a motif badge naming the situation. Everything is inline
+ * SVG using theme variables, so it costs no requests and follows dark mode.
+ *
+ * Usage: <Scene name="greet-handshake" />
+ */
+interface Props {
+  name: string;
+  /** Accessible description; falls back to the scene's own label. */
+  alt?: string;
+}
+const { name, alt } = Astro.props;
+
+type Fig = { x: number; tone: 1 | 2 | 3; pose?: 'neutral' | 'reach' | 'wave' | 'cover' | 'sit' | 'point' };
+type SceneDef = { figs: Fig[]; motif: string; label: string };
+
+// tone 1/2/3 pick the three figure colours so neighbouring people stay distinct.
+const S = (figs: Fig[], motif: string, label: string): SceneDef => ({ figs, motif, label });
+
+const SCENES: Record<string, SceneDef> = {
+  // — lesson 1 —
+  'greet-handshake': S([{ x: 120, tone: 1, pose: 'reach' }, { x: 200, tone: 2, pose: 'reach' }], 'handshake', 'Двое здороваются за руку'),
+  'greet-polite': S([{ x: 96, tone: 3, pose: 'wave' }, { x: 168, tone: 1 }, { x: 236, tone: 2, pose: 'wave' }], 'wave', 'Приветствие нескольких человек'),
+  'apology': S([{ x: 160, tone: 3, pose: 'cover' }], 'spill', 'Извинение'),
+  // — lesson 2 —
+  'thanks': S([{ x: 122, tone: 2, pose: 'reach' }, { x: 200, tone: 1 }], 'heart', 'Благодарность'),
+  'thanks-tea': S([{ x: 130, tone: 1, pose: 'reach' }, { x: 205, tone: 3 }], 'cup', 'Благодарность за чай'),
+  'goodbye': S([{ x: 120, tone: 1, pose: 'wave' }, { x: 205, tone: 2, pose: 'wave' }], 'door', 'Прощание'),
+  // — lesson 3 —
+  'introduce': S([{ x: 122, tone: 2, pose: 'point' }, { x: 200, tone: 3 }], 'tag', 'Знакомство'),
+  'teacher-student': S([{ x: 112, tone: 1, pose: 'point' }, { x: 198, tone: 2 }], 'board', 'Учитель и ученик'),
+  'nationality': S([{ x: 128, tone: 3 }, { x: 205, tone: 1 }], 'globe', 'Разговор о стране'),
+  // — lesson 4 —
+  'photo': S([{ x: 128, tone: 2, pose: 'point' }, { x: 205, tone: 1 }], 'photo', 'Смотрят фотографию'),
+  // — lesson 5 —
+  'family': S([{ x: 108, tone: 1 }, { x: 165, tone: 3 }, { x: 222, tone: 2 }], 'home', 'Семья'),
+  'age': S([{ x: 128, tone: 3, pose: 'point' }, { x: 205, tone: 2 }], 'cake', 'Разговор о возрасте'),
+  // — lesson 6 —
+  'speaking': S([{ x: 122, tone: 1, pose: 'reach' }, { x: 200, tone: 2 }], 'speech', 'Разговор на китайском'),
+  'writing': S([{ x: 160, tone: 2, pose: 'sit' }], 'brush', 'Письмо иероглифов'),
+  // — lesson 7 —
+  'calendar': S([{ x: 128, tone: 1, pose: 'point' }, { x: 205, tone: 3 }], 'calendar', 'Разговор о дате'),
+  'school-go': S([{ x: 122, tone: 2, pose: 'reach' }, { x: 200, tone: 1 }], 'school', 'Идут в школу'),
+  // — lesson 8 —
+  'shopping': S([{ x: 122, tone: 1, pose: 'reach' }, { x: 200, tone: 3 }], 'bag', 'Покупки'),
+  'meal': S([{ x: 128, tone: 3 }, { x: 205, tone: 2 }], 'bowl', 'Обед'),
+  'money': S([{ x: 122, tone: 2, pose: 'reach' }, { x: 200, tone: 1 }], 'coin', 'Оплата'),
+  // — lesson 9 —
+  'pets': S([{ x: 150, tone: 1, pose: 'point' }], 'cat', 'Кошка и собака'),
+  'work-where': S([{ x: 122, tone: 3 }, { x: 200, tone: 2, pose: 'point' }], 'hospital', 'Разговор о работе'),
+  'doctor': S([{ x: 128, tone: 1 }, { x: 205, tone: 2 }], 'hospital', 'У врача'),
+  // — lesson 10 —
+  'sit-here': S([{ x: 122, tone: 2, pose: 'sit' }, { x: 200, tone: 1, pose: 'point' }], 'chair', 'Можно сесть здесь'),
+  'desk': S([{ x: 160, tone: 3, pose: 'sit' }], 'laptop', 'За столом'),
+  'looking-for': S([{ x: 122, tone: 1, pose: 'point' }, { x: 200, tone: 3 }], 'box', 'Ищут вещь'),
+  // — lesson 11 —
+  'time-now': S([{ x: 128, tone: 2, pose: 'point' }, { x: 205, tone: 1 }], 'clock', 'Сколько сейчас времени'),
+  'cinema': S([{ x: 122, tone: 3 }, { x: 200, tone: 2 }], 'film', 'В кино'),
+  'lunch': S([{ x: 128, tone: 1 }, { x: 205, tone: 3 }], 'bowl', 'Обедают'),
+  // — lesson 12 —
+  'weather-sun': S([{ x: 128, tone: 1 }, { x: 205, tone: 2 }], 'sun', 'Хорошая погода'),
+  'weather-rain': S([{ x: 160, tone: 3, pose: 'reach' }], 'rain', 'Дождь'),
+  'fruit': S([{ x: 122, tone: 2, pose: 'reach' }, { x: 200, tone: 1 }], 'apple', 'Фрукты'),
+  // — lesson 13 —
+  'phone-call': S([{ x: 128, tone: 1, pose: 'reach' }, { x: 205, tone: 2, pose: 'reach' }], 'phone', 'Телефонный разговор'),
+  'cooking': S([{ x: 160, tone: 2, pose: 'reach' }], 'wok', 'Готовят еду'),
+  'tv': S([{ x: 122, tone: 3, pose: 'sit' }, { x: 196, tone: 1, pose: 'sit' }], 'tv', 'Смотрят телевизор'),
+  'study': S([{ x: 160, tone: 1, pose: 'sit' }], 'book', 'Учёба'),
+  // — lesson 14 —
+  'clothes': S([{ x: 122, tone: 2, pose: 'point' }, { x: 200, tone: 3 }], 'shirt', 'Покупка одежды'),
+  'driving': S([{ x: 160, tone: 3, pose: 'sit' }], 'car', 'За рулём'),
+  // — lesson 15 —
+  'airplane': S([{ x: 128, tone: 2, pose: 'wave' }, { x: 205, tone: 1 }], 'plane', 'Прилетел на самолёте'),
+  'taxi': S([{ x: 160, tone: 1, pose: 'reach' }], 'taxi', 'На такси'),
+  'university': S([{ x: 122, tone: 1 }, { x: 200, tone: 3, pose: 'point' }], 'school', 'В университете'),
+};
+
+const def = SCENES[name] ?? SCENES['greet-handshake'];
+const label = alt ?? def.label;
+
+/** Motif badge glyphs — simple line icons drawn on a 24×24 grid. */
+const MOTIFS: Record<string, string> = {
+  handshake: '<path d="M2 8l7 4-7 4M22 8l-7 4 7 4M9.5 12h5"/>',
+  wave: '<path d="M8 19V8.5a1.5 1.5 0 013 0V11M11 11V6a1.5 1.5 0 013 0v5M14 11V8.5a1.5 1.5 0 013 0V14a6 6 0 01-6 6h-1a4 4 0 01-4-4v-3M19.5 4.5L21 3M20 8.5h2"/>',
+  spill: '<path d="M12 3.5L21.5 20H2.5zM12 10v4M12 17h.01"/>',
+  heart: '<path d="M12 20s-7-4.6-7-9.5A3.5 3.5 0 0112 8a3.5 3.5 0 017 2.5C19 15.4 12 20 12 20z"/>',
+  cup: '<path d="M5 8h11v7a4 4 0 01-4 4H9a4 4 0 01-4-4zM16 10h2a2 2 0 010 4h-2M7 4v2M11 3v3"/>',
+  door: '<path d="M6 3h9v18H6zM12 12h1"/>',
+  tag: '<path d="M4 6h16v12H4zM7 10h5M7 14h8"/>',
+  board: '<path d="M3 4h18v12H3zM12 16v4M8 20h8M6 8h7M6 11h4"/>',
+  globe: '<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4a13 13 0 010 16 13 13 0 010-16"/>',
+  photo: '<path d="M3 6h18v13H3zM3 15l5-5 4 4 3-3 6 6"/><circle cx="8" cy="10" r="1.5"/>',
+  home: '<path d="M3 11l9-7 9 7M6 10v10h12V10M10 20v-6h4v6"/>',
+  cake: '<path d="M4 20h16v-7H4zM4 13a3 3 0 004 0 3 3 0 004 0 3 3 0 004 0 3 3 0 004 0M8 8v2M12 6v4M16 8v2"/>',
+  speech: '<path d="M4 5h16v10H10l-4 4v-4H4z"/><path d="M8 9h8M8 12h5"/>',
+  brush: '<path d="M14 3l7 7-8 8-7-7zM6 11l-3 8 8-3"/>',
+  calendar: '<path d="M3 6h18v15H3zM3 11h18M8 3v5M16 3v5M8 15h3"/>',
+  school: '<path d="M2 9l10-5 10 5-10 5zM6 12v6c0 1.5 3 3 6 3s6-1.5 6-3v-6"/>',
+  book: '<path d="M4 4h7v16H4zM13 4h7v16h-7zM11 4v16M13 4v16"/>',
+  bag: '<path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 016 0v2"/>',
+  bowl: '<path d="M3 11h18a9 9 0 01-18 0zM8 7c0-2 1-3 1-3M12 6c0-2 1-3 1-3M2 21h20"/>',
+  coin: '<circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5h5M9.5 14.5h5"/>',
+  cat: '<path d="M5 9L4 4l4 3M19 9l1-5-4 3M4 9a8 6 0 0116 0 8 8 0 01-16 0z"/><circle cx="9" cy="11" r="1"/><circle cx="15" cy="11" r="1"/>',
+  hospital: '<path d="M4 8h16v13H4zM12 4v4M10 6h4M12 11v6M9 14h6"/>',
+  chair: '<path d="M6 4h12v9H6zM6 13h12M8 13v7M16 13v7M5 16h14"/>',
+  laptop: '<path d="M5 5h14v10H5zM2 18h20l-2-3H4z"/>',
+  box: '<path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>',
+  clock: '<circle cx="12" cy="12" r="8"/><path d="M12 7v5l3.5 2"/>',
+  film: '<path d="M3 5h18v14H3zM7 5v14M17 5v14M3 12h18"/>',
+  sun: '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  rain: '<path d="M7 13a4.5 4.5 0 011-8.9A5.5 5.5 0 0118 7a3.5 3.5 0 01-.5 6H7zM8 17l-1 3M12 17l-1 3M16 17l-1 3"/>',
+  apple: '<path d="M12 8c-5-4-9 1-8 6 .7 3.6 4 7 5.5 7 1 0 1.5-.6 2.5-.6s1.5.6 2.5.6c1.5 0 4.8-3.4 5.5-7 1-5-3-10-8-6zM12 8V4M12 4c2 0 3-1 3-2"/>',
+  phone: '<path d="M7 3h10v18H7zM10 18h4"/>',
+  wok: '<path d="M2 10h18a8 8 0 01-16 0M20 10l3-3M4 20h14"/>',
+  tv: '<path d="M3 6h18v11H3zM9 20h6M12 17v3M8 3l4 3 4-3"/>',
+  shirt: '<path d="M8 3l4 3 4-3 5 3-2 4-2-1v12H7V9l-2 1-2-4z"/>',
+  car: '<path d="M3 15l2-6h14l2 6v4h-3v-2H6v2H3zM6 9V6h12v3"/><circle cx="7.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="15.5" r="1.5"/>',
+  plane: '<path d="M2 13l20-8-6 16-4-6z"/>',
+  taxi: '<path d="M3 15l2-6h14l2 6v4h-3v-2H6v2H3zM9 5h6v4H9z"/><circle cx="7.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="15.5" r="1.5"/>',
+};
+const motif = MOTIFS[def.motif] ?? MOTIFS.handshake;
+
+
+const TORSO = 'M-17 62c0-13 7-21 17-21s17 8 17 21v20h-34z';
+const TORSO_SEATED = 'M-16 60c0-12 6-19 16-19s16 7 16 19v10h-32z';
+
+/** Filled silhouette. */
+function torso(pose: string): string {
+  return pose === 'sit' ? TORSO_SEATED : TORSO;
+}
+
+/**
+ * Stroked limbs, drawn separately from the filled torso so the line weight
+ * stays even. `dir` is +1 when the figure faces right, -1 when it faces left,
+ * so a pair reaching for a handshake actually meets in the middle.
+ */
+function limbs(pose: string, dir: number): string {
+  const d = (x: number) => (x * dir).toFixed(1);
+  switch (pose) {
+    case 'reach':
+      return `M${d(14)} 53L${d(40)} 59`;
+    case 'wave':
+      return `M${d(13)} 51L${d(28)} 33`;
+    case 'point':
+      return `M${d(14)} 54L${d(38)} 43`;
+    case 'cover':
+      return 'M-13 52L-5 37M13 52L5 37';
+    case 'sit':
+      return 'M-20 70h40M-14 72v12M14 72v12';
+    default:
+      return '';
+  }
+}
+// Figures turn inward: everyone left of the group's midpoint faces right, so a
+// pair reaching for a handshake meets in the middle.
+const midX = def.figs.reduce((sum, f) => sum + f.x, 0) / def.figs.length;
+const drawn = def.figs.map(f => {
+  const pose = f.pose ?? 'neutral';
+  const dir = def.figs.length === 1 || f.x <= midX ? 1 : -1;
+  return { x: f.x, tone: f.tone, torso: torso(pose), limbs: limbs(pose, dir) };
+});
+---
+
+<figure class="scene" role="img" aria-label={label}>
+  <svg viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet" focusable="false">
+    <defs>
+      <linearGradient id={`sky-${name}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" class="sky-a" />
+        <stop offset="100%" class="sky-b" />
+      </linearGradient>
+    </defs>
+
+    <rect x="0" y="0" width="320" height="130" rx="14" fill={`url(#sky-${name})`} />
+    <line x1="0" y1="104" x2="320" y2="104" class="ground" />
+
+    {drawn.map(f => (
+      <g transform={`translate(${f.x}, 22)`} class={`fig t${f.tone}`}>
+        <circle cx="0" cy="26" r="14" />
+        <path class="torso" d={f.torso} />
+        {f.limbs && <path class="limb" d={f.limbs} />}
+      </g>
+    ))}
+
+    <g class="badge" transform="translate(268, 24)">
+      <circle cx="0" cy="0" r="21" />
+      <g transform="translate(-12,-12)" class="glyph" set:html={motif} />
+    </g>
+  </svg>
+</figure>
+
+<style>
+  .scene {
+    margin: 0 0 14px;
+    line-height: 0;
+  }
+  .scene svg {
+    width: 100%;
+    height: auto;
+    max-width: 340px;
+    display: block;
+  }
+  .sky-a { stop-color: color-mix(in srgb, var(--navy2) 12%, var(--card-bg)); }
+  .sky-b { stop-color: color-mix(in srgb, var(--red) 8%, var(--card-bg)); }
+  .ground {
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  .fig circle { fill: currentColor; }
+  .fig .torso { fill: currentColor; }
+  .fig .limb {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .fig.t1 { color: var(--navy2); }
+  .fig.t2 { color: var(--red); }
+  .fig.t3 { color: color-mix(in srgb, var(--navy) 65%, var(--muted)); }
+
+  .badge circle {
+    fill: var(--card-bg);
+    stroke: var(--border);
+    stroke-width: 1.5;
+  }
+  .glyph :global(path),
+  .glyph :global(circle) {
+    fill: none;
+    stroke: var(--red);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

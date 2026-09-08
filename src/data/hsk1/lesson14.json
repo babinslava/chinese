@@ -1,0 +1,308 @@
+{
+  "n": 14,
+  "zh": "她买了不少衣服",
+  "py": "Tā mǎile bùshǎo yīfu",
+  "pron": "Та майлэ бушао ифу",
+  "ru": "Она купила немало одежды",
+  "en": "She has bought quite a few clothes",
+  "page": 104,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к словам подходящие картинки",
+        "title_zh": "给下面的词语选择对应的图片",
+        "instruction_en": "Match the pictures with the words/phrases.",
+        "items": [
+          { "zh": "苹果", "py": "píngguǒ", "ru": "яблоко" },
+          { "zh": "车", "py": "chē", "ru": "машина" },
+          { "zh": "衣服", "py": "yīfu", "ru": "одежда" },
+          { "zh": "商店", "py": "shāngdiàn", "ru": "магазин" },
+          { "zh": "书店", "py": "shūdiàn", "ru": "книжный магазин" },
+          { "zh": "英语书", "py": "Yīngyǔ shū", "ru": "книга по английскому" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "14-1",
+      "scene": "shopping",
+      "lines": [
+        { "who": "A", "zh": "昨天上午你去哪儿了？", "py": "Zuótiān shàngwǔ nǐ qù nǎr le?", "pron": "Цзуотянь шану ни цюй нар лэ?", "ru": "Куда ты вчера утром ходил?", "en": "Where did you go yesterday morning?" },
+        { "who": "B", "zh": "我去商店买东西了。", "py": "Wǒ qù shāngdiàn mǎi dōngxi le.", "pron": "Во цюй шандянь май дунси лэ.", "ru": "Я ходил в магазин за покупками.", "en": "I went shopping." },
+        { "who": "A", "zh": "你买什么了？", "py": "Nǐ mǎi shénme le?", "pron": "Ни май шэньме лэ?", "ru": "Что ты купил?", "en": "What did you buy?" },
+        { "who": "B", "zh": "我买了一点儿苹果。", "py": "Wǒ mǎile yìdiǎnr píngguǒ.", "pron": "Во майлэ идяр пингуо.", "ru": "Я купил немного яблок.", "en": "I bought some apples." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "14-2",
+      "scene": "driving",
+      "lines": [
+        { "who": "A", "zh": "你看见张先生了吗？", "py": "Nǐ kànjiàn Zhāng xiānsheng le ma?", "pron": "Ни каньцзянь Чжан сяньшэн лэ ма?", "ru": "Ты видел господина Чжана?", "en": "Have you seen Mr. Zhang?" },
+        { "who": "B", "zh": "看见了，他去学开车了。", "py": "Kànjiàn le, tā qù xué kāi chē le.", "pron": "Каньцзянь лэ, та цюй сюэ кай чэ лэ.", "ru": "Видел, он пошёл на урок вождения.", "en": "Yes. He has gone to a driving lesson." },
+        { "who": "A", "zh": "他什么时候能回来？", "py": "Tā shénme shíhou néng huílai?", "pron": "Та шэньме шихоу нэн хуэйлай?", "ru": "Когда он сможет вернуться?", "en": "When can he come back?" },
+        { "who": "B", "zh": "40分钟后回来。", "py": "Sìshí fēnzhōng hòu huílai.", "pron": "Сыши фэньчжун хоу хуэйлай.", "ru": "Через 40 минут.", "en": "After 40 minutes." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "14-3",
+      "scene": "clothes",
+      "lines": [
+        { "who": "A", "zh": "王方的衣服太漂亮了！", "py": "Wáng Fāng de yīfu tài piàoliang le!", "pron": "Ван Фан дэ ифу тай пяолян лэ!", "ru": "Какое красивое платье у Ван Фан!", "en": "Wang Fang's dress is so pretty!" },
+        { "who": "B", "zh": "是啊，她买了不少衣服。", "py": "Shì a, tā mǎile bùshǎo yīfu.", "pron": "Ши а, та майлэ бушао ифу.", "ru": "Да, она купила немало одежды.", "en": "Yes. She has bought quite a few clothes." },
+        { "who": "A", "zh": "你买什么了？", "py": "Nǐ mǎi shénme le?", "pron": "Ни май шэньме лэ?", "ru": "А ты что купила?", "en": "What did you buy?" },
+        { "who": "B", "zh": "我没买，这些都是王方的东西。", "py": "Wǒ méi mǎi, zhèxiē dōu shì Wáng Fāng de dōngxi.", "pron": "Во мэй май, чжэсе доу ши Ван Фан дэ дунси.", "ru": "Я ничего не купила, это всё вещи Ван Фан.", "en": "I bought nothing. All these are Wang Fang's stuff." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "东西", "py": "dōngxi", "pron": "дунси", "pos": "сущ.", "ru": "вещь, предмет", "en": "thing, stuff" },
+    { "n": 2, "zh": "一点儿", "py": "yìdiǎnr", "pron": "идяр", "pos": "числ.-сч.", "ru": "немного, чуть-чуть", "en": "a few, a little" },
+    { "n": 3, "zh": "苹果", "py": "píngguǒ", "pron": "пингуо", "pos": "сущ.", "ru": "яблоко", "en": "apple" },
+    { "n": 4, "zh": "看见", "py": "kànjiàn", "pron": "каньцзянь", "pos": "гл.", "ru": "увидеть", "en": "to see" },
+    { "n": 5, "zh": "先生", "py": "xiānsheng", "pron": "сяньшэн", "pos": "сущ.", "ru": "господин", "en": "Mr., sir" },
+    { "n": 6, "zh": "开", "py": "kāi", "pron": "кай", "pos": "гл.", "ru": "водить, открывать", "en": "to drive" },
+    { "n": 7, "zh": "车", "py": "chē", "pron": "чэ", "pos": "сущ.", "ru": "машина, автомобиль", "en": "car, vehicle" },
+    { "n": 8, "zh": "回来", "py": "huílai", "pron": "хуэйлай", "pos": "гл.", "ru": "возвращаться", "en": "to come back" },
+    { "n": 9, "zh": "分钟", "py": "fēnzhōng", "pron": "фэньчжун", "pos": "сущ.", "ru": "минута", "en": "minute" },
+    { "n": 10, "zh": "后", "py": "hòu", "pron": "хоу", "pos": "сущ.", "ru": "после, потом", "en": "after, afterwards, later" },
+    { "n": 11, "zh": "衣服", "py": "yīfu", "pron": "ифу", "pos": "сущ.", "ru": "одежда", "en": "clothes" },
+    { "n": 12, "zh": "漂亮", "py": "piàoliang", "pron": "пяолян", "pos": "прил.", "ru": "красивый", "en": "beautiful, pretty" },
+    { "n": 13, "zh": "啊", "py": "a", "pron": "а", "pos": "част.", "ru": "модальная частица подтверждения или возражения", "en": "a modal particle used at the end of a sentence as a sign of confirmation or defense", "star": true },
+    { "n": 14, "zh": "少", "py": "shǎo", "pron": "шао", "pos": "прил.", "ru": "мало (不少 bùshǎo — немало, много)", "en": "little, few" },
+    { "n": 15, "zh": "这些", "py": "zhèxiē", "pron": "чжэсе", "pos": "мест.", "ru": "эти", "en": "these" },
+    { "n": 16, "zh": "都", "py": "dōu", "pron": "доу", "pos": "нареч.", "ru": "все, оба", "en": "both, all" },
+    { "zh": "张", "py": "Zhāng", "pron": "Чжан", "ru": "Чжан (китайская фамилия)", "en": "Zhang, a Chinese family name", "proper": true }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. «了» для обозначения совершившегося или завершённого действия. «了» может стоять в конце предложения.",
+          "en": "\"了\" can be used at the end of a sentence."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "Сказуемое", "了"],
+          "rows": [
+            ["我", "去商店", "了。"],
+            ["他", "去学开车", "了。"],
+            ["你", "买什么", "了？"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "«了» также ставится между глаголом и его дополнением. Перед дополнением обычно есть определение — счётный оборот, прилагательное или местоимение.",
+          "en": "\"了\" can also be used between a verb and its object. There is usually a modifier before the object of the verb, such as a numeral classifier, an adjective or a pronoun, etc."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "Глагол", "了", "Числ.-сч. / прил. / мест.", "Дополнение"],
+          "rows": [
+            ["她", "买", "了", "一点儿", "苹果。"],
+            ["我", "买", "了", "不少", "衣服。"],
+            ["你", "看见", "了", "几个", "人？"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "Отрицательная форма для обоих случаев — «没 + глагол（+ дополнение）»; при этом «了» опускается.",
+          "en": "The negative form of \"了\" in both cases above is \"没 + verb + (object)\". In the negative form, \"了\" should be omitted."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "没", "Сказуемое"],
+          "rows": [
+            ["她", "没", "去商店。"],
+            ["我", "没", "买。"],
+            ["我", "没", "看见张先生。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Существительное «后». «后» указывает на момент позже настоящего или позже упомянутого времени.",
+          "en": "The noun \"后\" indicates a period after the present time or the time being mentioned."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "五点后", "py": "wǔ diǎn hòu", "ru": "после пяти" },
+            { "zh": "40分钟后", "py": "sìshí fēnzhōng hòu", "ru": "через 40 минут" },
+            { "zh": "星期三后", "py": "xīngqī sān hòu", "ru": "после среды" },
+            { "zh": "你几点去工作？ — 八点后。", "py": "Nǐ jǐ diǎn qù gōngzuò? — Bā diǎn hòu.", "ru": "Во сколько ты идёшь на работу? — После восьми." },
+            { "zh": "你什么时候回家？ — 五点后。", "py": "Nǐ shénme shíhou huí jiā? — Wǔ diǎn hòu.", "ru": "Когда ты вернёшься домой? — После пяти." },
+            { "zh": "他什么时候能回来？ — 40分钟后回来。", "py": "Tā shénme shíhou néng huílai? — Sìshí fēnzhōng hòu huílai.", "ru": "Когда он сможет вернуться? — Через 40 минут." }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Модальная частица «啊». «啊» ставится в конце повествовательного предложения и придаёт ему эмоциональный оттенок. Её произношение меняется в зависимости от финали предыдущего слога, и на письме варианты иногда записывают разными иероглифами.",
+          "en": "The modal particle \"啊\" is used at the end of a declarative sentence to set the mood. The pronunciation of \"啊\" varies with the finals of the syllables before it, and in written Chinese, the variants are represented by different characters sometimes."
+        },
+        {
+          "kind": "table",
+          "head": ["Финаль предыдущего слога", "Произношение «啊»"],
+          "rows": [
+            ["a  e  i  o  ü", "a → ia"],
+            ["u  ao  ou", "a → ua"],
+            ["-n", "a → na"],
+            ["-ng", "a → nga"],
+            ["-i (в zi, ci, si)", "a → za"],
+            ["-i (в zhi, chi, shi, ri)", "a → ra"]
+          ]
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "你是王小姐吗？ — 是啊。", "py": "Nǐ shì Wáng xiǎojiě ma? — Shì a.", "ru": "Вы госпожа Ван? — Да." },
+            { "zh": "你想去吃中国菜吗？ — 好啊。", "py": "Nǐ xiǎng qù chī Zhōngguó cài ma? — Hǎo a.", "ru": "Хочешь пойти поесть китайской еды? — Давай." },
+            { "zh": "王方的衣服太漂亮了！ — 是啊，她买了不少衣服。", "py": "Wáng Fāng de yīfu tài piàoliang le! — Shì a, tā mǎile bùshǎo yīfu.", "ru": "Какая красивая одежда у Ван Фан! — Да, она купила немало одежды." }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "4. Наречие «都». «都» означает «все», «оба». То, что оно охватывает, ставится перед «都».",
+          "en": "\"都\" means \"both/all\". The people or objects included are put before \"都\"."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "我们都是中国人。", "py": "Wǒmen dōu shì Zhōngguó rén.", "ru": "Мы все китайцы." },
+            { "zh": "他们都喜欢喝茶。", "py": "Tāmen dōu xǐhuan hē chá.", "ru": "Они все любят пить чай." },
+            { "zh": "这些都是王方的东西。", "py": "Zhèxiē dōu shì Wáng Fāng de dōngxi.", "ru": "Это всё вещи Ван Фан." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы по текстам",
+          "title_zh": "根据课文内容回答问题",
+          "instruction_en": "Answer the questions based on the dialogues.",
+          "items": [
+            { "zh": "昨天上午她去哪儿了？", "py": "Zuótiān shàngwǔ tā qù nǎr le?", "ru": "Куда она ходила вчера утром?" },
+            { "zh": "她买什么了？", "py": "Tā mǎi shénme le?", "ru": "Что она купила?" },
+            { "zh": "张先生什么时候能回来？", "py": "Zhāng xiānsheng shénme shíhou néng huílai?", "ru": "Когда сможет вернуться господин Чжан?" },
+            { "zh": "王方买什么了？", "py": "Wáng Fāng mǎi shénme le?", "ru": "Что купила Ван Фан?" },
+            { "zh": "王方的朋友买什么了？", "py": "Wáng Fāng de péngyou mǎi shénme le?", "ru": "Что купила подруга Ван Фан?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "妈妈去商店买了____。", "py": "Māma qù shāngdiàn mǎile ____.", "ru": "Мама сходила в магазин и купила ____." },
+            { "zh": "她下午去学____了。", "py": "Tā xiàwǔ qù xué ____ le.", "ru": "Днём она пошла учиться ____." },
+            { "zh": "桌子上____是张先生的东西。", "py": "Zhuōzi shang ____ shì Zhāng xiānsheng de dōngxi.", "ru": "На столе ____ вещи господина Чжана." },
+            { "zh": "丽丽买了____衣服。", "py": "Lìli mǎile ____ yīfu.", "ru": "Лили купила ____ одежды." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Сочетания тонов в трёхсложных словах (3): слова, начинающиеся со слога третьего тона."
+        },
+        {
+          "kind": "table",
+          "title_ru": "Сочетания тонов (14-4)",
+          "head": ["Схема", "Пример", "Схема", "Пример"],
+          "rows": [
+            ["3+1+1", "xǐyījī 洗衣机 — стиральная машина", "3+1+2", "pǔtōng rén 普通人 — обычный человек"],
+            ["3+1+3", "zǒngjīnglǐ 总经理 — генеральный директор", "3+1+4", "huǒchē piào 火车票 — билет на поезд"],
+            ["3+2+1", "shǐxuéjiā 史学家 — историк", "3+2+2", "jǐngchájú 警察局 — полицейский участок"],
+            ["3+2+3", "měinánzǐ 美男子 — красавец", "3+2+4", "měiróngyuàn 美容院 — салон красоты"],
+            ["3+3+1", "biǎoyǎnjiā 表演家 — артист", "3+3+2", "xiǎo yǎnyuán 小演员 — юный актёр"],
+            ["3+3+3", "Mǐlǎoshǔ 米老鼠 — Микки Маус", "3+3+4", "yǎnchànghuì 演唱会 — концерт"],
+            ["3+4+1", "dǎzìjī 打字机 — печатная машинка", "3+4+2", "pǎobù xié 跑步鞋 — кроссовки"],
+            ["3+4+3", "měishùguǎn 美术馆 — художественная галерея", "3+4+4", "dǎ diànhuà 打电话 — звонить по телефону"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "开", "py": "kāi", "pron": "кай", "ru": "открывать, водить", "note_ru": "Форма напоминает две руки, вынимающие дверной засов. Исходное значение — «отпереть и открыть дверь». Сейчас значений много: «开车» (водить машину), «开花» (цвести)." },
+            { "zh": "车", "py": "chē", "pron": "чэ", "ru": "машина, повозка", "note_ru": "Изначально изображал повозку с колесом по обеим сторонам — боевую колесницу, запряжённую быком или лошадью. Сейчас — любое наземное транспортное средство: «出租车» (такси), «火车» (поезд)." },
+            { "zh": "回", "py": "huí", "pron": "хуэй", "ru": "возвращаться", "note_ru": "Форма напоминает водоворот. Исходное значение — «вращаться», позже — «возвращаться»." }
+          ]
+        },
+        {
+          "kind": "radicals",
+          "items": [
+            { "r": "月", "ru": "«ключ мяса» — обычно связан с телом человека и плотью", "ex": [{ "zh": "服", "py": "fú", "ru": "одежда" }, { "zh": "胖", "py": "pàng", "ru": "полный, толстый" }] },
+            { "r": "扌", "ru": "«ключ руки» — обычно обозначает действие, связанное с рукой", "ex": [{ "zh": "打", "py": "dǎ", "ru": "бить, ударять" }, { "zh": "找", "py": "zhǎo", "ru": "искать" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "В парах спросите друг друга о покупках. Пример: А: 你去商店买什么了？ B: 我买了……",
+          "instruction_en": "Work in pairs and ask about the things your partner has bought.",
+          "items": [
+            { "zh": "苹果", "py": "píngguǒ", "ru": "яблоки" },
+            { "zh": "衣服", "py": "yīfu", "ru": "одежда" },
+            { "zh": "杯子", "py": "bēizi", "ru": "чашка" },
+            { "zh": "桌子", "py": "zhuōzi", "ru": "стол" },
+            { "zh": "书", "py": "shū", "ru": "книга" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека расспросите друг друга, чем каждый занимался в какой-то день, и запишите (имя / время / место / что делал). Один участник от группы делает доклад. Пример: А: 星期一上午你做什么了？ B: 我去电影院了。А: 你看什么了？ B: 我看了一个中国电影。",
+          "instruction_en": "Work in groups of 3-4. Ask about what each of your group member did during a day in the past and take notes. Each group chooses one member to make a report."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "n": 10,
+  "zh": "我能坐这儿吗",
+  "py": "Wǒ néng zuò zhèr ma",
+  "pron": "Во нэн цзуо чжэр ма",
+  "ru": "Можно мне сесть здесь",
+  "en": "Can I sit here",
+  "page": 72,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к словам подходящие картинки",
+        "title_zh": "给下面的词语选择对应的图片",
+        "instruction_en": "Match the pictures with the words/phrases.",
+        "items": [
+          { "zh": "工作", "py": "gōngzuò", "ru": "работать" },
+          { "zh": "看书", "py": "kàn shū", "ru": "читать книгу" },
+          { "zh": "坐", "py": "zuò", "ru": "сидеть" },
+          { "zh": "桌子", "py": "zhuōzi", "ru": "стол" },
+          { "zh": "电脑", "py": "diànnǎo", "ru": "компьютер" },
+          { "zh": "爸爸和妈妈", "py": "bàba hé māma", "ru": "папа и мама" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "10-1",
+      "scene": "desk",
+      "lines": [
+        { "who": "A", "zh": "桌子上有什么？", "py": "Zhuōzi shang yǒu shénme?", "pron": "Чжуоцзы шан ю шэньме?", "ru": "Что на столе?", "en": "What are there on the desk?" },
+        { "who": "B", "zh": "桌子上有一个电脑和一本书。", "py": "Zhuōzi shang yǒu yí ge diànnǎo hé yì běn shū.", "pron": "Чжуоцзы шан ю и гэ дяньнао хэ и бэнь шу.", "ru": "На столе компьютер и книга.", "en": "There is a computer and a book." },
+        { "who": "A", "zh": "杯子在哪儿？", "py": "Bēizi zài nǎr?", "pron": "Бэйцзы цзай нар?", "ru": "А где чашка?", "en": "Where is the cup?" },
+        { "who": "B", "zh": "杯子在桌子里。", "py": "Bēizi zài zhuōzi li.", "pron": "Бэйцзы цзай чжуоцзы ли.", "ru": "Чашка в столе.", "en": "It's in the desk." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "10-2",
+      "scene": "looking-for",
+      "lines": [
+        { "who": "A", "zh": "前面那个人叫什么名字？", "py": "Qiánmiàn nàge rén jiào shénme míngzi?", "pron": "Цяньмянь нагэ жэнь цзяо шэньме минцзы?", "ru": "Как зовут того человека впереди?", "en": "Who is the person in the front?" },
+        { "who": "B", "zh": "她叫王方，在医院工作。", "py": "Tā jiào Wáng Fāng, zài yīyuàn gōngzuò.", "pron": "Та цзяо Ван Фан, цзай июань гунцзуо.", "ru": "Её зовут Ван Фан, она работает в больнице.", "en": "She is Wang Fang. She works in a hospital." },
+        { "who": "A", "zh": "后面那个人呢？他叫什么名字？", "py": "Hòumiàn nàge rén ne? Tā jiào shénme míngzi?", "pron": "Хоумянь нагэ жэнь нэ? Та цзяо шэньме минцзы?", "ru": "А тот, что сзади? Как его зовут?", "en": "What about the person at the back? What's his name?" },
+        { "who": "B", "zh": "他叫谢朋，在商店工作。", "py": "Tā jiào Xiè Péng, zài shāngdiàn gōngzuò.", "pron": "Та цзяо Се Пэн, цзай шандянь гунцзуо.", "ru": "Его зовут Се Пэн, он работает в магазине.", "en": "He is Xie Peng. He works in a store." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "10-3",
+      "scene": "sit-here",
+      "lines": [
+        { "who": "A", "zh": "这儿有人吗？", "py": "Zhèr yǒu rén ma?", "pron": "Чжэр ю жэнь ма?", "ru": "Здесь занято?", "en": "Is this seat taken?" },
+        { "who": "B", "zh": "没有。", "py": "Méi yǒu.", "pron": "Мэй ю.", "ru": "Нет.", "en": "No, it isn't." },
+        { "who": "A", "zh": "我能坐这儿吗？", "py": "Wǒ néng zuò zhèr ma?", "pron": "Во нэн цзуо чжэр ма?", "ru": "Можно мне здесь сесть?", "en": "Can I sit here?" },
+        { "who": "B", "zh": "请坐。", "py": "Qǐng zuò.", "pron": "Цин цзуо.", "ru": "Пожалуйста, садитесь.", "en": "Yes, please." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "桌子", "py": "zhuōzi", "pron": "чжуоцзы", "pos": "сущ.", "ru": "стол", "en": "desk, table" },
+    { "n": 2, "zh": "上", "py": "shang", "pron": "шан", "pos": "сущ.", "ru": "на, сверху", "en": "up, above" },
+    { "n": 3, "zh": "电脑", "py": "diànnǎo", "pron": "дяньнао", "pos": "сущ.", "ru": "компьютер", "en": "computer" },
+    { "n": 4, "zh": "和", "py": "hé", "pron": "хэ", "pos": "союз", "ru": "и", "en": "and" },
+    { "n": 5, "zh": "本", "py": "běn", "pron": "бэнь", "pos": "сч. сл.", "ru": "счётное слово для книг", "en": "a measure word for books" },
+    { "n": 6, "zh": "里", "py": "li", "pron": "ли", "pos": "сущ.", "ru": "в, внутри", "en": "inner, inside, interior" },
+    { "n": 7, "zh": "前面", "py": "qiánmiàn", "pron": "цяньмянь", "pos": "сущ.", "ru": "впереди, перед", "en": "front" },
+    { "n": 8, "zh": "后面", "py": "hòumiàn", "pron": "хоумянь", "pos": "сущ.", "ru": "сзади, позади", "en": "back" },
+    { "n": 9, "zh": "这儿", "py": "zhèr", "pron": "чжэр", "pos": "мест.", "ru": "здесь", "en": "here" },
+    { "n": 10, "zh": "没有", "py": "méiyǒu", "pron": "мэйю", "pos": "нареч.", "ru": "нет, не иметься (также 没 méi)", "en": "there is not" },
+    { "n": 11, "zh": "能", "py": "néng", "pron": "нэн", "pos": "мод. гл.", "ru": "мочь, можно", "en": "can, may" },
+    { "n": 12, "zh": "坐", "py": "zuò", "pron": "цзуо", "pos": "гл.", "ru": "сидеть, садиться", "en": "to sit, to be seated" },
+    { "zh": "王方", "py": "Wáng Fāng", "pron": "Ван Фан", "ru": "Ван Фан (имя)", "en": "Wang Fang, name of a person", "proper": true },
+    { "zh": "谢朋", "py": "Xiè Péng", "pron": "Се Пэн", "ru": "Се Пэн (имя)", "en": "Xie Peng, name of a person", "proper": true }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Предложения с «有»: наличие. Глагол «有» используется в предложениях наличия — он показывает, что в каком-то месте что-то или кто-то есть.",
+          "en": "The verb \"有\" can be used in an existential sentence to indicate a person or thing exists somewhere."
+        },
+        {
+          "kind": "table",
+          "head": ["Слово места", "有", "Кто / что имеется"],
+          "rows": [
+            ["椅子下面", "有", "一只小狗。"],
+            ["学校里", "有", "一个商店。"],
+            ["桌子上", "有", "一个电脑和一本书。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "Отрицательная форма предложения с «有» — «没有»; при этом перед дополнением нельзя ставить счётный оборот с числительным.",
+          "en": "In the negative form of a \"有\" sentence, \"没有\" is used without a numeral classifier before the object."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "椅子下面没有小狗。", "py": "Yǐzi xiàmiàn méiyǒu xiǎo gǒu.", "ru": "Под стулом нет щенка." },
+            { "zh": "学校里没有商店。", "py": "Xuéxiào li méiyǒu shāngdiàn.", "ru": "В школе нет магазина." },
+            { "zh": "桌子上没有电脑和书。", "py": "Zhuōzi shang méiyǒu diànnǎo hé shū.", "ru": "На столе нет компьютера и книги." }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Союз «和». «和» соединяет два и более однородных члена, выражая сочинительную связь.",
+          "en": "The conjunction \"和\" is used to connect two or more elements, indicating a parallel relationship."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "我有一个中国朋友和一个美国朋友。", "py": "Wǒ yǒu yí ge Zhōngguó péngyou hé yí ge Měiguó péngyou.", "ru": "У меня есть друг из Китая и друг из США." },
+            { "zh": "我家有三口人，爸爸、妈妈和我。", "py": "Wǒ jiā yǒu sān kǒu rén, bàba, māma hé wǒ.", "ru": "В моей семье три человека: папа, мама и я." },
+            { "zh": "桌子上有一个电脑和一本书。", "py": "Zhuōzi shang yǒu yí ge diànnǎo hé yì běn shū.", "ru": "На столе компьютер и книга." }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Модальный глагол «能». «能» ставится перед глаголом и вместе с ним образует сказуемое со значением способности или возможности. Часто используется в вопросе «能……吗？» — так вежливо просят разрешения.",
+          "en": "The modal verb \"能\" is usually used before a verb to form the predicate indicating an ability or a possibility. The interrogative sentence structure \"能……吗?\" is often used to indicate a request or hope for permission."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "明天下午我能去商店。", "py": "Míngtiān xiàwǔ wǒ néng qù shāngdiàn.", "ru": "Завтра днём я могу пойти в магазин." },
+            { "zh": "你能在这儿写你的名字吗？", "py": "Nǐ néng zài zhèr xiě nǐ de míngzi ma?", "ru": "Можешь написать здесь своё имя?" },
+            { "zh": "我能坐这儿吗？", "py": "Wǒ néng zuò zhèr ma?", "ru": "Можно мне сесть здесь?" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "4. Побудительные предложения с «请». Если перед другим глаголом поставить «请», получится побудительное предложение — вежливое предложение или пожелание.",
+          "en": "When the verb \"请\" is used before another verb, an imperative sentence is formed, indicating a polite suggestion or hope."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "请写您的名字。", "py": "Qǐng xiě nín de míngzi.", "ru": "Напишите, пожалуйста, своё имя." },
+            { "zh": "请喝茶。", "py": "Qǐng hē chá.", "ru": "Пейте чай, пожалуйста." },
+            { "zh": "请坐。", "py": "Qǐng zuò.", "ru": "Садитесь, пожалуйста." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы по текстам",
+          "title_zh": "根据课文内容回答问题",
+          "instruction_en": "Answer the questions based on the dialogues.",
+          "items": [
+            { "zh": "电脑在哪儿？", "py": "Diànnǎo zài nǎr?", "ru": "Где компьютер?" },
+            { "zh": "书在哪儿？", "py": "Shū zài nǎr?", "ru": "Где книга?" },
+            { "zh": "桌子里面有什么？", "py": "Zhuōzi lǐmiàn yǒu shénme?", "ru": "Что в столе?" },
+            { "zh": "哪个人是王方？", "py": "Nǎge rén shì Wáng Fāng?", "ru": "Кто из них Ван Фан?" },
+            { "zh": "哪个人是谢朋？", "py": "Nǎge rén shì Xiè Péng?", "ru": "Кто из них Се Пэн?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "____有____。", "py": "____ yǒu ____.", "ru": "____ есть ____." },
+            { "zh": "____有____和____。", "py": "____ yǒu ____ hé ____.", "ru": "____ есть ____ и ____." },
+            { "zh": "我能____吗？", "py": "Wǒ néng ____ ma?", "ru": "Можно мне ____?" },
+            { "zh": "他在____工作。", "py": "Tā zài ____ gōngzuò.", "ru": "Он работает в ____." }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 4,
+          "title_ru": "Выберите подходящее счётное слово и заполните пропуски",
+          "title_zh": "选择适当的量词填空",
+          "instruction_ru": "Счётные слова на выбор: 个 gè, 口 kǒu, 本 běn, 块 kuài.",
+          "instruction_en": "Choose a suitable measure word to fill in each blank.",
+          "items": [
+            { "zh": "我家有三____人。", "py": "Wǒ jiā yǒu sān ____ rén.", "ru": "В моей семье три ____ человека." },
+            { "zh": "我买一____杯子。", "py": "Wǒ mǎi yí ____ bēizi.", "ru": "Я куплю одну ____ чашку." },
+            { "zh": "我有五____汉语书。", "py": "Wǒ yǒu wǔ ____ Hànyǔ shū.", "ru": "У меня пять ____ книг по китайскому." },
+            { "zh": "椅子八十____钱。", "py": "Yǐzi bāshí ____ qián.", "ru": "Стул стоит восемьдесят ____." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Чтение слогов нейтрального тона. Реальная высота слога нейтрального тона зависит от высоты предыдущего слога. После первого, второго и четвёртого тона нейтральный слог читается чуть ниже предыдущего, а после третьего тона — выше.",
+          "en": "The actual pronunciation of a neutral-tone syllable depends upon the pitch of the syllable before it. Generally speaking, a neutral-tone syllable is read in a lower pitch than the syllable before it if it follows a first-tone, second-tone or fourth-tone syllable, but when it follows a third-tone syllable, it is read in a higher pitch than the syllable before it."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "桌子", "py": "zhuōzi", "ru": "стол (1-й + нейтральный)" },
+            { "zh": "盘子", "py": "pánzi", "ru": "тарелка (2-й + нейтральный)" },
+            { "zh": "椅子", "py": "yǐzi", "ru": "стул (3-й + нейтральный)" },
+            { "zh": "裤子", "py": "kùzi", "ru": "брюки (4-й + нейтральный)" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Чтение удвоенных слогов. В двусложных словах с удвоением второй слог обычно читается нейтральным тоном.",
+          "en": "In a disyllabic word with reduplicated syllables, the second syllable is usually read in the neutral tone."
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, обращая внимание на нейтральный тон",
+          "track": "10-5",
+          "rows": [
+            ["bàba", "māma", "yéye", "nǎinai"],
+            ["gēge", "jiějie", "dìdi", "mèimei"],
+            ["gūgu", "shūshu", "tàitai", "xīngxing"],
+            ["xièxie", "kànkan", "shuōshuo", "chángchang"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Чтение слов с суффиксами «–们», «–子», «–头». В составе слова суффиксы «们», «子» и «头» обычно читаются нейтральным тоном.",
+          "en": "Being part of a word, the suffixes \"们\", \"子\" and \"头\" are usually read in the neutral tone."
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, обращая внимание на суффиксы",
+          "track": "10-6",
+          "rows": [
+            ["nǐmen 你们", "wǒmen 我们", "tāmen 他们", "rénmen 人们"],
+            ["zhuōzi 桌子", "yǐzi 椅子", "bēizi 杯子", "bèizi 被子"],
+            ["shétou 舌头", "zhěntou 枕头", "shítou 石头", "mùtou 木头"],
+            ["qiántou 前头", "hòutou 后头", "lǐtou 里头", "wàitou 外头"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "上", "py": "shàng", "pron": "шан", "ru": "верх, наверху", "note_ru": "Нижняя горизонтальная черта — условная граница, короткая верхняя черта показывает положение выше неё. Значение — «наверху», «сверху»." },
+            { "zh": "下", "py": "xià", "pron": "ся", "ru": "низ, внизу", "note_ru": "Противоположен «上»; указывает на положение ниже границы." },
+            { "zh": "本", "py": "běn", "pron": "бэнь", "ru": "корень; счётное слово для книг", "note_ru": "К иероглифу «木» (дерево) внизу добавлена указательная точка. Исходное значение — «корень дерева», отсюда — «основа вещей»." },
+            { "zh": "末", "py": "mò", "pron": "мо", "ru": "верхушка, конец", "note_ru": "Исходное значение — «верхушка дерева»; сейчас также «неглавный», «второстепенный»." }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Структура иероглифа (5): полный охват. Полный охват — это когда часть окружена со всех четырёх сторон.",
+          "en": "As a compound structure, the enclosure structure is a structure enclosed on all the four sides."
+        },
+        {
+          "kind": "structure",
+          "items": [
+            { "name_ru": "Полный охват", "name_zh": "全包围结构", "layout": "▣", "ex": ["四", "国"] }
+          ]
+        },
+        {
+          "kind": "radicals",
+          "items": [
+            { "r": "囗", "ru": "«рамка страны» — обычно означает «быть окружённым, запертым»", "ex": [{ "zh": "国", "py": "guó", "ru": "страна" }, { "zh": "困", "py": "kùn", "ru": "быть в затруднении" }] },
+            { "r": "礻", "ru": "вариант «示»; обычно связан с божеством, обрядами и судьбой", "ex": [{ "zh": "视", "py": "shì", "ru": "смотреть" }, { "zh": "祝", "py": "zhù", "ru": "желать, поздравлять" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "В парах задавайте друг другу вопросы и отвечайте про себя.",
+          "instruction_en": "Work in pairs and ask and answer questions according to the actual situations.",
+          "items": [
+            { "zh": "你的桌子上面有什么？", "py": "Nǐ de zhuōzi shàngmiàn yǒu shénme?", "ru": "Что у тебя на столе?" },
+            { "zh": "你的椅子下面有什么？", "py": "Nǐ de yǐzi xiàmiàn yǒu shénme?", "ru": "Что у тебя под стулом?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека опишите, где сидит каждый участник, и запишите. Один участник от группы делает доклад. Дополнительные слова: 后面 hòumiàn сзади, 左边 zuǒbian слева, 右边 yòubian справа. Пример: 大卫在我左边。/ 我左边是大卫。",
+          "instruction_en": "Work in groups of 3-4. Describe the location of the seat of each of your group members and take notes. Each group chooses one member to make a report."
+        }
+      ]
+    },
+    {
+      "id": "culture",
+      "label_zh": "文化",
+      "label_ru": "Культура",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Как устроены китайские имена. Китайское имя начинается с фамилии и заканчивается личным именем: в «李月», «谢朋», «王方» фамилии — это «李», «谢» и «王», а личные имена — «月», «朋» и «方».",
+          "en": "A Chinese name starts with the family name and ends with the given name, for example, in the names \"李月\", \"谢朋\" and \"王方\", \"李\", \"谢\" and \"王\" are family names and \"月\", \"朋\" and \"方\" are given names."
+        },
+        {
+          "kind": "prose",
+          "ru": "Китайских фамилий больше 5000, из них часто встречаются около 200. Самые распространённые — «张», «王», «李», «赵». Фамилия из одного иероглифа называется однослоговой, и у большинства китайцев она именно такая. Есть и фамилии из двух и более иероглифов — составные, например «欧阳», «上官», «诸葛».",
+          "en": "There are over 5,000 Chinese family names, among which more than 200 are commonly seen. \"张\", \"王\", \"李\" and \"赵\" are the most common ones. Such family names as have only one character are known as single-character surnames. Most Chinese people have a single-character surname. There are surnames with two or more characters also, which are called compound-character surnames, such as \"欧阳\", \"上官\" and \"诸葛\"."
+        },
+        {
+          "kind": "prose",
+          "ru": "К человеку можно обращаться по фамилии плюс название профессии. Например, «李月» — учитель, поэтому её называют «李老师» (учитель Ли); «王方» — врач, и её называют «王医生» (доктор Ван).",
+          "en": "A person can be addressed with his/her family name followed by his/her job or profession. For instance, \"李月\" is a teacher, so we can call her \"李老师\" (literally Teacher Li), while \"王方\" is a doctor and we can call her \"王医生\" (literally Doctor Wang)."
+        }
+      ]
+    }
+  ]
+}

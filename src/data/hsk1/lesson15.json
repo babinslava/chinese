@@ -1,0 +1,252 @@
+{
+  "n": 15,
+  "zh": "我是坐飞机来的",
+  "py": "Wǒ shì zuò fēijī lái de",
+  "pron": "Во ши цзуо фэйцзи лай дэ",
+  "ru": "Я прилетел на самолёте",
+  "en": "I came here by air",
+  "page": 112,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к словам подходящие картинки",
+        "title_zh": "给下面的词语选择对应的图片",
+        "instruction_en": "Match the pictures with the words/phrases.",
+        "items": [
+          { "zh": "飞机", "py": "fēijī", "ru": "самолёт" },
+          { "zh": "出租车", "py": "chūzūchē", "ru": "такси" },
+          { "zh": "大学", "py": "dàxué", "ru": "университет" },
+          { "zh": "饭店", "py": "fàndiàn", "ru": "гостиница, ресторан" },
+          { "zh": "听", "py": "tīng", "ru": "слушать" },
+          { "zh": "开车", "py": "kāi chē", "ru": "водить машину" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "15-1",
+      "scene": "university",
+      "lines": [
+        { "who": "A", "zh": "你和李小姐是什么时候认识的？", "py": "Nǐ hé Lǐ xiǎojiě shì shénme shíhou rènshi de?", "pron": "Ни хэ Ли сяоцзе ши шэньме шихоу жэньши дэ?", "ru": "Когда вы познакомились с госпожой Ли?", "en": "When did you and Miss Li first meet?" },
+        { "who": "B", "zh": "我们是2011年9月认识的。", "py": "Wǒmen shì èr líng yī yī nián jiǔ yuè rènshi de.", "pron": "Вомэнь ши эр лин и и нянь цзю юэ жэньши дэ.", "ru": "Мы познакомились в сентябре 2011 года.", "en": "We met in September, 2011." },
+        { "who": "A", "zh": "你们在哪儿认识的？", "py": "Nǐmen zài nǎr rènshi de?", "pron": "Нимэнь цзай нар жэньши дэ?", "ru": "А где вы познакомились?", "en": "Where did you meet each other?" },
+        { "who": "B", "zh": "我们是在学校认识的，她是我大学同学。", "py": "Wǒmen shì zài xuéxiào rènshi de, tā shì wǒ dàxué tóngxué.", "pron": "Вомэнь ши цзай сюэсяо жэньши дэ, та ши во дасюэ тунсюэ.", "ru": "Мы познакомились в университете, она моя однокурсница.", "en": "We met in our university. She was my classmate." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "15-2",
+      "scene": "taxi",
+      "lines": [
+        { "who": "A", "zh": "你们是怎么来饭店的？", "py": "Nǐmen shì zěnme lái fàndiàn de?", "pron": "Нимэнь ши цзэньме лай фаньдянь дэ?", "ru": "Как вы добрались до гостиницы?", "en": "How did you come here?" },
+        { "who": "B", "zh": "我们是坐出租车来的。", "py": "Wǒmen shì zuò chūzūchē lái de.", "pron": "Вомэнь ши цзуо чуцзучэ лай дэ.", "ru": "Мы приехали на такси.", "en": "We came by taxi." },
+        { "who": "A", "zh": "李先生呢？", "py": "Lǐ xiānsheng ne?", "pron": "Ли сяньшэн нэ?", "ru": "А господин Ли?", "en": "What about Mr. Li?" },
+        { "who": "B", "zh": "他是和朋友一起开车来的。", "py": "Tā shì hé péngyou yìqǐ kāi chē lái de.", "pron": "Та ши хэ пэнъю ици кай чэ лай дэ.", "ru": "Он приехал на машине вместе с другом.", "en": "He drove here with his friend." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "15-3",
+      "scene": "airplane",
+      "lines": [
+        { "who": "A", "zh": "很高兴认识您！李小姐。", "py": "Hěn gāoxìng rènshi nín! Lǐ xiǎojiě.", "pron": "Хэнь гаосин жэньши нинь! Ли сяоцзе.", "ru": "Очень рад с Вами познакомиться, госпожа Ли!", "en": "Nice to meet you, Miss Li." },
+        { "who": "B", "zh": "认识你我也很高兴！", "py": "Rènshi nǐ wǒ yě hěn gāoxìng!", "pron": "Жэньши ни во е хэнь гаосин!", "ru": "И мне очень приятно с Вами познакомиться!", "en": "Nice to meet you too." },
+        { "who": "A", "zh": "听张先生说，您是坐飞机来北京的？", "py": "Tīng Zhāng xiānsheng shuō, nín shì zuò fēijī lái Běijīng de?", "pron": "Тин Чжан сяньшэн шуо, нинь ши цзуо фэйцзи лай Бэйцзин дэ?", "ru": "Господин Чжан сказал, что Вы прилетели в Пекин на самолёте?", "en": "Mr. Zhang said you came to Beijing by plane, didn't you?" },
+        { "who": "B", "zh": "是的。", "py": "Shì de.", "pron": "Ши дэ.", "ru": "Да, верно.", "en": "Yes, I did." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "认识", "py": "rènshi", "pron": "жэньши", "pos": "гл.", "ru": "знать, быть знакомым", "en": "to meet, to know" },
+    { "n": 2, "zh": "年", "py": "nián", "pron": "нянь", "pos": "сущ.", "ru": "год", "en": "year" },
+    { "n": 3, "zh": "大学", "py": "dàxué", "pron": "дасюэ", "pos": "сущ.", "ru": "университет", "en": "college, university" },
+    { "n": 4, "zh": "饭店", "py": "fàndiàn", "pron": "фаньдянь", "pos": "сущ.", "ru": "гостиница, ресторан", "en": "hotel, restaurant" },
+    { "n": 5, "zh": "出租车", "py": "chūzūchē", "pron": "чуцзучэ", "pos": "сущ.", "ru": "такси", "en": "taxi, cab" },
+    { "n": 6, "zh": "一起", "py": "yìqǐ", "pron": "ици", "pos": "нареч.", "ru": "вместе", "en": "together", "star": true },
+    { "n": 7, "zh": "高兴", "py": "gāoxìng", "pron": "гаосин", "pos": "прил.", "ru": "радостный, рад", "en": "glad, happy" },
+    { "n": 8, "zh": "听", "py": "tīng", "pron": "тин", "pos": "гл.", "ru": "слушать", "en": "to listen" },
+    { "n": 9, "zh": "飞机", "py": "fēijī", "pron": "фэйцзи", "pos": "сущ.", "ru": "самолёт", "en": "airplane" }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Конструкция «是……的»: выделение времени, места или способа. Когда факт события уже известен, «是……的» подчёркивает, когда, где и каким образом оно произошло. В утвердительных и вопросительных предложениях «是» можно опустить, а в отрицательных — нет.",
+          "en": "When the occurrence of something is known, \"是……的\" can be used to emphasize when, where and in which manner it occurred. \"是\" can be omitted in positive and interrogative sentences, but not in negative sentences."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "是", "Время / место / способ", "Глагол", "的"],
+          "rows": [
+            ["我", "是", "昨天", "来", "的。"],
+            ["这", "是", "在北京", "买", "的。"],
+            ["你们", "是", "怎么", "来饭店", "的？"]
+          ]
+        },
+        {
+          "kind": "table",
+          "title_ru": "Отрицательная форма",
+          "head": ["Подлежащее", "不", "是", "Время / место / способ", "Глагол", "的"],
+          "rows": [
+            ["我", "不", "是", "昨天", "来", "的。"],
+            ["这", "不", "是", "在北京", "买", "的。"],
+            ["我们", "不", "是", "坐出租车", "来", "的。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Обозначение даты (2): год, месяц, число, день недели. Дату в китайском пишут и читают от большего к меньшему. Год читают по цифрам и добавляют «年»; месяц и число читают как целое число и добавляют «月» и «日/号». День недели — это «星期» плюс число. Например, «2008年8月8号，星期五» читается «èr líng líng bā nián bā yuè bā hào, xīngqī wǔ».",
+          "en": "Chinese dates are written and read from the bigger unit to the smaller. A year is read digit by digit, followed by the character \"年\". A month or date is read the whole number followed by \"月\" and \"日/号\" respectively. A day of the week is expressed by the word \"星期\" plus a specific number."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "明天是2014年5月11号。", "py": "Míngtiān shì èr líng yī sì nián wǔ yuè shíyī hào.", "ru": "Завтра 11 мая 2014 года." },
+            { "zh": "今天几号？星期几？ — 今天9月10号，星期三。", "py": "Jīntiān jǐ hào? Xīngqī jǐ? — Jīntiān jiǔ yuè shí hào, xīngqī sān.", "ru": "Какое сегодня число? Какой день недели? — Сегодня 10 сентября, среда." },
+            { "zh": "我们是2011年9月认识的。", "py": "Wǒmen shì èr líng yī yī nián jiǔ yuè rènshi de.", "ru": "Мы познакомились в сентябре 2011 года." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы по текстам",
+          "title_zh": "根据课文内容回答问题",
+          "instruction_en": "Answer the questions based on the dialogues.",
+          "items": [
+            { "zh": "她们是什么时候认识的？", "py": "Tāmen shì shénme shíhou rènshi de?", "ru": "Когда они познакомились?" },
+            { "zh": "她们是在哪儿认识的？", "py": "Tāmen shì zài nǎr rènshi de?", "ru": "Где они познакомились?" },
+            { "zh": "他们是怎么去饭店的？", "py": "Tāmen shì zěnme qù fàndiàn de?", "ru": "Как они добрались до гостиницы?" },
+            { "zh": "李先生是坐出租车去饭店的吗？", "py": "Lǐ xiānsheng shì zuò chūzūchē qù fàndiàn de ma?", "ru": "Господин Ли поехал в гостиницу на такси?" },
+            { "zh": "李小姐是怎么来北京的？", "py": "Lǐ xiǎojiě shì zěnme lái Běijīng de?", "ru": "Как госпожа Ли добралась до Пекина?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "我们是在巴黎（Paris）____的。", "py": "Wǒmen shì zài Bālí ____ de.", "ru": "Мы ____ в Париже." },
+            { "zh": "我没看见李老师，她是什么时候____？", "py": "Wǒ méi kànjiàn Lǐ lǎoshī, tā shì shénme shíhou ____?", "ru": "Я не видел учителя Ли, когда она ____?" },
+            { "zh": "这些衣服不____今天____的，是昨天买的。", "py": "Zhèxiē yīfu bù ____ jīntiān ____ de, shì zuótiān mǎi de.", "ru": "Эту одежду купили не сегодня, а вчера." },
+            { "zh": "我们是一起____来的，我不喜欢坐出租车。", "py": "Wǒmen shì yìqǐ ____ lái de, wǒ bù xǐhuan zuò chūzūchē.", "ru": "Мы приехали вместе ____, я не люблю такси." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Сочетания тонов в трёхсложных словах (4): слова, начинающиеся со слога четвёртого тона."
+        },
+        {
+          "kind": "table",
+          "title_ru": "Сочетания тонов (15-4)",
+          "head": ["Схема", "Пример", "Схема", "Пример"],
+          "rows": [
+            ["4+1+1", "diànbīngxiāng 电冰箱 — холодильник", "4+1+2", "Màidāngláo 麦当劳 — Макдоналдс"],
+            ["4+1+3", "jiànshēnguǎn 健身馆 — спортзал", "4+1+4", "bàngōngshì 办公室 — офис"],
+            ["4+2+1", "chàng guógē 唱国歌 — петь гимн", "4+2+2", "kàn zúqiú 看足球 — смотреть футбол"],
+            ["4+2+3", "kuàngquánshuǐ 矿泉水 — минеральная вода", "4+2+4", "shuànyángròu 涮羊肉 — баранина в хого"],
+            ["4+3+1", "mìmǎxiāng 密码箱 — сейф с кодом", "4+3+2", "qìguǎnyán 气管炎 — трахеит"],
+            ["4+3+3", "dàshǐguǎn 大使馆 — посольство", "4+3+4", "mièhuǒqì 灭火器 — огнетушитель"],
+            ["4+4+1", "zhàoxiàngjī 照相机 — фотоаппарат", "4+4+2", "zànzhùrén 赞助人 — спонсор"],
+            ["4+4+3", "diànhuàkǎ 电话卡 — телефонная карта", "4+4+4", "Àoyùnhuì 奥运会 — Олимпийские игры"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "年", "py": "nián", "pron": "нянь", "ru": "год", "note_ru": "Исходное значение — «нести домой собранный урожай». Сейчас это единица времени — «год»." },
+            { "zh": "出", "py": "chū", "pron": "чу", "ru": "выходить", "note_ru": "Форма напоминает ногу, покидающую место. Сейчас означает «выходить изнутри наружу»." },
+            { "zh": "飞", "py": "fēi", "pron": "фэй", "ru": "летать", "note_ru": "Исходное значение — движение птицы или насекомого в воздухе с помощью крыльев. Сейчас в широком смысле — «летать по небу», а также «быстро»." }
+          ]
+        },
+        {
+          "kind": "radicals",
+          "items": [
+            { "r": "艹", "ru": "«травяной ключ» — обычно связан с травой, деревьями или растениями", "ex": [{ "zh": "茶", "py": "chá", "ru": "чай" }, { "zh": "菜", "py": "cài", "ru": "овощи, блюдо" }] },
+            { "r": "宀", "ru": "«ключ крыши» — обычно связан с домом", "ex": [{ "zh": "安", "py": "ān", "ru": "устраиваться, спокойный" }, { "zh": "家", "py": "jiā", "ru": "дом, семья" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "В парах выберите одну вещь собеседника и расспросите, где и когда она куплена. Пример: А: 这个是在哪儿买的？ B: 在商店买的。 А: 什么时候买的？ B: 昨天买的。",
+          "instruction_en": "Work in pairs and ask each other about where and when something was bought.",
+          "items": [
+            { "zh": "汉语书", "py": "Hànyǔ shū", "ru": "книга по китайскому" },
+            { "zh": "衣服", "py": "yīfu", "ru": "одежда" },
+            { "zh": "杯子", "py": "bēizi", "ru": "чашка" },
+            { "zh": "电脑", "py": "diànnǎo", "ru": "компьютер" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека расспросите друг друга, что каждый умеет делать, и запишите (имя / умение / время / место). Один участник от группы делает доклад. Пример: А: 你会说汉语吗？ B: 会。 А: 你是什么时候开始（kāishǐ — начать）学汉语的？ B: 我是……的。 А: 你是在哪儿学的？ B: 我是……的。 Пример записи: 小王 Xiǎo Wáng — 做中国菜, 今年, 北京.",
+          "instruction_en": "Work in groups of 3-4. Ask about the ability of each of your group members and take notes. Each group chooses one member to make a report."
+        }
+      ]
+    },
+    {
+      "id": "culture",
+      "label_zh": "文化",
+      "label_ru": "Культура",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Чем китайцы обычно пользуются для связи. В Китае распространены два вида связи — стационарные телефоны и мобильные. Номер стационарного телефона обычно состоит из 7–8 цифр, например 2027816 или 82304156; в разных регионах длина номера отличается. У мобильных номеров длина одинаковая везде — 11 цифр, например 13576983311. Поскольку мобильный номер длинный, при чтении его делят паузами по схеме «3-4-4», например 139-0107-8866. Цифру «1» в номере читают как «yāo».",
+          "en": "In China, there are two kinds of common communication tools — telephones and cell phones. A telephone number usually has 7-8 digits, for example, 2027816, 82304156. Telephone numbers in different regions have different numbers of digits. Cell phone numbers, however, always have 11 digits regardless of region, as in 13576983311. Since a cell phone number has many digits, it is read with pauses following the pattern \"3-4-4\", such as 139-0107-8866. \"1\" is read as \"yāo\" in a phone number."
+        }
+      ]
+    }
+  ]
+}

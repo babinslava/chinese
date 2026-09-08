@@ -1,0 +1,156 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import { lessons, allNewWords } from '../../data/hsk1';
+import { url } from '../../data/baseUrl';
+
+const words = allNewWords();
+const charCount = new Set(words.flatMap(w => [...w.zh])).size;
+---
+
+<Layout title="Учебник HSK 1 — Курс китайского" activePage="hsk1">
+  <div class="content">
+    <div class="book-hero">
+      <div class="hero-label">标准教程 · Standard Course</div>
+      <h1>Учебник<br />HSK 1</h1>
+      <p>
+        Полный текст учебника «HSK 标准教程 1» — диалоги, новые слова, пиньинь и иероглифика,
+        переведённые на русский. Английский перевод из оригинала сохранён как справка.
+        Нажимай 🔊 у любой строки, чтобы услышать произношение.
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-n">{lessons.length}</div><div class="stat-l">Уроков</div></div>
+        <div class="stat"><div class="stat-n">{words.length}</div><div class="stat-l">Новых слов</div></div>
+        <div class="stat"><div class="stat-n">{charCount}</div><div class="stat-l">Иероглифов</div></div>
+      </div>
+    </div>
+
+    <section class="lesson">
+      <h2 class="section-title">目录 · Оглавление</h2>
+      <div class="book-grid">
+        {lessons.map(l => (
+          <a class="book-card" href={url(`/hsk1/${l.n}`)}>
+            <div class="bc-num">{l.n}</div>
+            <div class="bc-main">
+              <div class="bc-zh">{l.zh}</div>
+              <div class="bc-py">{l.py}</div>
+              <div class="bc-ru">{l.ru}</div>
+              <div class="bc-words">
+                {l.newWords.filter(w => !w.proper).slice(0, 8).map(w => <span>{w.zh}</span>)}
+              </div>
+            </div>
+            <div class="bc-page">стр. {l.page}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="lesson">
+      <h2 class="section-title">词语总表 · Все слова учебника</h2>
+      <p class="hint">
+        {words.length} слов из {lessons.length} уроков. Клик по иероглифу открывает карточку в словаре.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Урок</th><th>Иероглиф</th><th>Пиньинь</th><th>Перевод</th><th>English</th></tr>
+          </thead>
+          <tbody>
+            {words.map(w => (
+              <tr>
+                <td class="t-lesson"><a href={url(`/hsk1/${w.lesson}`)}>{w.lesson}</a></td>
+                <td class="t-zh">
+                  <a href={url(`/vocab/${encodeURIComponent(w.zh)}`)} class="w-link">{w.zh}</a>
+                  <AudioButton text={w.zh} size="sm" />
+                </td>
+                <td class="t-py">{w.py}<span class="pron">{w.pron}</span></td>
+                <td>{w.ru}</td>
+                <td class="t-en">{w.en}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .book-hero {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 44px;
+  }
+  .book-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0 0 16px;
+  }
+  .book-hero p { max-width: 640px; color: var(--muted); line-height: 1.7; }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .book-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .15s;
+    position: relative;
+  }
+  .book-card:hover { border-color: var(--red); transform: translateY(-2px); }
+  .bc-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--border);
+    min-width: 34px;
+  }
+  .book-card:hover .bc-num { color: var(--red); }
+  .bc-main { flex: 1; min-width: 0; }
+  .bc-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.3rem; color: var(--red); }
+  .bc-py { font-size: .8rem; color: var(--navy2); }
+  .bc-ru { font-size: .9rem; font-weight: 600; margin-top: 2px; }
+  .bc-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  .bc-page {
+    font-size: .65rem;
+    color: var(--muted);
+    font-family: monospace;
+    white-space: nowrap;
+  }
+
+  .hint { color: var(--muted); font-size: .88rem; margin-bottom: 16px; }
+  .t-lesson { width: 56px; font-family: monospace; font-size: .8rem; }
+  .t-lesson a { color: var(--muted); text-decoration: none; }
+  .t-lesson a:hover { color: var(--red); }
+  .t-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.25rem; white-space: nowrap; }
+  .t-py { white-space: nowrap; }
+  .t-en { color: var(--muted); font-size: .82rem; }
+  .pron { display: block; font-size: .72rem; color: var(--muted); }
+  .w-link {
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1.5px dotted var(--red);
+    font-weight: 700;
+  }
+  .w-link:hover { color: var(--navy2); border-bottom-color: var(--navy2); }
+</style>

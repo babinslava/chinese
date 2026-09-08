@@ -209,6 +209,27 @@ for (const r of top40Data) {
   }
 }
 
+// --- Auto-import the HSK 1 textbook's new words ---
+// Gives every word in the book a /vocab/{word} card, and lets existing course
+// entries pick up the HSK tag when the two overlap.
+import { allNewWords as hsk1NewWords, allLinkedChars as hsk1LinkedChars } from './hsk1';
+
+for (const w of [...hsk1NewWords(), ...hsk1LinkedChars()]) {
+  const tags = ['hsk1', `hsk1-l${w.lesson}`];
+  const existing = vocab.find(v => v.zh === w.zh);
+  if (existing) {
+    for (const t of tags) if (!existing.tags.includes(t)) existing.tags.push(t);
+    continue;
+  }
+  vocab.push({
+    zh: w.zh,
+    py: w.py,
+    pron: w.pron,
+    meaning: w.ru,
+    tags,
+  });
+}
+
 // Build a lookup map by character
 const _map = new Map<string, VocabEntry>();
 // Deduplicate: keep entries with more info (role, radical_meaning)

@@ -1,0 +1,315 @@
+{
+  "n": 3,
+  "zh": "你叫什么名字",
+  "py": "Nǐ jiào shénme míngzi",
+  "pron": "Ни цзяо шэньме минцзы",
+  "ru": "Как тебя зовут",
+  "en": "What's your name",
+  "page": 14,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к словам подходящие картинки",
+        "title_zh": "给下面的词语选择对应的图片",
+        "instruction_ru": "В учебнике здесь фотографии: учительница у доски, группа студентов, флаг Китая, флаг США, группа взрослых, семья.",
+        "instruction_en": "Match the pictures with the words/phrases.",
+        "items": [
+          { "zh": "中国", "py": "Zhōngguó", "ru": "Китай" },
+          { "zh": "美国", "py": "Měiguó", "ru": "США" },
+          { "zh": "中国人", "py": "Zhōngguó rén", "ru": "китаец" },
+          { "zh": "美国人", "py": "Měiguó rén", "ru": "американец" },
+          { "zh": "老师", "py": "lǎoshī", "ru": "учитель" },
+          { "zh": "学生", "py": "xuésheng", "ru": "ученик, студент" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "03-1",
+      "scene": "introduce",
+      "lines": [
+        { "who": "A", "zh": "你叫什么名字？", "py": "Nǐ jiào shénme míngzi?", "pron": "Ни цзяо шэньме минцзы?", "ru": "Как тебя зовут?", "en": "What's your name?" },
+        { "who": "B", "zh": "我叫李月。", "py": "Wǒ jiào Lǐ Yuè.", "pron": "Во цзяо Ли Юэ.", "ru": "Меня зовут Ли Юэ.", "en": "My name is Li Yue." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "03-2",
+      "scene": "teacher-student",
+      "lines": [
+        { "who": "A", "zh": "你是老师吗？", "py": "Nǐ shì lǎoshī ma?", "pron": "Ни ши лаоши ма?", "ru": "Вы учитель?", "en": "Are you a teacher?" },
+        { "who": "B", "zh": "我不是老师，我是学生。", "py": "Wǒ bú shì lǎoshī, wǒ shì xuésheng.", "pron": "Во бу ши лаоши, во ши сюэшэн.", "ru": "Нет, я не учитель, я студент.", "en": "No, I'm not. I'm a student." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "03-3",
+      "scene": "nationality",
+      "lines": [
+        { "who": "A", "zh": "你是中国人吗？", "py": "Nǐ shì Zhōngguó rén ma?", "pron": "Ни ши Чжунго жэнь ма?", "ru": "Ты китаец?", "en": "Are you Chinese?" },
+        { "who": "B", "zh": "我不是中国人，我是美国人。", "py": "Wǒ bú shì Zhōngguó rén, wǒ shì Měiguó rén.", "pron": "Во бу ши Чжунго жэнь, во ши Мэйго жэнь.", "ru": "Нет, я не китаец, я американец.", "en": "No, I'm not. I'm American." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "叫", "py": "jiào", "pron": "цзяо", "pos": "гл.", "ru": "звать, называться", "en": "to call, to be called" },
+    { "n": 2, "zh": "什么", "py": "shénme", "pron": "шэньме", "pos": "мест.", "ru": "что, какой", "en": "what" },
+    { "n": 3, "zh": "名字", "py": "míngzi", "pron": "минцзы", "pos": "сущ.", "ru": "имя", "en": "name" },
+    { "n": 4, "zh": "我", "py": "wǒ", "pron": "во", "pos": "мест.", "ru": "я, мне", "en": "I, me" },
+    { "n": 5, "zh": "是", "py": "shì", "pron": "ши", "pos": "гл.", "ru": "быть, являться", "en": "to be" },
+    { "n": 6, "zh": "老师", "py": "lǎoshī", "pron": "лаоши", "pos": "сущ.", "ru": "учитель", "en": "teacher" },
+    { "n": 7, "zh": "吗", "py": "ma", "pron": "ма", "pos": "част.", "ru": "вопросительная частица в конце предложения", "en": "used at the end of a question" },
+    { "n": 8, "zh": "学生", "py": "xuésheng", "pron": "сюэшэн", "pos": "сущ.", "ru": "ученик, студент", "en": "student" },
+    { "n": 9, "zh": "人", "py": "rén", "pron": "жэнь", "pos": "сущ.", "ru": "человек", "en": "human, person" },
+    { "zh": "李月", "py": "Lǐ Yuè", "pron": "Ли Юэ", "ru": "Ли Юэ (имя)", "en": "Li Yue, name of a person", "proper": true },
+    { "zh": "中国", "py": "Zhōngguó", "pron": "Чжунго", "ru": "Китай", "en": "China", "proper": true },
+    { "zh": "美国", "py": "Měiguó", "pron": "Мэйго", "ru": "США", "en": "the United States of America", "proper": true }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Вопросительное местоимение «什么». «什么» выражает вопрос. В вопросительном предложении оно может само быть дополнением или стоять перед существительным, образуя с ним дополнение.",
+          "en": "The interrogative pronoun \"什么\" is used in interrogative sentences, serving as the object by itself or together with a nominal element following it."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "你叫什么名字？", "py": "Nǐ jiào shénme míngzi?", "ru": "Как тебя зовут?" },
+            { "zh": "这是什么？", "py": "Zhè shì shénme?", "ru": "Это что?" },
+            { "zh": "这是什么书？", "py": "Zhè shì shénme shū?", "ru": "Это что за книга?" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Предложение с «是». Это предложение-суждение со связкой «是»: оно говорит, чем кто-то или что-то является либо к чему относится. Отрицание образуется постановкой «不» перед «是».",
+          "en": "A \"是\" sentence is a determinative sentence with \"是\", indicating what somebody or something equals or belongs to. The negative sentence is formed by adding the negative adverb \"不\" before \"是\"."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "（不）是", "Существительное / именная группа"],
+          "rows": [
+            ["李月", "是", "老师。"],
+            ["我", "是", "美国人。"],
+            ["我", "不是", "老师。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Вопросительные предложения с «吗». Частица «吗» передаёт вопросительную интонацию: добавьте её в конец повествовательного предложения — и оно станет вопросом.",
+          "en": "The particle \"吗\" indicates an interrogative mood. When \"吗\" is added at the end of a declarative sentence, the declarative sentence turns into a question."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "Глагол", "Существительное / именная группа", "吗?"],
+          "rows": [
+            ["你", "是", "美国人", "吗？"],
+            ["你", "是", "中国人", "吗？"],
+            ["你", "是", "老师", "吗？"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы про себя",
+          "title_zh": "根据实际情况回答问题",
+          "instruction_en": "Answer the questions according to the actual situations.",
+          "items": [
+            { "zh": "你叫什么名字？", "py": "Nǐ jiào shénme míngzi?", "ru": "Как тебя зовут?" },
+            { "zh": "你是中国人吗？", "py": "Nǐ shì Zhōngguó rén ma?", "ru": "Ты китаец?" },
+            { "zh": "你是美国人吗？", "py": "Nǐ shì Měiguó rén ma?", "ru": "Ты американец?" },
+            { "zh": "你是老师吗？", "py": "Nǐ shì lǎoshī ma?", "ru": "Ты учитель?" },
+            { "zh": "你是学生吗？", "py": "Nǐ shì xuésheng ma?", "ru": "Ты студент?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "他叫乔丹（Michael Jordan），他是____人。", "py": "Tā jiào Qiáodān, tā shì ____ rén.", "ru": "Его зовут Джордан, он ____." },
+            { "zh": "他叫姚明（Yao Ming），他是____人。", "py": "Tā jiào Yáo Míng, tā shì ____ rén.", "ru": "Его зовут Яо Мин, он ____." },
+            { "zh": "我不是____，我是学生，我是____人。", "py": "Wǒ bú shì ____, wǒ shì xuésheng, wǒ shì ____ rén.", "ru": "Я не ____, я студент, я ____." },
+            { "zh": "我是____，我不是学生，我是____人。", "py": "Wǒ shì ____, wǒ bú shì xuésheng, wǒ shì ____ rén.", "ru": "Я ____, я не студент, я ____." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Различение произношения: инициали j, q, x и z, c, s. j, q, x — среднеязычные. При j и q поверхность языка касается твёрдого нёба, но при q выходит сильный поток воздуха, а при j — нет. При x язык приближается к нёбу, не касаясь его, оставляя щель.",
+          "en": "j, q and x are known as coronals. The surface of the tongue touches the hard palate when pronouncing j and q. While q brings out a strong airflow, j doesn't. When x is pronounced, the surface of the tongue approaches the hard palate without reaching it, leaving a gap in between."
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, обращая внимание на разницу инициалей",
+          "track": "03-4",
+          "rows": [
+            ["xiūxi", "jījí", "jīqì", "xiǎoqū"],
+            ["xīngqī", "xiāngjiāo", "xìngqù", "jìxù"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "z, c, s — переднеязычные зубные. При z и c кончик языка сначала касается задней поверхности верхних зубов, а затем сразу отходит, образуя щель; при z сильного потока воздуха нет, при c он заметный. При s кончик языка не касается зубов, оставляя щель для воздуха.",
+          "en": "z, c and s are dentals. When pronouncing z and c, the front part of the tongue tip touches the inner surface of the upper teeth and then immediately parts with it, forming a gap in between. z is pronounced with no strong airflow, while c comes with an obvious airflow. When pronouncing s, the front part of the tongue tip stays away from the inner surface of the upper teeth all along, leaving a gap for the airflow to get through."
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, обращая внимание на разницу инициалей",
+          "track": "03-5",
+          "rows": [
+            ["xǐ zǎo", "dǎsǎo", "sān cì", "zìjǐ"],
+            ["zuótiān", "zǎoshang", "cāochǎng", "Hànzì"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Различение произношения: финали i, u, ü. i и ü образуются в одном месте, но с разной формой губ: при i губы растянуты, при ü обязательно округлены. Чтобы потренироваться, произнесите i, оставьте язык на месте и округлите губы — получится ü.",
+          "en": "The finals i and ü share the same position of articulation, but are pronounced with the lips in different shapes. When pronouncing i, the lips are relaxed; when pronouncing ü, the lips must be rounded. To practice the two sounds, you can say i first, then keep your tongue where it is and round your lips to pronounce ü."
+        },
+        {
+          "kind": "prose",
+          "ru": "И u, и ü произносятся с округлёнными губами, но при ü язык впереди и кончик упирается в нижние зубы, а при u язык отодвинут назад, кончик зубов не касается.",
+          "en": "Both u and ü are pronounced with rounded lips. When saying ü, the tongue is in a front position, with the tip pressing the inner surface of the lower teeth; when saying u, the tongue is in a back position, with the tip staying away from the inner surface of the lower teeth, and the tongue should be held backwards to pronounce the sound right."
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Изменение тона «不» (bù). (1) Перед слогом первого, второго или третьего тона «不» тон не меняет.",
+          "en": "When \"不\" is followed by a syllable in the first, second or third tone, its tone doesn't change."
+        },
+        {
+          "kind": "words",
+          "track": "03-6",
+          "items": [
+            { "py": "bù chī", "ru": "не есть" },
+            { "py": "bù xíng", "ru": "не годится" },
+            { "py": "bù hǎo", "ru": "нехорошо" },
+            { "py": "bù hē", "ru": "не пить" },
+            { "py": "bù néng", "ru": "нельзя" },
+            { "py": "bù xiǎng", "ru": "не хотеть" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "(2) Перед слогом четвёртого тона «不» читается вторым тоном.",
+          "en": "When \"不\" is followed by a syllable in the fourth tone, it changes into the second tone."
+        },
+        {
+          "kind": "words",
+          "items": [
+            { "py": "bú huì", "ru": "не уметь" },
+            { "py": "bú shì", "ru": "не является" },
+            { "py": "bú kàn", "ru": "не смотреть" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "4. Правила пиньиня (2): ü и финали на ü в сочетании с j, q, x. Когда ü или финаль, начинающаяся с ü, стоит после j, q, x, две точки над ü опускаются: ju, qu, xu. Но после l и n они сохраняются: lü, nü.",
+          "en": "When ü or a final beginning with ü follows j, q or x, the two dots on the top of ü should be removed, for example, ju, qu, xu. However, if the initial is l or n, the form is lü and nü respectively."
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, обращая внимание на написание и произношение ü",
+          "track": "03-7",
+          "rows": [
+            ["ü", "üe", "üan", "ün"],
+            ["ju", "jue", "juan", "jun"],
+            ["qu", "que", "quan", "qun"],
+            ["xu", "xue", "xuan", "xun"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "strokes",
+          "items": [
+            { "s": "𠃌", "zh": "横折钩", "py": "héngzhégōu", "ru": "горизонтальная с переломом и крюком", "ex": [{ "zh": "门", "py": "mén", "ru": "дверь" }, { "zh": "月", "py": "yuè", "ru": "луна" }] },
+            { "s": "㇃", "zh": "卧钩", "py": "wògōu", "ru": "лежачий крюк", "ex": [{ "zh": "心", "py": "xīn", "ru": "сердце" }, { "zh": "您", "py": "nín", "ru": "Вы (вежл.)" }] }
+          ]
+        },
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "月", "py": "yuè", "pron": "юэ", "ru": "луна, месяц", "note_ru": "Обозначает луну." },
+            { "zh": "心", "py": "xīn", "pron": "синь", "ru": "сердце", "note_ru": "Обозначает сердце." },
+            { "zh": "中", "py": "zhōng", "pron": "чжун", "ru": "середина, центр", "note_ru": "Исходное значение — «развевающееся знамя»; сейчас указывает на положение — «середина»." },
+            { "zh": "人", "py": "rén", "pron": "жэнь", "ru": "человек", "note_ru": "Изначально изображал стоящего прямо человека." }
+          ]
+        },
+        {
+          "kind": "table",
+          "title_ru": "3. Порядок черт (1): сначала горизонтальная, потом вертикальная; сначала откидная влево, потом вправо",
+          "head": ["Правило", "Примеры", "Порядок написания"],
+          "rows": [
+            ["先横后竖 — сначала горизонтальная, потом вертикальная", "十 shí десять · 工 gōng работа", "一 十 ／ 一 丅 工"],
+            ["先撇后捺 — сначала откидная влево, потом вправо", "八 bā восемь · 人 rén человек", "丿 八 ／ 丿 人"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "Разбейтесь на пары и представьтесь друг другу.",
+          "instruction_en": "Work in pairs and introduce yourselves.",
+          "items": [
+            { "zh": "我叫李月，我是中国人，我是老师。", "py": "Wǒ jiào Lǐ Yuè, wǒ shì Zhōngguó rén, wǒ shì lǎoshī.", "ru": "Меня зовут Ли Юэ, я китаянка, я учитель." },
+            { "zh": "我叫大卫，我是美国人，我是学生。", "py": "Wǒ jiào Dàwèi, wǒ shì Měiguó rén, wǒ shì xuésheng.", "ru": "Меня зовут Дэвид, я американец, я студент." }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека расспросите друг друга по-китайски об имени и гражданстве; один участник от группы делает доклад. Заполните таблицу: имя (姓名) и гражданство (国籍). Пример: 李月 Lǐ Yuè — 中国 Zhōngguó.",
+          "instruction_en": "Work in groups of 3-4 and ask about each other's names and nationalities. Each group chooses one member to make a report."
+        }
+      ]
+    }
+  ]
+}

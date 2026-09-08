@@ -1,5 +1,6 @@
 ---
 import { url } from '../data/baseUrl';
+import { lessons as hsk1Lessons } from '../data/hsk1';
 
 interface Props {
   title?: string;
@@ -27,6 +28,16 @@ const refItems = [
 ];
 
 const allItems = [...navItems, ...refItems];
+
+// The textbook has 15 lessons, so it lives in a group that collapses unless
+// you are reading it.
+const hsk1Items = hsk1Lessons.map(l => ({
+  href: url(`/hsk1/${l.n}`),
+  id: `hsk1-${l.n}`,
+  num: String(l.n),
+  label: `${l.zh} · ${l.ru}`,
+}));
+const hsk1Open = activePage === 'hsk1' || activePage.startsWith('hsk1-');
 ---
 <!doctype html>
 <html lang="ru">
@@ -88,7 +99,7 @@ const allItems = [...navItems, ...refItems];
     #sidebar {
       width: var(--sidebar-w); height: 100vh;
       background: var(--navy); position: fixed;
-      top: 0; left: 0; overflow-y: auto; z-index: 100;
+      top: 0; left: 0; overflow: hidden; z-index: 100;
       display: flex; flex-direction: column;
       transition: transform .3s ease;
       transform: translateX(-100%);
@@ -97,7 +108,9 @@ const allItems = [...navItems, ...refItems];
     .sidebar-logo { padding: 28px 24px 20px; border-bottom: 1px solid rgba(255,255,255,.1); }
     .sidebar-logo .zh { font-family: 'Noto Sans SC', sans-serif; font-size: 2rem; color: var(--red2); display: block; line-height: 1; }
     .sidebar-logo .ru { font-size: .75rem; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .12em; margin-top: 4px; display: block; }
-    nav { flex: 1; padding: 16px 0; }
+    /* The link list scrolls on its own so the logo and footer stay pinned;
+       min-height:0 is what lets a flex child shrink far enough to scroll. */
+    nav { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 16px 0; }
     .nav-group-title { font-size: .65rem; text-transform: uppercase; letter-spacing: .15em; color: rgba(255,255,255,.35); padding: 12px 24px 4px; display: block; }
     .nav-link {
       display: flex; align-items: center; gap: 10px;
@@ -106,6 +119,13 @@ const allItems = [...navItems, ...refItems];
       border-left: 3px solid transparent; transition: all .18s;
     }
     .nav-link:hover, .nav-link.active { color: #fff; background: rgba(255,255,255,.08); border-left-color: var(--red2); }
+    .nav-book summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; }
+    .nav-book summary::-webkit-details-marker { display: none; }
+    .nav-book summary:hover { color: rgba(255,255,255,.6); }
+    .nav-caret { transition: transform .15s; font-size: .7rem; }
+    .nav-book[open] .nav-caret { transform: rotate(90deg); }
+    .nav-book .nav-link { font-size: .82rem; }
+    .nav-book .nav-link .num { font-size: .65rem; }
     .nav-link .num { font-size: .7rem; background: rgba(255,255,255,.15); border-radius: 4px; padding: 1px 6px; font-family: monospace; min-width: 24px; text-align: center; }
     .nav-link.active .num { background: var(--red2); }
 
@@ -289,6 +309,20 @@ const allItems = [...navItems, ...refItems];
           <span class="num">{item.num}</span> {item.label}
         </a>
       ))}
+      <details class="nav-book" open={hsk1Open}>
+        <summary class="nav-group-title">
+          Учебник HSK 1
+          <span class="nav-caret" aria-hidden="true">▸</span>
+        </summary>
+        <a class={`nav-link book-index${activePage === 'hsk1' ? ' active' : ''}`} href={url('/hsk1')}>
+          <span class="num">目</span> Оглавление
+        </a>
+        {hsk1Items.map(item => (
+          <a class={`nav-link${activePage === item.id ? ' active' : ''}`} href={item.href}>
+            <span class="num">{item.num}</span> {item.label}
+          </a>
+        ))}
+      </details>
       <span class="nav-group-title">Инструменты</span>
       <a class={`nav-link${activePage === 'vocab' ? ' active' : ''}`} href={url('/vocab')}>
         <span class="num">字</span> Словарь

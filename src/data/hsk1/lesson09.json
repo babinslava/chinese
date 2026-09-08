@@ -1,0 +1,276 @@
+{
+  "n": 9,
+  "zh": "你儿子在哪儿工作",
+  "py": "Nǐ érzi zài nǎr gōngzuò",
+  "pron": "Ни эрцзы цзай нар гунцзуо",
+  "ru": "Где работает твой сын",
+  "en": "Where does your son work",
+  "page": 64,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к словам подходящие картинки",
+        "title_zh": "给下面的词语选择对应的图片",
+        "instruction_en": "Match the pictures with the words.",
+        "items": [
+          { "zh": "爸爸", "py": "bàba", "ru": "папа" },
+          { "zh": "医生", "py": "yīshēng", "ru": "врач" },
+          { "zh": "医院", "py": "yīyuàn", "ru": "больница" },
+          { "zh": "椅子", "py": "yǐzi", "ru": "стул" },
+          { "zh": "猫", "py": "māo", "ru": "кошка" },
+          { "zh": "狗", "py": "gǒu", "ru": "собака" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "09-1",
+      "scene": "pets",
+      "lines": [
+        { "who": "A", "zh": "小猫在哪儿？", "py": "Xiǎo māo zài nǎr?", "pron": "Сяо мао цзай нар?", "ru": "Где котёнок?", "en": "Where is the kitty?" },
+        { "who": "B", "zh": "小猫在那儿。", "py": "Xiǎo māo zài nàr.", "pron": "Сяо мао цзай нар.", "ru": "Котёнок вон там.", "en": "The kitty is over there." },
+        { "who": "A", "zh": "小狗在哪儿？", "py": "Xiǎo gǒu zài nǎr?", "pron": "Сяо гоу цзай нар?", "ru": "А где щенок?", "en": "Where is the puppy?" },
+        { "who": "B", "zh": "小狗在椅子下面。", "py": "Xiǎo gǒu zài yǐzi xiàmiàn.", "pron": "Сяо гоу цзай ицзы сямянь.", "ru": "Щенок под стулом.", "en": "The puppy is under the chair." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "09-2",
+      "scene": "work-where",
+      "lines": [
+        { "who": "A", "zh": "你在哪儿工作？", "py": "Nǐ zài nǎr gōngzuò?", "pron": "Ни цзай нар гунцзуо?", "ru": "Где ты работаешь?", "en": "Where do you work?" },
+        { "who": "B", "zh": "我在学校工作。", "py": "Wǒ zài xuéxiào gōngzuò.", "pron": "Во цзай сюэсяо гунцзуо.", "ru": "Я работаю в школе.", "en": "I work in a school." },
+        { "who": "A", "zh": "你儿子在哪儿工作？", "py": "Nǐ érzi zài nǎr gōngzuò?", "pron": "Ни эрцзы цзай нар гунцзуо?", "ru": "А где работает твой сын?", "en": "Where does your son work?" },
+        { "who": "B", "zh": "我儿子在医院工作，他是医生。", "py": "Wǒ érzi zài yīyuàn gōngzuò, tā shì yīshēng.", "pron": "Во эрцзы цзай июань гунцзуо, та ши ишэн.", "ru": "Мой сын работает в больнице, он врач.", "en": "My son works in a hospital. He is a doctor." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "09-3",
+      "scene": "doctor",
+      "lines": [
+        { "who": "A", "zh": "你爸爸在家吗？", "py": "Nǐ bàba zài jiā ma?", "pron": "Ни баба цзай цзя ма?", "ru": "Твой папа дома?", "en": "Is your father at home?" },
+        { "who": "B", "zh": "不在家。", "py": "Bú zài jiā.", "pron": "Бу цзай цзя.", "ru": "Нет, не дома.", "en": "No, he isn't." },
+        { "who": "A", "zh": "他在哪儿呢？", "py": "Tā zài nǎr ne?", "pron": "Та цзай нар нэ?", "ru": "А где он?", "en": "Where is he?" },
+        { "who": "B", "zh": "他在医院。", "py": "Tā zài yīyuàn.", "pron": "Та цзай июань.", "ru": "Он в больнице.", "en": "He is in the hospital." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "小", "py": "xiǎo", "pron": "сяо", "pos": "прил.", "ru": "маленький", "en": "small, little" },
+    { "n": 2, "zh": "猫", "py": "māo", "pron": "мао", "pos": "сущ.", "ru": "кошка", "en": "cat" },
+    { "n": 3, "zh": "在", "py": "zài", "pron": "цзай", "pos": "гл.", "ru": "находиться, быть где-либо", "en": "to be in/on/at" },
+    { "n": 4, "zh": "那儿", "py": "nàr", "pron": "нар", "pos": "мест.", "ru": "там", "en": "there" },
+    { "n": 5, "zh": "狗", "py": "gǒu", "pron": "гоу", "pos": "сущ.", "ru": "собака", "en": "dog" },
+    { "n": 6, "zh": "椅子", "py": "yǐzi", "pron": "ицзы", "pos": "сущ.", "ru": "стул", "en": "chair" },
+    { "n": 7, "zh": "下面", "py": "xiàmiàn", "pron": "сямянь", "pos": "сущ.", "ru": "внизу, под (также 下 xià)", "en": "under, below" },
+    { "n": 8, "zh": "在", "py": "zài", "pron": "цзай", "pos": "предл.", "ru": "в, на (предлог места)", "en": "in/on/at" },
+    { "n": 9, "zh": "哪儿", "py": "nǎr", "pron": "нар", "pos": "мест.", "ru": "где", "en": "where" },
+    { "n": 10, "zh": "工作", "py": "gōngzuò", "pron": "гунцзуо", "pos": "гл./сущ.", "ru": "работать; работа", "en": "to work; job" },
+    { "n": 11, "zh": "儿子", "py": "érzi", "pron": "эрцзы", "pos": "сущ.", "ru": "сын", "en": "son" },
+    { "n": 12, "zh": "医院", "py": "yīyuàn", "pron": "июань", "pos": "сущ.", "ru": "больница", "en": "hospital" },
+    { "n": 13, "zh": "医生", "py": "yīshēng", "pron": "ишэн", "pos": "сущ.", "ru": "врач", "en": "doctor" },
+    { "n": 14, "zh": "爸爸", "py": "bàba", "pron": "баба", "pos": "сущ.", "ru": "папа", "en": "father" }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Глагол «在». «在» — глагол. Когда за ним следует слово места и он служит сказуемым, предложение указывает, где находится человек или предмет.",
+          "en": "\"在\" is a verb. When it is followed by a word of locality and acts as the predicate of a sentence, it indicates the location of somebody or something."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "在", "Слово места / направления"],
+          "rows": [
+            ["我朋友", "在", "学校。"],
+            ["我妈妈", "在", "家。"],
+            ["小狗", "在", "椅子下面。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Вопросительное местоимение «哪儿». «哪儿» спрашивает о местонахождении человека или предмета.",
+          "en": "The interrogative pronoun \"哪儿\" is used to ask about the location of somebody or something."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "我的杯子在哪儿？", "py": "Wǒ de bēizi zài nǎr?", "ru": "Где моя чашка?" },
+            { "zh": "你的中国朋友在哪儿？", "py": "Nǐ de Zhōngguó péngyou zài nǎr?", "ru": "Где твой друг из Китая?" },
+            { "zh": "小猫在哪儿？", "py": "Xiǎo māo zài nǎr?", "ru": "Где котёнок?" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Предлог «在». «在» может быть и предлогом: перед словом места он вводит место, где происходит действие.",
+          "en": "\"在\" can also act as a preposition, used before a word of locality to introduce the place where an action or behavior takes place."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "在", "Место", "Глагол"],
+          "rows": [
+            ["我", "在", "朋友家", "喝茶。"],
+            ["他们", "在", "学校", "看书。"],
+            ["我儿子", "在", "医院", "工作。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "4. Вопросительная частица «呢» (2). В конце предложения «呢» также образует вопрос о местонахождении человека или предмета.",
+          "en": "Used at the end of a sentence, the interrogative particle \"呢\" asks about the location of somebody or something."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "我的小猫呢？", "py": "Wǒ de xiǎo māo ne?", "ru": "А где мой котёнок?" },
+            { "zh": "我的杯子呢？", "py": "Wǒ de bēizi ne?", "ru": "А где моя чашка?" },
+            { "zh": "他在哪儿呢？", "py": "Tā zài nǎr ne?", "ru": "А где он?" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы по текстам",
+          "title_zh": "根据课文内容回答问题",
+          "instruction_en": "Answer the questions based on the dialogues.",
+          "items": [
+            { "zh": "小狗在哪儿？", "py": "Xiǎo gǒu zài nǎr?", "ru": "Где щенок?" },
+            { "zh": "他在哪儿工作？", "py": "Tā zài nǎr gōngzuò?", "ru": "Где он работает?" },
+            { "zh": "他儿子在哪儿工作？", "py": "Tā érzi zài nǎr gōngzuò?", "ru": "Где работает его сын?" },
+            { "zh": "她爸爸在家吗？", "py": "Tā bàba zài jiā ma?", "ru": "Её папа дома?" },
+            { "zh": "她爸爸在哪儿呢？", "py": "Tā bàba zài nǎr ne?", "ru": "А где её папа?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "____在____。", "py": "____ zài ____.", "ru": "____ находится ____." },
+            { "zh": "____在____。", "py": "____ zài ____.", "ru": "____ находится ____." },
+            { "zh": "我妈妈是____，她在____。", "py": "Wǒ māma shì ____, tā zài ____.", "ru": "Моя мама — ____, она в ____." },
+            { "zh": "我女儿是____，她不____。", "py": "Wǒ nǚ'ér shì ____, tā bù ____.", "ru": "Моя дочь — ____, она не ____." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Сочетания тонов в двусложных словах (4): четвёртый тон + любой другой тон."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "面包", "py": "miànbāo", "ru": "хлеб (4-й + 1-й)" },
+            { "zh": "面条", "py": "miàntiáo", "ru": "лапша (4-й + 2-й)" },
+            { "zh": "电脑", "py": "diànnǎo", "ru": "компьютер (4-й + 3-й)" },
+            { "zh": "电话", "py": "diànhuà", "ru": "телефон (4-й + 4-й)" }
+          ]
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, обращая внимание на сочетания тонов",
+          "track": "09-4",
+          "rows": [
+            ["xiàtiān", "qùnián", "tiào wǔ", "shuì jiào"],
+            ["diàndēng", "diànchí", "diànyǐng", "diànshì"],
+            ["chàng gē", "fùxí", "Hànyǔ", "Hànzì"],
+            ["jiànkāng", "dìtú", "dìtiě", "jiàn miàn"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "在", "py": "zài", "pron": "цзай", "ru": "находиться", "note_ru": "Исходная форма напоминает росток травы, пробивающийся из земли; сейчас значение — «существовать», «находиться»." },
+            { "zh": "子", "py": "zǐ", "pron": "цзы", "ru": "ребёнок, сын", "note_ru": "Исходное значение — «младенец». Сейчас значений много: «儿子» (сын), «电子» (электрон)." },
+            { "zh": "工", "py": "gōng", "pron": "гун", "ru": "работа, труд", "note_ru": "Изначально напоминал угольник ремесленника. Сейчас значений много: «工人» (рабочий), «工作» (работа)." }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Структура иероглифа (4): полуохват. Среди составных структур есть также полуохват и полный охват (см. урок 10). Полуохват бывает с двух сторон и с трёх сторон.",
+          "en": "There are another two kinds of compound structures — the half-enclosure structure and the enclosure structure (see Lesson 10). The half-enclosure structure in this lesson includes the structure enclosed by two sides and the structure enclosed by three sides."
+        },
+        {
+          "kind": "structure",
+          "items": [
+            { "name_ru": "Полуохват", "name_zh": "半包围结构", "layout": "◪", "ex": ["店", "习", "这", "同", "凶", "医"] }
+          ]
+        },
+        {
+          "kind": "radicals",
+          "items": [
+            { "r": "辶", "ru": "«ключ ходьбы» — обычно связан с движением, ходьбой", "ex": [{ "zh": "这", "py": "zhè", "ru": "этот" }, { "zh": "送", "py": "sòng", "ru": "провожать, отправлять" }] },
+            { "r": "门", "ru": "«ключ двери» — обычно связан с комнатой или дверью", "ex": [{ "zh": "问", "py": "wèn", "ru": "спрашивать" }, { "zh": "间", "py": "jiān", "ru": "счётное слово для комнат" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "В парах задавайте друг другу вопросы и отвечайте про себя.",
+          "instruction_en": "Work in pairs and ask and answer questions according to the actual situations.",
+          "items": [
+            { "zh": "……在哪儿？ — ……在……", "py": "……zài nǎr? — ……zài……", "ru": "Где …? — … находится …" },
+            { "zh": "……在哪儿工作？ — ……在……工作，他/她是……", "py": "……zài nǎr gōngzuò? — ……zài……gōngzuò, tā/tā shì……", "ru": "Где работает …? — … работает в …, он/она …" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека расскажите друг другу о работе своих друзей и одноклассников и запишите. Один участник от группы делает доклад. Пример: 李朋 Lǐ Péng — 是医生，在医院工作 Shì yīshēng, zài yīyuàn gōngzuò.",
+          "instruction_en": "Work in groups of 3-4. Tell each other about the jobs of your friends or classmates and take notes. Each group chooses one member to make a report."
+        }
+      ]
+    }
+  ]
+}

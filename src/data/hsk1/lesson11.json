@@ -1,0 +1,292 @@
+{
+  "n": 11,
+  "zh": "现在几点",
+  "py": "Xiànzài jǐ diǎn",
+  "pron": "Сяньцзай цзи дянь",
+  "ru": "Сколько сейчас времени",
+  "en": "What's the time now",
+  "page": 82,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к времени подходящие циферблаты",
+        "title_zh": "给下面的词语选择对应的时间",
+        "instruction_en": "Match the pictures with the times.",
+        "items": [
+          { "zh": "5:00", "py": "wǔ diǎn", "ru": "пять часов" },
+          { "zh": "2:00", "py": "liǎng diǎn", "ru": "два часа" },
+          { "zh": "9:45", "py": "jiǔ diǎn sìshíwǔ fēn", "ru": "девять сорок пять" },
+          { "zh": "12:00", "py": "shí'èr diǎn", "ru": "двенадцать часов" },
+          { "zh": "3:05", "py": "sān diǎn líng wǔ fēn", "ru": "три ноль пять" },
+          { "zh": "6:30", "py": "liù diǎn sānshí fēn", "ru": "полседьмого" },
+          { "zh": "10:10", "py": "shí diǎn shí fēn", "ru": "десять десять" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "11-1",
+      "scene": "time-now",
+      "lines": [
+        { "who": "A", "zh": "现在几点？", "py": "Xiànzài jǐ diǎn?", "pron": "Сяньцзай цзи дянь?", "ru": "Сколько сейчас времени?", "en": "What's the time now?" },
+        { "who": "B", "zh": "现在十点十分。", "py": "Xiànzài shí diǎn shí fēn.", "pron": "Сяньцзай ши дянь ши фэнь.", "ru": "Сейчас десять минут одиннадцатого.", "en": "It's ten past ten." },
+        { "who": "A", "zh": "中午几点吃饭？", "py": "Zhōngwǔ jǐ diǎn chī fàn?", "pron": "Чжуну цзи дянь чи фань?", "ru": "Во сколько обед?", "en": "When shall we have our lunch?" },
+        { "who": "B", "zh": "十二点吃饭。", "py": "Shí'èr diǎn chī fàn.", "pron": "Шиэр дянь чи фань.", "ru": "В двенадцать.", "en": "At twelve o'clock." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "11-2",
+      "scene": "cinema",
+      "lines": [
+        { "who": "A", "zh": "爸爸什么时候回家？", "py": "Bàba shénme shíhou huí jiā?", "pron": "Баба шэньме шихоу хуэй цзя?", "ru": "Когда папа вернётся домой?", "en": "When is father coming home?" },
+        { "who": "B", "zh": "下午五点。", "py": "Xiàwǔ wǔ diǎn.", "pron": "Сяу у дянь.", "ru": "В пять часов дня.", "en": "At five o'clock in the afternoon." },
+        { "who": "A", "zh": "我们什么时候去看电影？", "py": "Wǒmen shénme shíhou qù kàn diànyǐng?", "pron": "Вомэнь шэньме шихоу цюй кань дяньин?", "ru": "А когда мы пойдём в кино?", "en": "When are we going to see the movie?" },
+        { "who": "B", "zh": "六点三十分。", "py": "Liù diǎn sānshí fēn.", "pron": "Лю дянь саньши фэнь.", "ru": "В половине седьмого.", "en": "At half past six." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "11-3",
+      "scene": "lunch",
+      "lines": [
+        { "who": "A", "zh": "我星期一去北京。", "py": "Wǒ xīngqī yī qù Běijīng.", "pron": "Во синци и цюй Бэйцзин.", "ru": "В понедельник я еду в Пекин.", "en": "I'll go to Beijing next Monday." },
+        { "who": "B", "zh": "你想在北京住几天？", "py": "Nǐ xiǎng zài Běijīng zhù jǐ tiān?", "pron": "Ни сян цзай Бэйцзин чжу цзи тянь?", "ru": "Сколько дней ты собираешься пробыть в Пекине?", "en": "How long will you stay in Beijing?" },
+        { "who": "A", "zh": "住三天。", "py": "Zhù sān tiān.", "pron": "Чжу сань тянь.", "ru": "Три дня.", "en": "For three days." },
+        { "who": "B", "zh": "星期五前能回家吗？", "py": "Xīngqī wǔ qián néng huí jiā ma?", "pron": "Синци у цянь нэн хуэй цзя ма?", "ru": "Успеешь вернуться домой до пятницы?", "en": "Can you come back before Friday?" },
+        { "who": "A", "zh": "能。", "py": "Néng.", "pron": "Нэн.", "ru": "Да.", "en": "Yes, I can." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "现在", "py": "xiànzài", "pron": "сяньцзай", "pos": "сущ.", "ru": "сейчас, теперь", "en": "now" },
+    { "n": 2, "zh": "点", "py": "diǎn", "pron": "дянь", "pos": "сч. сл.", "ru": "час (о времени)", "en": "o'clock" },
+    { "n": 3, "zh": "分", "py": "fēn", "pron": "фэнь", "pos": "сч. сл.", "ru": "минута", "en": "minute" },
+    { "n": 4, "zh": "中午", "py": "zhōngwǔ", "pron": "чжуну", "pos": "сущ.", "ru": "полдень", "en": "noon" },
+    { "n": 5, "zh": "吃饭", "py": "chī fàn", "pron": "чи фань", "pos": "гл.", "ru": "есть, обедать", "en": "to eat a meal" },
+    { "n": 6, "zh": "时候", "py": "shíhou", "pron": "шихоу", "pos": "сущ.", "ru": "время, момент", "en": "time, moment" },
+    { "n": 7, "zh": "回", "py": "huí", "pron": "хуэй", "pos": "гл.", "ru": "возвращаться", "en": "to come/go back, to return" },
+    { "n": 8, "zh": "我们", "py": "wǒmen", "pron": "вомэнь", "pos": "мест.", "ru": "мы, нас", "en": "we, us" },
+    { "n": 9, "zh": "电影", "py": "diànyǐng", "pron": "дяньин", "pos": "сущ.", "ru": "фильм, кино", "en": "film, movie" },
+    { "n": 10, "zh": "住", "py": "zhù", "pron": "чжу", "pos": "гл.", "ru": "жить, проживать", "en": "to live, to stay" },
+    { "n": 11, "zh": "前", "py": "qián", "pron": "цянь", "pos": "сущ.", "ru": "до, раньше", "en": "before, earlier than" },
+    { "zh": "北京", "py": "Běijīng", "pron": "Бэйцзин", "ru": "Пекин, столица Китая", "en": "Beijing, capital of China", "proper": true }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Как называют время (1). Время в китайском выражают через «点» и «分», от большей единицы к меньшей. «点» означает «час» и указывает на целый час.",
+          "en": "\"点\" and \"分\" are used to express time in Chinese, observing the principle of \"the bigger unit preceding the smaller unit\". \"点\" means \"o'clock\", indicating a whole hour."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "九点", "py": "jiǔ diǎn", "ru": "9:00" },
+            { "zh": "十一点", "py": "shíyī diǎn", "ru": "11:00" },
+            { "zh": "两点", "py": "liǎng diǎn", "ru": "2:00" }
+          ]
+        },
+        {
+          "kind": "note",
+          "ru": "Внимание: «2 часа» по-китайски — «两点 (liǎng diǎn)», а не «二点 (èr diǎn)».",
+          "en": "The counterpart of 2 o'clock in Chinese is \"两点 (liǎng diǎn)\" instead of \"二点 (èr diǎn)\"."
+        },
+        {
+          "kind": "prose",
+          "ru": "Если время не ровное, добавляют «分» по схеме «……点……分».",
+          "en": "If it is not a \"whole-hour\" time, \"分\" is used. The pattern is \"……点……分\"."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "五点三十分", "py": "wǔ diǎn sānshí fēn", "ru": "5:30" },
+            { "zh": "十一点十分", "py": "shíyī diǎn shí fēn", "ru": "11:10" },
+            { "zh": "两点零五分", "py": "liǎng diǎn líng wǔ fēn", "ru": "2:05 (零 líng — ноль)" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "Чтобы отличить время до и после полудня, используют схему «上午……点（……分）» или «下午……点（……分）».",
+          "en": "To distinguish a time before noon from one afternoon, the pattern \"上午 (morning)……点（……分）\" or \"下午 (afternoon)……点（……分）\" is used."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "上午八点", "py": "shàngwǔ bā diǎn", "ru": "8:00 утра" },
+            { "zh": "下午三点十分", "py": "xiàwǔ sān diǎn shí fēn", "ru": "15:10" },
+            { "zh": "下午五点二十五分", "py": "xiàwǔ wǔ diǎn èrshíwǔ fēn", "ru": "17:25" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Слова времени в роли обстоятельства. Слово времени в предложении обычно стоит после подлежащего, но может стоять и перед ним.",
+          "en": "When a time word serves as an adverbial modifier in a sentence, it often follows the subject. Sometimes it can be used before the subject."
+        },
+        {
+          "kind": "table",
+          "head": ["Подлежащее", "Время (обстоятельство)", "Сказуемое"],
+          "rows": [
+            ["妈妈", "六点", "做饭。"],
+            ["李老师", "上午八点", "去学校。"],
+            ["我", "星期一", "去北京。"]
+          ]
+        },
+        {
+          "kind": "table",
+          "head": ["Время (обстоятельство)", "Подлежащее", "Сказуемое"],
+          "rows": [
+            ["七点", "我", "吃饭。"],
+            ["中午十二点", "我们", "回家。"],
+            ["下午五点", "他们", "去看电影。"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Существительное «前». «前» указывает на момент раньше настоящего или раньше упомянутого времени.",
+          "en": "The noun \"前\" can be used to refer to a period prior to the present time or the time being mentioned."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "三天前", "py": "sān tiān qián", "ru": "три дня назад" },
+            { "zh": "一个星期前", "py": "yí ge xīngqī qián", "ru": "неделю назад" },
+            { "zh": "四点前", "py": "sì diǎn qián", "ru": "до четырёх" },
+            { "zh": "星期五前", "py": "xīngqī wǔ qián", "ru": "до пятницы" },
+            { "zh": "你什么时候去学校？ — 八点前。", "py": "Nǐ shénme shíhou qù xuéxiào? — Bā diǎn qián.", "ru": "Когда ты идёшь в школу? — До восьми." },
+            { "zh": "（你）星期五前能回家吗？ — 能。", "py": "(Nǐ) xīngqī wǔ qián néng huí jiā ma? — Néng.", "ru": "Ты сможешь вернуться домой до пятницы? — Да." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы по текстам",
+          "title_zh": "根据课文内容回答问题",
+          "instruction_en": "Answer the questions based on the dialogues.",
+          "items": [
+            { "zh": "现在几点？", "py": "Xiànzài jǐ diǎn?", "ru": "Сколько сейчас времени?" },
+            { "zh": "他们几点吃饭？", "py": "Tāmen jǐ diǎn chī fàn?", "ru": "Во сколько они обедают?" },
+            { "zh": "爸爸什么时候回家？", "py": "Bàba shénme shíhou huí jiā?", "ru": "Когда папа вернётся домой?" },
+            { "zh": "他们什么时候去看电影？", "py": "Tāmen shénme shíhou qù kàn diànyǐng?", "ru": "Когда они пойдут в кино?" },
+            { "zh": "他去哪儿？什么时候能回家？", "py": "Tā qù nǎr? Shénme shíhou néng huí jiā?", "ru": "Куда он едет? Когда сможет вернуться?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "她____在学校。", "py": "Tā ____ zài xuéxiào.", "ru": "Она ____ в школе." },
+            { "zh": "王方中午____去商店____。", "py": "Wáng Fāng zhōngwǔ ____ qù shāngdiàn ____.", "ru": "Ван Фан в полдень ____ идёт в магазин ____." },
+            { "zh": "他们很忙，星期六____也工作。", "py": "Tāmen hěn máng, xīngqī liù ____ yě gōngzuò.", "ru": "Они очень заняты, в субботу ____ тоже работают. (忙 máng — занятой)" },
+            { "zh": "她上午不喝茶，下午____前喝茶。", "py": "Tā shàngwǔ bù hē chá, xiàwǔ ____ qián hē chá.", "ru": "Утром она не пьёт чай, а днём пьёт до ____." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Функция нейтрального тона. В китайском нейтральный тон — не только фонетическое явление, но и способ различать значения. Например, «东西», прочитанное как «dōngxī», означает стороны света «восток и запад», а прочитанное как «dōngxi» — «вещь».",
+          "en": "The neutral tone in Chinese is not only a phonological phenomenon, but also a way to distinguish meanings. For example, the word \"东西\" refers to the directions east and west when read as \"dōngxī\", but when read as \"dōngxi\", it means \"thing/stuff\"."
+        },
+        {
+          "kind": "table",
+          "title_ru": "Сравните значения (11-4)",
+          "head": ["Слово", "С нейтральным тоном", "С полным тоном"],
+          "rows": [
+            ["老子", "lǎozi — (прост.) отец", "Lǎozǐ — Лао-цзы, древнекитайский мыслитель"],
+            ["买卖", "mǎimai — торговля, дело (сущ.)", "mǎimài — покупать и продавать (гл.)"],
+            ["大意", "dàyi — небрежный (прил.)", "dàyì — общий смысл (сущ.)"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "午", "py": "wǔ", "pron": "у", "ru": "полдень", "note_ru": "«午» в китайском обозначает отрезок дня примерно с 11 до 13 часов." },
+            { "zh": "电", "py": "diàn", "pron": "дянь", "ru": "электричество", "note_ru": "Исходное значение — острая зубчатая вспышка в небе во время дождя, то есть молния. Это и физическое явление, и вид энергии." }
+          ]
+        },
+        {
+          "kind": "radicals",
+          "items": [
+            { "r": "阝", "ru": "«ключ уха-ножа» — обычно связан с рельефом или местоположением", "ex": [{ "zh": "院", "py": "yuàn", "ru": "двор" }, { "zh": "阳", "py": "yáng", "ru": "солнце" }] },
+            { "r": "亻", "ru": "«ключ человека» — обычно связан с человеком", "ex": [{ "zh": "你", "py": "nǐ", "ru": "ты" }, { "zh": "他", "py": "tā", "ru": "он" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "В парах назовите время по схеме «现在……点……分». Пример: А: 现在几点？ B: 现在八点十八分。",
+          "instruction_en": "Work in pairs and talk about the following times using the structure \"现在……点……分\".",
+          "items": [
+            { "zh": "03:30", "py": "sān diǎn sānshí fēn", "ru": "три тридцать" },
+            { "zh": "11:23", "py": "shíyī diǎn èrshísān fēn", "ru": "одиннадцать двадцать три" },
+            { "zh": "10:43", "py": "shí diǎn sìshísān fēn", "ru": "десять сорок три" },
+            { "zh": "04:15", "py": "sì diǎn shíwǔ fēn", "ru": "четыре пятнадцать" },
+            { "zh": "05:58", "py": "wǔ diǎn wǔshíbā fēn", "ru": "пять пятьдесят восемь" },
+            { "zh": "01:27", "py": "yī diǎn èrshíqī fēn", "ru": "час двадцать семь" },
+            { "zh": "12:27", "py": "shí'èr diǎn èrshíqī fēn", "ru": "двенадцать двадцать семь" },
+            { "zh": "02:34", "py": "liǎng diǎn sānshísì fēn", "ru": "два тридцать четыре" },
+            { "zh": "07:45", "py": "qī diǎn sìshíwǔ fēn", "ru": "семь сорок пять" },
+            { "zh": "10:05", "py": "shí diǎn líng wǔ fēn", "ru": "десять ноль пять" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека расспросите друг друга о распорядке дня и запишите. Один участник от группы делает доклад. Пример: А: 你几点吃早饭？ B: 我七点吃早饭。 Строки таблицы: 吃早饭 chī zǎofàn завтракать, 来学校 lái xuéxiào приходить в школу, 看书 kàn shū читать, 回家 huí jiā возвращаться домой, 看电视 kàn diànshì смотреть телевизор. Пример у 小王 Xiǎo Wáng: 7:00 / 8:20 / 15:00 / до 18:00 / вечером (晚上 wǎnshang) 20:00.",
+          "instruction_en": "Work in groups of 3-4. Ask about each other's daily routines and take notes. Each group chooses one member to make a report."
+        }
+      ]
+    }
+  ]
+}

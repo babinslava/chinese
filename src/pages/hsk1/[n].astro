@@ -1,0 +1,363 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import Scene from '../../components/Scene.astro';
+import BookSection from '../../components/BookSection.astro';
+import { lessons, getHsk1NavContext, type Lesson } from '../../data/hsk1';
+import { url } from '../../data/baseUrl';
+
+export function getStaticPaths() {
+  return lessons.map(lesson => ({
+    params: { n: String(lesson.n) },
+    props: { lesson },
+  }));
+}
+
+const { lesson } = Astro.props as { lesson: Lesson };
+const { prev, next } = getHsk1NavContext(lesson.n);
+
+const required = lesson.newWords.filter(w => !w.proper);
+const proper = lesson.newWords.filter(w => w.proper);
+---
+
+<Layout title={`Урок ${lesson.n}: ${lesson.zh} — HSK 1`} activePage={`hsk1-${lesson.n}`}>
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">{lesson.n}</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Учебник HSK 1 · стр. {lesson.page}</div>
+          <div class="lesson-title">
+            <span class="title-zh">{lesson.zh}</span>
+            <AudioButton text={lesson.zh} size="sm" />
+          </div>
+          <div class="lesson-subtitle">{lesson.py} · {lesson.pron} — {lesson.ru} <span class="en">({lesson.en})</span></div>
+        </div>
+      </div>
+
+      {lesson.warmup && <BookSection section={lesson.warmup} />}
+
+      <!-- ── 课文 Text ─────────────────────────────────────────── -->
+      <h2 class="section-title" id="text">课文 · Тексты</h2>
+      <div class="texts">
+        {lesson.texts.map(t => (
+          <article class="text-card">
+            <div class="text-num">
+              <span class="tn">{t.n}</span>
+              {t.track && <span class="track">{t.track}</span>}
+            </div>
+            <Scene name={t.scene} />
+            <div class="dialog">
+              {t.lines.map(line => (
+                <div class="dialog-row">
+                  <div class="dialog-who">{line.who}</div>
+                  <div class="dialog-body">
+                    <div class="dialog-zh">
+                      {line.zh}
+                      <AudioButton text={line.zh} size="sm" />
+                    </div>
+                    <div class="dialog-py">{line.py}</div>
+                    <div class="dialog-pron">{line.pron}</div>
+                    <div class="dialog-ru">{line.ru}</div>
+                    <div class="dialog-en">{line.en}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- ── 生词 New Words ────────────────────────────────────── -->
+      <h2 class="section-title" id="words">生词 · Новые слова</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th class="c-n">№</th><th>Иероглиф</th><th>Пиньинь</th><th>Часть речи</th><th>Перевод</th><th>English</th></tr>
+          </thead>
+          <tbody>
+            {required.map(w => (
+              <tr>
+                <td class="c-n">{w.n}{w.star && <span class="star" title="Сверх обязательного списка HSK 1">*</span>}</td>
+                <td class="c-zh">
+                  <a href={url(`/vocab/${encodeURIComponent(w.zh)}`)} class="w-link">{w.zh}</a>
+                  <AudioButton text={w.zh} size="sm" />
+                </td>
+                <td class="c-py">{w.py}<span class="pron">{w.pron}</span></td>
+                <td class="c-pos">{w.pos}</td>
+                <td>{w.ru}</td>
+                <td class="c-en">{w.en}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {proper.length > 0 && (
+        <div class="proper">
+          <div class="proper-label">专名 · Имена собственные</div>
+          <div class="proper-list">
+            {proper.map(w => (
+              <div class="proper-item">
+                <a href={url(`/vocab/${encodeURIComponent(w.zh)}`)} class="w-link">{w.zh}</a>
+                <AudioButton text={w.zh} size="sm" />
+                <span class="proper-py">{w.py}</span>
+                <span class="proper-ru">{w.ru}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- ── 拼音 / 汉字 / 注释 ─────────────────────────────────── -->
+      {lesson.sections.map(sec => <BookSection section={sec} />)}
+
+      <!-- ── 课堂用语 Classroom Expressions ─────────────────────── -->
+      {lesson.classroom && (
+        <div class="book-section">
+          <h2 class="section-title" id="classroom">
+            课堂用语 · Фразы для урока
+            {lesson.classroom.track && <span class="track">{lesson.classroom.track}</span>}
+          </h2>
+          <div class="ex-list">
+            {lesson.classroom.items.map(it => (
+              <div class="ex">
+                <div class="ex-zh">
+                  {it.zh}
+                  <AudioButton text={it.zh} size="sm" />
+                </div>
+                <div class="ex-py">{it.py}<span class="pron">{it.pron}</span></div>
+                <div class="ex-ru">{it.ru}</div>
+                <div class="ex-en">{it.en}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+
+    <nav class="book-nav">
+      {prev
+        ? <a class="bn prev" href={url(`/hsk1/${prev.n}`)}><span class="bn-dir">← Урок {prev.n}</span><span class="bn-t">{prev.zh} · {prev.ru}</span></a>
+        : <a class="bn prev" href={url('/hsk1')}><span class="bn-dir">← Оглавление</span><span class="bn-t">Учебник HSK 1</span></a>}
+      {next
+        ? <a class="bn next" href={url(`/hsk1/${next.n}`)}><span class="bn-dir">Урок {next.n} →</span><span class="bn-t">{next.zh} · {next.ru}</span></a>
+        : <a class="bn next" href={url('/hsk1')}><span class="bn-dir">Оглавление →</span><span class="bn-t">Учебник HSK 1</span></a>}
+    </nav>
+  </div>
+</Layout>
+
+<style>
+  .title-zh { font-family: 'Noto Sans SC', sans-serif; }
+  .lesson-subtitle .en { color: var(--muted); opacity: .75; }
+
+  .track {
+    font-family: monospace;
+    font-size: .62rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 8px;
+    vertical-align: middle;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* — Texts — */
+  .texts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .text-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .text-num { display: flex; align-items: center; margin-bottom: 10px; }
+  .text-num .tn {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: .8rem;
+    color: #fff;
+    background: var(--red);
+    border-radius: 5px;
+    min-width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dialog-en {
+    font-size: .78rem;
+    color: var(--muted);
+    opacity: .7;
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* — New words table — */
+  .c-n { width: 44px; color: var(--muted); font-family: monospace; font-size: .8rem; }
+  .star { color: var(--red); font-weight: 700; }
+  .c-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.3rem; white-space: nowrap; }
+  .c-py { white-space: nowrap; }
+  .c-pos { color: var(--muted); font-size: .8rem; font-style: italic; white-space: nowrap; }
+  .c-en { color: var(--muted); font-size: .82rem; }
+  .pron { display: block; font-size: .72rem; color: var(--muted); }
+  .w-link {
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1.5px dotted var(--red);
+    font-weight: 700;
+  }
+  .w-link:hover { color: var(--navy2); border-bottom-color: var(--navy2); }
+
+  .proper {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+  }
+  .proper-label {
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .proper-list { display: flex; flex-wrap: wrap; gap: 18px; }
+  .proper-item { display: flex; align-items: center; gap: 6px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.15rem; }
+  .proper-py, .proper-ru { font-family: 'Mulish', sans-serif; font-size: .82rem; color: var(--muted); }
+
+  /* — Blocks — */
+  .book-section { margin-top: 44px; }
+  .block { margin-bottom: 26px; }
+  .sub-title {
+    font-size: .95rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--text);
+  }
+  .prose p { margin: 0 0 8px; line-height: 1.7; }
+  .en-line { color: var(--muted); font-size: .85rem; font-style: italic; }
+
+  .syl-grid { display: flex; flex-direction: column; gap: 8px; }
+  .syl-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .syl {
+    font-family: 'Mulish', sans-serif;
+    font-size: .95rem;
+    padding: 7px 14px;
+    min-width: 62px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .syl:hover { border-color: var(--red); color: var(--red); }
+
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .word-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .wc-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.4rem; color: var(--red); }
+  .wc-py { font-size: .85rem; margin-top: 2px; }
+  .wc-ru { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+  .ex-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .ex {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .ex-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.25rem; }
+  .ex-py { font-size: .85rem; color: var(--navy2); }
+  .ex-py .pron { display: inline; margin-left: 8px; }
+  .ex-ru { font-size: .9rem; margin-top: 3px; }
+  .ex-en { font-size: .78rem; color: var(--muted); font-style: italic; }
+
+  .stroke-cell { font-family: 'Noto Sans SC', sans-serif; font-size: 2rem; text-align: center; width: 70px; }
+  .stroke-zh { font-family: 'Noto Sans SC', sans-serif; font-weight: 700; }
+  .stroke-py { color: var(--navy2); font-size: .85rem; }
+  .stroke-ru { font-size: .8rem; color: var(--muted); }
+  .stroke-ex, .rc-ex { display: flex; flex-wrap: wrap; gap: 14px; }
+  .se { display: inline-flex; align-items: baseline; gap: 5px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.15rem; }
+  .se-py { font-family: 'Mulish', sans-serif; font-size: .8rem; color: var(--navy2); }
+  .se-ru { font-family: 'Mulish', sans-serif; font-size: .78rem; color: var(--muted); }
+
+  .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .char-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .cc-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 3rem; line-height: 1.1; }
+  .cc-zh a { color: var(--red); text-decoration: none; }
+  .cc-zh a:hover { color: var(--navy2); }
+  .cc-py { font-size: .85rem; color: var(--navy2); }
+  .cc-ru { font-size: .9rem; font-weight: 600; margin-top: 2px; }
+  .cc-note { font-size: .76rem; color: var(--muted); margin: 8px 0; line-height: 1.5; }
+
+  .rad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .rad-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .rc-r { font-family: 'Noto Sans SC', sans-serif; font-size: 2.4rem; color: var(--red); line-height: 1; }
+  .rc-meta { display: flex; gap: 8px; align-items: baseline; margin: 4px 0 8px; }
+  .rc-py { font-size: .82rem; color: var(--navy2); }
+  .rc-ru { font-size: .85rem; font-weight: 600; }
+
+  .struct-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .struct-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .st-layout { font-size: 1.6rem; line-height: 1.2; color: var(--navy2); }
+  .st-name { font-weight: 600; font-size: .88rem; margin-top: 6px; }
+  .st-zh { font-family: 'Noto Sans SC', sans-serif; font-size: .85rem; color: var(--muted); }
+  .st-ex { display: flex; justify-content: center; gap: 10px; margin-top: 8px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.3rem; color: var(--red); }
+
+  /* — Prev / next — */
+  .book-nav { display: flex; gap: 14px; justify-content: space-between; margin: 8px 0 40px; }
+  .bn {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .15s;
+  }
+  .bn:hover { border-color: var(--red); transform: translateY(-2px); }
+  .bn.next { text-align: right; }
+  .bn-dir { display: block; font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--red); }
+  .bn-t { display: block; font-size: .9rem; margin-top: 3px; }
+
+  @media (max-width: 640px) {
+    .book-nav { flex-direction: column; }
+    .bn.next { text-align: left; }
+  }
+</style>

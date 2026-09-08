@@ -1,0 +1,378 @@
+---
+import AudioButton from './AudioButton.astro';
+import { url } from '../data/baseUrl';
+import type { Section } from '../data/hsk1/types';
+
+/**
+ * Renders one titled section of a textbook lesson (拼音, 汉字, 注释, 练习 …).
+ * Everything below the title is a list of blocks; see data/hsk1/types.ts for
+ * the block shapes.
+ */
+interface Props {
+  section: Section;
+}
+const { section } = Astro.props;
+---
+
+<div class="book-section">
+  <h2 class="section-title" id={section.id}>{section.label_zh} · {section.label_ru}</h2>
+
+  {section.blocks.map(b => (
+    <div class="block">
+      {b.kind === 'prose' && (
+        <div class="prose">
+          <p>{b.ru}</p>
+          {b.en && <p class="en-line">{b.en}</p>}
+        </div>
+      )}
+
+      {b.kind === 'note' && (
+        <div class="note">
+          <p>{b.ru}</p>
+          {b.en && <p class="en-line">{b.en}</p>}
+        </div>
+      )}
+
+      {b.kind === 'exercise' && (
+        <div class="task">
+          <div class="task-head">
+            {b.n && <span class="task-n">{b.n}</span>}
+            <span class="task-title">{b.title_ru}</span>
+            {b.title_zh && <span class="task-zh">{b.title_zh}</span>}
+          </div>
+          {b.instruction_ru && <p class="task-instr">{b.instruction_ru}</p>}
+          {b.instruction_en && <p class="en-line">{b.instruction_en}</p>}
+          {b.items && (
+            <ol class="task-items">
+              {b.items.map(it => (
+                <li>
+                  {it.zh && (
+                    <span class="ti-zh">
+                      {it.zh}
+                      <AudioButton text={it.zh.replace(/_+/g, ' ')} size="sm" />
+                    </span>
+                  )}
+                  {it.py && <span class="ti-py">{it.py}</span>}
+                  {it.ru && <span class="ti-ru">{it.ru}</span>}
+                </li>
+              ))}
+            </ol>
+          )}
+        </div>
+      )}
+
+      {b.kind === 'table' && (
+        <div class="sub">
+          {b.title_ru && <h3 class="sub-title">{b.title_ru}</h3>}
+          <div class="table-wrap">
+            <table>
+              <thead><tr>{b.head.map(h => <th>{h}</th>)}</tr></thead>
+              <tbody>{b.rows.map(r => <tr>{r.map(c => <td>{c}</td>)}</tr>)}</tbody>
+            </table>
+          </div>
+          {b.note_ru && <p class="tip">{b.note_ru}</p>}
+        </div>
+      )}
+
+      {b.kind === 'syllables' && (
+        <div class="sub">
+          {b.title_ru && (
+            <h3 class="sub-title">
+              {b.title_ru}
+              {b.track && <span class="track">{b.track}</span>}
+            </h3>
+          )}
+          <div class="syl-grid">
+            {b.rows.map(row => (
+              <div class="syl-row">
+                {row.map(s => (
+                  <button class="syl" onclick={`playZh('${s.replace(/'/g, "\\'")}', this)`} title={`Произнести: ${s}`}>{s}</button>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {b.kind === 'words' && (
+        <div class="sub">
+          {b.title_ru && (
+            <h3 class="sub-title">
+              {b.title_ru}
+              {b.track && <span class="track">{b.track}</span>}
+            </h3>
+          )}
+          <div class="word-grid">
+            {b.items.map(it => (
+              <div class="word-card">
+                {it.zh && (
+                  <div class="wc-zh">
+                    {it.zh}
+                    <AudioButton text={it.zh} size="sm" />
+                  </div>
+                )}
+                <div class="wc-py">{it.py}</div>
+                {it.ru && <div class="wc-ru">{it.ru}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {b.kind === 'examples' && (
+        <div class="sub">
+          {b.title_ru && <h3 class="sub-title">{b.title_ru}</h3>}
+          <div class="ex-list">
+            {b.items.map(it => (
+              <div class="ex">
+                <div class="ex-zh">
+                  {it.zh}
+                  <AudioButton text={it.zh} size="sm" />
+                </div>
+                <div class="ex-py">{it.py}{it.pron && <span class="pron">{it.pron}</span>}</div>
+                <div class="ex-ru">{it.ru}</div>
+                {it.en && <div class="ex-en">{it.en}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {b.kind === 'strokes' && (
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Черта</th><th>Название</th><th>Примеры</th></tr></thead>
+            <tbody>
+              {b.items.map(s => (
+                <tr>
+                  <td class="stroke-cell">{s.s}</td>
+                  <td><span class="stroke-zh">{s.zh}</span> <span class="stroke-py">{s.py}</span><br /><span class="stroke-ru">{s.ru}</span></td>
+                  <td class="stroke-ex">
+                    {s.ex.map(e => (
+                      <span class="se">
+                        <a href={url(`/vocab/${encodeURIComponent(e.zh)}`)} class="w-link">{e.zh}</a>
+                        <span class="se-py">{e.py}</span>
+                        <span class="se-ru">{e.ru}</span>
+                      </span>
+                    ))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {b.kind === 'chars' && (
+        <div class="char-grid">
+          {b.items.map(c => (
+            <div class="char-card">
+              <div class="cc-zh">
+                <a href={url(`/vocab/${encodeURIComponent(c.zh)}`)}>{c.zh}</a>
+              </div>
+              <div class="cc-py">{c.py} · {c.pron}</div>
+              <div class="cc-ru">{c.ru}</div>
+              {c.note_ru && <div class="cc-note">{c.note_ru}</div>}
+              <AudioButton text={c.zh} size="sm" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {b.kind === 'radicals' && (
+        <div class="rad-grid">
+          {b.items.map(r => (
+            <div class="rad-card">
+              <div class="rc-r">{r.r}</div>
+              <div class="rc-meta">
+                {r.py && <span class="rc-py">{r.py}</span>}
+                <span class="rc-ru">{r.ru}</span>
+              </div>
+              <div class="rc-ex">
+                {r.ex.map(e => (
+                  <span class="se">
+                    <a href={url(`/vocab/${encodeURIComponent(e.zh)}`)} class="w-link">{e.zh}</a>
+                    <span class="se-py">{e.py}</span>
+                    <span class="se-ru">{e.ru}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {b.kind === 'structure' && (
+        <div class="struct-grid">
+          {b.items.map(s => (
+            <div class="struct-card">
+              <div class="st-layout" aria-hidden="true">{s.layout}</div>
+              <div class="st-name">{s.name_ru}</div>
+              <div class="st-zh">{s.name_zh}</div>
+              <div class="st-ex">{s.ex.map(e => <span>{e}</span>)}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  .book-section { margin-top: 44px; }
+  .block { margin-bottom: 26px; }
+  .sub-title {
+    font-size: .95rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--text);
+  }
+  .prose p { margin: 0 0 8px; line-height: 1.7; }
+  .en-line { color: var(--muted); font-size: .85rem; font-style: italic; }
+
+  .track {
+    font-family: monospace;
+    font-size: .62rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 8px;
+    vertical-align: middle;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* — Tasks (warm-up / exercises / application) — */
+  .task {
+    background: color-mix(in srgb, var(--navy2) 6%, var(--card-bg));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .task-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .task-n {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: .78rem;
+    color: #fff;
+    background: var(--navy2);
+    border-radius: 5px;
+    min-width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .task-title { font-weight: 700; font-size: .95rem; }
+  .task-zh { font-family: 'Noto Sans SC', sans-serif; font-size: .88rem; color: var(--muted); }
+  .task-instr { margin: 8px 0 0; font-size: .88rem; color: var(--muted); line-height: 1.6; }
+  .task-items { margin: 12px 0 0; padding-left: 22px; }
+  .task-items li { margin-bottom: 10px; line-height: 1.6; }
+  .ti-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.15rem; margin-right: 8px; }
+  .ti-py { color: var(--navy2); font-size: .85rem; margin-right: 8px; }
+  .ti-ru { color: var(--muted); font-size: .85rem; }
+
+  .syl-grid { display: flex; flex-direction: column; gap: 8px; }
+  .syl-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .syl {
+    font-family: 'Mulish', sans-serif;
+    font-size: .95rem;
+    padding: 7px 14px;
+    min-width: 62px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .syl:hover { border-color: var(--red); color: var(--red); }
+
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .word-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .wc-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.4rem; color: var(--red); }
+  .wc-py { font-size: .85rem; margin-top: 2px; }
+  .wc-ru { font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+  .ex-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .ex {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .ex-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.25rem; }
+  .ex-py { font-size: .85rem; color: var(--navy2); }
+  .ex-py .pron { margin-left: 8px; color: var(--muted); }
+  .ex-ru { font-size: .9rem; margin-top: 3px; }
+  .ex-en { font-size: .78rem; color: var(--muted); font-style: italic; }
+
+  .stroke-cell { font-family: 'Noto Sans SC', sans-serif; font-size: 2rem; text-align: center; width: 70px; }
+  .stroke-zh { font-family: 'Noto Sans SC', sans-serif; font-weight: 700; }
+  .stroke-py { color: var(--navy2); font-size: .85rem; }
+  .stroke-ru { font-size: .8rem; color: var(--muted); }
+  .stroke-ex, .rc-ex { display: flex; flex-wrap: wrap; gap: 14px; }
+  .se { display: inline-flex; align-items: baseline; gap: 5px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.15rem; }
+  .se-py { font-family: 'Mulish', sans-serif; font-size: .8rem; color: var(--navy2); }
+  .se-ru { font-family: 'Mulish', sans-serif; font-size: .78rem; color: var(--muted); }
+
+  .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .char-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .cc-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 3rem; line-height: 1.1; }
+  .cc-zh a { color: var(--red); text-decoration: none; }
+  .cc-zh a:hover { color: var(--navy2); }
+  .cc-py { font-size: .85rem; color: var(--navy2); }
+  .cc-ru { font-size: .9rem; font-weight: 600; margin-top: 2px; }
+  .cc-note { font-size: .76rem; color: var(--muted); margin: 8px 0; line-height: 1.5; }
+
+  .rad-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+  .rad-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .rc-r { font-family: 'Noto Sans SC', sans-serif; font-size: 2.4rem; color: var(--red); line-height: 1; }
+  .rc-meta { display: flex; gap: 8px; align-items: baseline; margin: 4px 0 8px; }
+  .rc-py { font-size: .82rem; color: var(--navy2); }
+  .rc-ru { font-size: .85rem; font-weight: 600; }
+
+  .struct-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .struct-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .st-layout { font-size: 1.6rem; line-height: 1.2; color: var(--navy2); }
+  .st-name { font-weight: 600; font-size: .88rem; margin-top: 6px; }
+  .st-zh { font-family: 'Noto Sans SC', sans-serif; font-size: .85rem; color: var(--muted); }
+  .st-ex { display: flex; justify-content: center; gap: 10px; margin-top: 8px; font-family: 'Noto Sans SC', sans-serif; font-size: 1.3rem; color: var(--red); }
+
+  .w-link {
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1.5px dotted var(--red);
+    font-weight: 700;
+  }
+  .w-link:hover { color: var(--navy2); border-bottom-color: var(--navy2); }
+</style>

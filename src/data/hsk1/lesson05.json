@@ -1,0 +1,325 @@
+{
+  "n": 5,
+  "zh": "她女儿今年二十岁",
+  "py": "Tā nǚ'ér jīnnián èrshí suì",
+  "pron": "Та нюйэр цзиньнянь эрши суй",
+  "ru": "Её дочери в этом году двадцать лет",
+  "en": "Her daughter is 20 years old this year",
+  "page": 30,
+  "warmup": {
+    "id": "warmup",
+    "label_zh": "热身",
+    "label_ru": "Разминка",
+    "blocks": [
+      {
+        "kind": "exercise",
+        "title_ru": "Подберите к словам подходящие картинки",
+        "title_zh": "给下面的词语选择对应的图片",
+        "instruction_en": "Match the pictures with the words/phrases.",
+        "items": [
+          { "zh": "六口人", "py": "liù kǒu rén", "ru": "шесть человек (в семье)" },
+          { "zh": "家", "py": "jiā", "ru": "семья, дом" },
+          { "zh": "女儿", "py": "nǚ'ér", "ru": "дочь" },
+          { "zh": "学生", "py": "xuésheng", "ru": "ученик" },
+          { "zh": "70岁", "py": "qīshí suì", "ru": "70 лет" },
+          { "zh": "20岁", "py": "èrshí suì", "ru": "20 лет" }
+        ]
+      }
+    ]
+  },
+  "texts": [
+    {
+      "n": 1,
+      "track": "05-1",
+      "scene": "family",
+      "lines": [
+        { "who": "A", "zh": "你家有几口人？", "py": "Nǐ jiā yǒu jǐ kǒu rén?", "pron": "Ни цзя ю цзи коу жэнь?", "ru": "Сколько человек в твоей семье?", "en": "How many people are there in your family?" },
+        { "who": "B", "zh": "我家有三口人。", "py": "Wǒ jiā yǒu sān kǒu rén.", "pron": "Во цзя ю сань коу жэнь.", "ru": "В моей семье три человека.", "en": "There are three." }
+      ]
+    },
+    {
+      "n": 2,
+      "track": "05-2",
+      "scene": "age",
+      "lines": [
+        { "who": "A", "zh": "你女儿几岁了？", "py": "Nǐ nǚ'ér jǐ suì le?", "pron": "Ни нюйэр цзи суй лэ?", "ru": "Сколько лет твоей дочери?", "en": "How old is your daughter?" },
+        { "who": "B", "zh": "她今年四岁了。", "py": "Tā jīnnián sì suì le.", "pron": "Та цзиньнянь сы суй лэ.", "ru": "В этом году ей четыре года.", "en": "She is four years old." }
+      ]
+    },
+    {
+      "n": 3,
+      "track": "05-3",
+      "scene": "age",
+      "lines": [
+        { "who": "A", "zh": "李老师多大了？", "py": "Lǐ lǎoshī duō dà le?", "pron": "Ли лаоши дуо да лэ?", "ru": "Сколько лет учителю Ли?", "en": "How old is Professor Li?" },
+        { "who": "B", "zh": "她今年50岁了。", "py": "Tā jīnnián wǔshí suì le.", "pron": "Та цзиньнянь уши суй лэ.", "ru": "В этом году ей 50 лет.", "en": "She is 50 years old." },
+        { "who": "A", "zh": "她女儿呢？", "py": "Tā nǚ'ér ne?", "pron": "Та нюйэр нэ?", "ru": "А её дочь?", "en": "What about her daughter?" },
+        { "who": "B", "zh": "她女儿今年20岁。", "py": "Tā nǚ'ér jīnnián èrshí suì.", "pron": "Та нюйэр цзиньнянь эрши суй.", "ru": "Её дочери в этом году 20 лет.", "en": "Her daughter is 20." }
+      ]
+    }
+  ],
+  "newWords": [
+    { "n": 1, "zh": "家", "py": "jiā", "pron": "цзя", "pos": "сущ.", "ru": "семья, дом", "en": "family" },
+    { "n": 2, "zh": "有", "py": "yǒu", "pron": "ю", "pos": "гл.", "ru": "иметь, иметься", "en": "to have, there be" },
+    { "n": 3, "zh": "口", "py": "kǒu", "pron": "коу", "pos": "сч. сл.", "ru": "счётное слово для членов семьи", "en": "a measure word for members of families, etc.", "star": true },
+    { "n": 4, "zh": "女儿", "py": "nǚ'ér", "pron": "нюйэр", "pos": "сущ.", "ru": "дочь", "en": "daughter" },
+    { "n": 5, "zh": "几", "py": "jǐ", "pron": "цзи", "pos": "мест.", "ru": "сколько", "en": "how many" },
+    { "n": 6, "zh": "岁", "py": "suì", "pron": "суй", "pos": "сч. сл.", "ru": "год (о возрасте)", "en": "year (of age)" },
+    { "n": 7, "zh": "了", "py": "le", "pron": "лэ", "pos": "част.", "ru": "частица изменения или нового состояния", "en": "used at the end of or in the middle of a sentence to indicate a change or a new circumstance" },
+    { "n": 8, "zh": "今年", "py": "jīnnián", "pron": "цзиньнянь", "pos": "сущ.", "ru": "этот год", "en": "this year" },
+    { "n": 9, "zh": "多", "py": "duō", "pron": "дуо", "pos": "нареч.", "ru": "насколько (о степени)", "en": "indicating degree or extent" },
+    { "n": 10, "zh": "大", "py": "dà", "pron": "да", "pos": "прил.", "ru": "большой; взрослый (о возрасте)", "en": "(of age) old" }
+  ],
+  "sections": [
+    {
+      "id": "notes",
+      "label_zh": "注释",
+      "label_ru": "Грамматика",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Вопросительное местоимение «几». «几» спрашивает о количестве и обычно используется для чисел меньше десяти.",
+          "en": "The interrogative pronoun \"几\" is used to ask about a number, usually less than 10."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "你有几个汉语老师？", "py": "Nǐ yǒu jǐ ge Hànyǔ lǎoshī?", "ru": "Сколько у тебя учителей китайского?" },
+            { "zh": "李老师家有几口人？", "py": "Lǐ lǎoshī jiā yǒu jǐ kǒu rén?", "ru": "Сколько человек в семье учителя Ли?" },
+            { "zh": "你女儿几岁了？", "py": "Nǐ nǚ'ér jǐ suì le?", "ru": "Сколько лет твоей дочери?" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "2. Числа до 100. Десятки образуются как «число + 十», а составные числа — как «десятки + единицы»: 19 shíjiǔ, 23 èrshísān, 56 wǔshíliù, 88 bāshíbā, 99 jiǔshíjiǔ."
+        },
+        {
+          "kind": "table",
+          "head": ["Десятки", "Пример"],
+          "rows": [
+            ["10 shí", "19 shíjiǔ"],
+            ["20 èrshí", "23 èrshísān"],
+            ["30 sānshí", "35 sānshíwǔ"],
+            ["40 sìshí", "41 sìshíyī"],
+            ["50 wǔshí", "56 wǔshíliù"],
+            ["60 liùshí", "62 liùshí'èr"],
+            ["70 qīshí", "74 qīshísì"],
+            ["80 bāshí", "88 bāshíbā"],
+            ["90 jiǔshí", "99 jiǔshíjiǔ"]
+          ],
+          "note_ru": "Единицы: 1 yī, 2 èr, 3 sān, 4 sì, 5 wǔ, 6 liù, 7 qī, 8 bā, 9 jiǔ."
+        },
+        {
+          "kind": "prose",
+          "ru": "3. «了» для обозначения изменения. «了» ставится в конце предложения и указывает на изменение или появление новой ситуации.",
+          "en": "\"了\" is used at the end of a sentence to indicate a change or the occurrence of a new situation."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "李老师今年50岁了。", "py": "Lǐ lǎoshī jīnnián wǔshí suì le.", "ru": "Учителю Ли в этом году исполнилось 50." },
+            { "zh": "我朋友的女儿今年四岁了。", "py": "Wǒ péngyou de nǚ'ér jīnnián sì suì le.", "ru": "Дочери моего друга в этом году четыре года." },
+            { "zh": "你女儿几岁了？", "py": "Nǐ nǚ'ér jǐ suì le?", "ru": "Сколько лет твоей дочери?" }
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "4. Вопросительный оборот «多 + 大». «多大» используется, чтобы спросить о возрасте.",
+          "en": "\"多+大\" is used to ask about one's age."
+        },
+        {
+          "kind": "examples",
+          "items": [
+            { "zh": "你多大了？", "py": "Nǐ duō dà le?", "ru": "Сколько тебе лет?" },
+            { "zh": "你女儿今年多大了？", "py": "Nǐ nǚ'ér jīnnián duō dà le?", "ru": "Сколько лет твоей дочери в этом году?" },
+            { "zh": "李老师多大了？", "py": "Lǐ lǎoshī duō dà le?", "ru": "Сколько лет учителю Ли?" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exercises",
+      "label_zh": "练习",
+      "label_ru": "Упражнения",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Прочитайте тексты по ролям",
+          "title_zh": "分角色朗读课文",
+          "instruction_en": "Role-play the dialogues."
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Ответьте на вопросы про себя",
+          "title_zh": "根据实际情况回答问题",
+          "instruction_en": "Answer the questions according to the actual situations.",
+          "items": [
+            { "zh": "你家有几口人？", "py": "Nǐ jiā yǒu jǐ kǒu rén?", "ru": "Сколько человек в твоей семье?" },
+            { "zh": "你今年多大了？", "py": "Nǐ jīnnián duō dà le?", "ru": "Сколько тебе лет в этом году?" },
+            { "zh": "你的汉语老师今年多大了？", "py": "Nǐ de Hànyǔ lǎoshī jīnnián duō dà le?", "ru": "Сколько лет твоему учителю китайского?" },
+            { "zh": "你的中国朋友家有几口人？", "py": "Nǐ de Zhōngguó péngyou jiā yǒu jǐ kǒu rén?", "ru": "Сколько человек в семье твоего друга из Китая?" },
+            { "zh": "你的中国朋友今年多大了？", "py": "Nǐ de Zhōngguó péngyou jīnnián duō dà le?", "ru": "Сколько лет твоему другу из Китая?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 3,
+          "title_ru": "Опишите картинки, используя новые слова и конструкции",
+          "title_zh": "用本课新学的语言点和词语描述图片",
+          "instruction_en": "Describe the pictures using the newly-learned language points and words.",
+          "items": [
+            { "zh": "他是____，他今年____了。", "py": "Tā shì ____, tā jīnnián ____ le.", "ru": "Он ____, ему в этом году ____." },
+            { "zh": "她家有____人。", "py": "Tā jiā yǒu ____ rén.", "ru": "В её семье ____ человек." },
+            { "zh": "他是我们的汉语____，他今年____了。", "py": "Tā shì wǒmen de Hànyǔ ____, tā jīnnián ____ le.", "ru": "Он наш ____ китайского, ему в этом году ____." },
+            { "zh": "这是张老师的____，她今年____了。", "py": "Zhè shì Zhāng lǎoshī de ____, tā jīnnián ____ le.", "ru": "Это ____ учителя Чжана, ей в этом году ____." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pinyin",
+      "label_zh": "拼音",
+      "label_ru": "Пиньинь",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "1. Эризация (儿化). «儿 (ér)» может сливаться с предыдущим слогом в один. На письме это «иероглиф + 儿», а в пиньине к слогу добавляется «r».",
+          "en": "\"儿 (ér)\" can be combined with a syllable before it, forming a retroflex syllable, which is written as \"character + 儿\" and spelt \"syllable + r\" in pinyin."
+        },
+        {
+          "kind": "words",
+          "track": "05-4",
+          "items": [
+            { "zh": "小孩儿", "py": "xiǎoháir", "ru": "ребёнок" },
+            { "zh": "小鸟儿", "py": "xiǎo niǎor", "ru": "птичка" },
+            { "zh": "饭馆儿", "py": "fànguǎnr", "ru": "ресторанчик" },
+            { "zh": "香水儿", "py": "xiāngshuǐr", "ru": "духи" }
+          ]
+        },
+        {
+          "kind": "table",
+          "title_ru": "2. Различение произношения: финали, начинающиеся на i, u, ü (05-5, 05-6, 05-7)",
+          "head": ["Без i", "С i", "Без u", "С u", "Без ü", "С ü"],
+          "rows": [
+            ["a", "ia", "a", "ua", "e", "üe"],
+            ["e", "ie", "ai", "uai", "an", "üan"],
+            ["ao", "iao", "ei", "uei (ui)", "en", "ün"],
+            ["ou", "iou (iu)", "an", "uan", "", ""],
+            ["an", "ian", "en", "uen (un)", "", ""],
+            ["ang", "iang", "ang", "uang", "", ""],
+            ["ong", "iong", "eng", "ueng", "", ""]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "3. Различие придыхательных и непридыхательных инициалей. В китайском есть пары b–p, d–t, g–k, j–q, z–c, zh–ch: в каждой паре первый звук непридыхательный, второй — придыхательный.",
+          "en": "There are aspirated and unaspirated initials in Chinese, such as b-p, d-t, g-k, j-q, z-c and zh-ch, among which the first one in each pair is unaspirated and the second one is aspirated."
+        },
+        {
+          "kind": "syllables",
+          "title_ru": "Послушайте и повторите, сравнивая придыхательные и непридыхательные",
+          "track": "05-9",
+          "rows": [
+            ["bàng — pàng", "dù — tù", "gǒu — kǒu"],
+            ["jǐ — qī", "zì — cì", "zhuō — chē"]
+          ]
+        },
+        {
+          "kind": "prose",
+          "ru": "4. Правила пиньиня (4): разделительный апостроф. Если слог, начинающийся на a, o или e, следует за другим слогом, ставится апостроф ('), чтобы границы слогов не смешивались: например, pí'ǎo (皮袄).",
+          "en": "When a syllable beginning with a, o or e follows another syllable, the syllable-dividing mark (') is used to separate the two syllables, for example, pí'ǎo (皮袄, fur-lined jacket)."
+        },
+        {
+          "kind": "table",
+          "title_ru": "Послушайте и повторите, сравнивая слова с апострофом и без него (05-10)",
+          "head": ["Без апострофа", "С апострофом"],
+          "rows": [
+            ["piāo — плыть по воздуху", "pí'ǎo — меховая куртка"],
+            ["jiē — принимать", "jī'è — голод"],
+            ["fānàn — начать атаку", "fān'àn — пересмотреть приговор"],
+            ["xiān — раньше", "Xī'ān — город Сиань"],
+            ["jiāng — будет", "jī'áng — воодушевлённый"],
+            ["fǎngǎn — испытывать отвращение", "fāng'àn — план работы"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chars",
+      "label_zh": "汉字",
+      "label_ru": "Иероглифы",
+      "blocks": [
+        {
+          "kind": "strokes",
+          "items": [
+            { "s": "㇇", "zh": "横撇", "py": "héngpiě", "ru": "горизонтальная с откидной влево", "ex": [{ "zh": "水", "py": "shuǐ", "ru": "вода" }, { "zh": "又", "py": "yòu", "ru": "снова" }] },
+            { "s": "㇛", "zh": "撇点", "py": "piědiǎn", "ru": "откидная влево с точкой", "ex": [{ "zh": "女", "py": "nǚ", "ru": "женщина" }, { "zh": "好", "py": "hǎo", "ru": "хороший" }] }
+          ]
+        },
+        {
+          "kind": "chars",
+          "items": [
+            { "zh": "水", "py": "shuǐ", "pron": "шуй", "ru": "вода", "note_ru": "Изначально изображал горный ручей — форму текущей воды." },
+            { "zh": "女", "py": "nǚ", "pron": "нюй", "ru": "женщина", "note_ru": "Изначально изображал женщину, стоящую на коленях; значение — «женщина»." },
+            { "zh": "了", "py": "le", "pron": "лэ", "ru": "служебная частица", "note_ru": "Изначально — перевёрнутое изображение младенца головой вверх, то есть уже родившегося ребёнка. Сейчас это служебное слово." },
+            { "zh": "大", "py": "dà", "pron": "да", "ru": "большой", "note_ru": "Изначально — человек, стоящий с раскинутыми руками и ногами. Сейчас противоположен «小» (маленький)." }
+          ]
+        },
+        {
+          "kind": "table",
+          "title_ru": "3. Порядок черт (3): сначала внешнее, потом внутреннее; сначала середина, потом бока",
+          "head": ["Правило", "Примеры", "Порядок написания"],
+          "rows": [
+            ["先外后内 — сначала внешнее, потом внутреннее", "四 sì четыре · 国 guó страна", "丨 冂 罒 四 ／ 丨 冂 国"],
+            ["先中间后两边 — сначала середина, потом бока", "小 xiǎo маленький · 水 shuǐ вода", "亅 小 ／ 亅 水"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "application",
+      "label_zh": "运用",
+      "label_ru": "Применение",
+      "blocks": [
+        {
+          "kind": "exercise",
+          "n": 1,
+          "title_ru": "Работа в парах",
+          "title_zh": "双人活动",
+          "instruction_ru": "В парах задавайте друг другу вопросы о своей семье. Дополнительные слова: 爷爷 yéye дедушка (по отцу), 奶奶 nǎinai бабушка (по отцу), 爸爸 bàba папа, 妈妈 māma мама, 哥哥 gēge старший брат, 姐姐 jiějie старшая сестра, 弟弟 dìdi младший брат, 妹妹 mèimei младшая сестра.",
+          "instruction_en": "Work in pairs and ask and answer questions according to the actual situations.",
+          "items": [
+            { "zh": "你家有几口人？ — 我家有……", "py": "Nǐ jiā yǒu jǐ kǒu rén? — Wǒ jiā yǒu……", "ru": "Сколько человек в твоей семье? — В моей семье…" },
+            { "zh": "你/你爸爸/你妈妈……今年多大了？", "py": "Nǐ/Nǐ bàba/Nǐ māma…… jīnnián duō dà le?", "ru": "Сколько лет тебе / твоему папе / твоей маме в этом году?" }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "n": 2,
+          "title_ru": "Работа в группах",
+          "title_zh": "小组活动",
+          "instruction_ru": "В группах по 3–4 человека: каждый приносит общее семейное фото и рассказывает о членах семьи.",
+          "instruction_en": "Work in groups of 3-4. Prepare a photo with all your family members in it. Introduce them to your group members.",
+          "items": [
+            { "zh": "我家有……人。这是我……，这是我……，这是我……", "py": "Wǒ jiā yǒu……rén. Zhè shì wǒ……, zhè shì wǒ……, zhè shì wǒ……", "ru": "В моей семье … человек. Это мой(я) …, это мой(я) …, это мой(я) …" },
+            { "zh": "……叫……，他/她是……，他/她今年……了。", "py": "……jiào……, tā/tā shì……, tā/tā jīnnián……le.", "ru": "…зовут…, он/она…, ему/ей в этом году…" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "culture",
+      "label_zh": "文化",
+      "label_ru": "Культура",
+      "blocks": [
+        {
+          "kind": "prose",
+          "ru": "Как китайцы спрашивают о возрасте. В традиционной китайской культуре возраст не считается чем-то личным — о нём часто заходит речь в общении. Но спрашивают по-разному в зависимости от собеседника. У детей младше 10 лет обычно спрашивают «你今年几岁了？» (Nǐ jīnnián jǐ suì le?). У молодых людей или ровесников — «你今年多大了？» (Nǐ jīnnián duō dà le?). А из уважения к старшим обязательно говорят «您今年多大年纪了？» (Nín jīnnián duō dà niánjì le?).",
+          "en": "In traditional Chinese culture, age isn't considered privacy. It is a topic often brought up in social occasions. Nevertheless, different ways are employed to ask about the age of different people. For kids younger than 10, people ask \"你今年几岁了？\"; for a young person or someone of one's own age, one may ask \"你今年多大了？\"; for an elder person, however, one should use \"您今年多大年纪了？\" to show respect."
+        }
+      ]
+    }
+  ]
+}
