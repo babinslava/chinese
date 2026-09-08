@@ -230,6 +230,21 @@ for (const w of [...hsk1NewWords(), ...hsk1LinkedChars()]) {
   });
 }
 
+// --- Auto-import the HSK 3.0 Level 1 word list ---
+// Gives every word in the standard a /vocab card and tags it so the word list
+// and the vocabulary stay in sync.
+import hsk3Words from './hsk3/words.json';
+
+for (const w of hsk3Words as { zh: string; py: string; pron: string; ru: string; theme: string }[]) {
+  const tags = ['hsk3', `hsk3-${w.theme}`];
+  const existing = vocab.find(v => v.zh === w.zh);
+  if (existing) {
+    for (const t of tags) if (!existing.tags.includes(t)) existing.tags.push(t);
+    continue;
+  }
+  vocab.push({ zh: w.zh, py: w.py, pron: w.pron, meaning: w.ru, tags });
+}
+
 // Build a lookup map by character
 const _map = new Map<string, VocabEntry>();
 // Deduplicate: keep entries with more info (role, radical_meaning)

@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import { chars } from '../../data/hsk3';
+import { getVocab } from '../../data/vocab';
+import { url } from '../../data/baseUrl';
+
+const writeCount = chars.filter(c => c.write).length;
+// Frequency rank comes from the standard's own data; lower is more common.
+const ranked = [...chars].sort((a, b) => (a.freq ?? 9999) - (b.freq ?? 9999));
+const known = chars.filter(c => getVocab(c.zh)).length;
+---
+
+<Layout title="300 иероглифов HSK 3.0 · Уровень 1" activePage="hsk3-chars">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">字</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">HSK 3.0 · Уровень 1</div>
+          <div class="lesson-title">300 иероглифов</div>
+          <div class="lesson-subtitle">
+            {writeCount} из них нужно уметь писать от руки. {known} уже есть в словаре сайта.
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="filters" role="group" aria-label="Порядок">
+          <button class="cbtn on" data-sort="freq">По частотности</button>
+          <button class="cbtn" data-sort="write">Сначала рукописные</button>
+        </div>
+        <input id="csearch" type="search" placeholder="Поиск иероглифа…" aria-label="Поиск иероглифа" />
+      </div>
+      <div id="ccount" class="ccount"></div>
+
+      <div class="cgrid" id="cgrid">
+        {ranked.map(c => {
+          const v = getVocab(c.zh);
+          return (
+            <div class={`cch${c.write ? ' write' : ''}`}
+                 data-char data-write={c.write ? '1' : '0'}
+                 data-freq={c.freq ?? 9999}
+                 data-s={`${c.zh} ${v?.py ?? ''} ${v?.meaning ?? ''} ${c.ex.join(' ')}`.toLowerCase()}>
+              {v
+                ? <a class="c-zh" href={url(`/vocab/${encodeURIComponent(c.zh)}`)}>{c.zh}</a>
+                : <span class="c-zh plain">{c.zh}</span>}
+              <AudioButton text={c.zh} size="sm" />
+              {c.trad && <div class="c-trad">{c.trad}</div>}
+              {v?.py && <div class="c-py">{v.py}</div>}
+              {v?.meaning && <div class="c-ru">{v.meaning}</div>}
+              {!v && c.ex.length > 0 && (
+                <div class="c-ex" title="Слова с этим иероглифом">
+                  {c.ex.filter(e => e !== c.zh).slice(0, 2).join(' · ')}
+                </div>
+              )}
+              {c.write && <span class="c-pen" title="Нужно уметь писать от руки">✎</span>}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline>
+  (function () {
+    var grid = document.getElementById('cgrid');
+    var all = Array.prototype.slice.call(grid.querySelectorAll('[data-char]'));
+
+    function apply() {
+      var q = (document.getElementById('csearch').value || '').trim().toLowerCase();
+      var shown = 0;
+      all.forEach(function (el) {
+        var ok = !q || el.getAttribute('data-s').indexOf(q) !== -1;
+        el.style.display = ok ? '' : 'none';
+        if (ok) shown++;
+      });
+      document.getElementById('ccount').textContent = 'Показано иероглифов: ' + shown;
+    }
+
+    document.querySelectorAll('.cbtn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('.cbtn').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on');
+        var mode = b.getAttribute('data-sort');
+        var sorted = all.slice().sort(function (x, y) {
+          var fx = +x.getAttribute('data-freq'), fy = +y.getAttribute('data-freq');
+          if (mode === 'write') {
+            var wx = +y.getAttribute('data-write') - +x.getAttribute('data-write');
+            if (wx) return wx;
+          }
+          return fx - fy;
+        });
+        sorted.forEach(function (el) { grid.appendChild(el); });
+      });
+    });
+    document.getElementById('csearch').addEventListener('input', apply);
+    apply();
+  })();
+</script>
+
+<style>
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .filters { display: flex; gap: 6px; }
+  .cbtn {
+    font-family: 'Mulish', sans-serif; font-size: .8rem; font-weight: 600;
+    padding: 7px 13px; border-radius: 8px; cursor: pointer;
+    background: var(--card-bg); border: 1px solid var(--border); color: var(--text); transition: all .15s;
+  }
+  .cbtn:hover { border-color: var(--red); }
+  .cbtn.on { background: var(--navy2); border-color: var(--navy2); color: #fff; }
+  #csearch {
+    flex: 1; min-width: 200px; padding: 8px 13px; font-family: 'Mulish', sans-serif;
+    font-size: .85rem; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--card-bg); color: var(--text);
+  }
+  #csearch:focus { outline: none; border-color: var(--red); }
+  .ccount { font-size: .78rem; color: var(--muted); margin-bottom: 20px; }
+
+  .cgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px; }
+  .cch {
+    position: relative; text-align: center; padding: 12px 8px 10px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+  }
+  .cch.write { border-color: color-mix(in srgb, var(--navy2) 45%, var(--border)); }
+  .c-zh {
+    display: block; font-family: 'Noto Sans SC', sans-serif; font-size: 2.1rem;
+    color: var(--red); text-decoration: none; line-height: 1.15;
+  }
+  .c-zh:hover { color: var(--navy2); }
+  /* Characters with no dictionary card of their own are shown, not linked. */
+  .c-zh.plain { color: var(--text); }
+  .c-trad { font-family: 'Noto Sans SC', sans-serif; font-size: .8rem; color: var(--muted); }
+  .c-py { font-size: .76rem; color: var(--navy2); margin-top: 2px; }
+  .c-ru { font-size: .7rem; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+  .c-ex {
+    font-family: 'Noto Sans SC', sans-serif; font-size: .72rem;
+    color: var(--muted); line-height: 1.4; margin-top: 3px;
+  }
+  .c-pen { position: absolute; top: 6px; right: 8px; font-size: .7rem; color: var(--navy2); opacity: .7; }
+</style>

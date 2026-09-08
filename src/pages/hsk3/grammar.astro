@@ -1,0 +1,84 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { grammarByGroup, grammar } from '../../data/hsk3';
+import { url } from '../../data/baseUrl';
+
+const groups = grammarByGroup();
+const linked = grammar.filter(g => g.lesson).length;
+---
+
+<Layout title="Грамматика HSK 3.0 · Уровень 1" activePage="hsk3-grammar">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">语</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">HSK 3.0 · Уровень 1</div>
+          <div class="lesson-title">48 тем грамматики</div>
+          <div class="lesson-subtitle">
+            Полный список 语法点 из стандарта. {linked} из {grammar.length} разбираются
+            в учебнике HSK 1 — ссылка на урок стоит рядом с темой.
+          </div>
+        </div>
+      </div>
+
+      {groups.map(g => (
+        <div class="ggroup">
+          <h2 class="section-title">
+            {g.group_zh} · {g.group_ru}
+            <span class="gcount">{g.items.length}</span>
+          </h2>
+          <div class="glist">
+            {g.items.map(item => (
+              <article class="gcard">
+                <div class="g-head">
+                  <span class="g-n">{item.n}</span>
+                  <span class="g-title">{item.title_ru}</span>
+                  {item.lesson && (
+                    <a class="g-lesson" href={url(`/hsk1/${item.lesson}`)}>Урок {item.lesson} →</a>
+                  )}
+                </div>
+                <div class="g-cat">
+                  {item.category_zh}{item.details_zh && ` · ${item.details_zh}`}
+                </div>
+                <p class="g-ex">{item.explain_ru}</p>
+                {item.content_zh && <div class="g-zh">{item.content_zh}</div>}
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .ggroup { margin-bottom: 38px; }
+  .gcount {
+    font-family: monospace; font-size: .7rem; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; margin-left: 8px;
+    text-transform: none; letter-spacing: 0;
+  }
+  .glist { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+  .gcard {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-left: 3px solid var(--navy2); border-radius: 10px; padding: 14px 16px;
+  }
+  .g-head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+  .g-n {
+    font-family: 'Playfair Display', serif; font-weight: 900; font-size: .75rem; color: #fff;
+    background: var(--navy2); border-radius: 5px; min-width: 22px; height: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .g-title { font-weight: 700; font-size: .95rem; }
+  .g-lesson {
+    margin-left: auto; font-size: .7rem; color: var(--red); text-decoration: none; white-space: nowrap;
+  }
+  .g-lesson:hover { text-decoration: underline; }
+  .g-cat { font-family: 'Noto Sans SC', sans-serif; font-size: .8rem; color: var(--muted); margin-top: 4px; }
+  .g-ex { font-size: .88rem; line-height: 1.65; margin: 8px 0 0; }
+  .g-zh {
+    font-family: 'Noto Sans SC', sans-serif; font-size: .85rem; line-height: 1.7;
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); color: var(--text);
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import { url } from '../data/baseUrl';
 import { lessons as hsk1Lessons } from '../data/hsk1';
+import { words as hsk3Words, chars as hsk3Chars, grammar as hsk3Grammar } from '../data/hsk3';
 
 interface Props {
   title?: string;
@@ -38,6 +39,13 @@ const hsk1Items = hsk1Lessons.map(l => ({
   label: `${l.zh} · ${l.ru}`,
 }));
 const hsk1Open = activePage === 'hsk1' || activePage.startsWith('hsk1-');
+
+const hsk3Items = [
+  { href: url('/hsk3/words'), id: 'hsk3-words', num: String(hsk3Words.length), label: 'Слова' },
+  { href: url('/hsk3/chars'), id: 'hsk3-chars', num: String(hsk3Chars.length), label: 'Иероглифы' },
+  { href: url('/hsk3/grammar'), id: 'hsk3-grammar', num: String(hsk3Grammar.length), label: 'Грамматика' },
+];
+const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
 ---
 <!doctype html>
 <html lang="ru">
@@ -318,6 +326,20 @@ const hsk1Open = activePage === 'hsk1' || activePage.startsWith('hsk1-');
           <span class="num">目</span> Оглавление
         </a>
         {hsk1Items.map(item => (
+          <a class={`nav-link${activePage === item.id ? ' active' : ''}`} href={item.href}>
+            <span class="num">{item.num}</span> {item.label}
+          </a>
+        ))}
+      </details>
+      <details class="nav-book" open={hsk3Open}>
+        <summary class="nav-group-title">
+          Стандарт HSK 3.0
+          <span class="nav-caret" aria-hidden="true">▸</span>
+        </summary>
+        <a class={`nav-link book-index${activePage === 'hsk3' ? ' active' : ''}`} href={url('/hsk3')}>
+          <span class="num">级</span> Уровень 1
+        </a>
+        {hsk3Items.map(item => (
           <a class={`nav-link${activePage === item.id ? ' active' : ''}`} href={item.href}>
             <span class="num">{item.num}</span> {item.label}
           </a>

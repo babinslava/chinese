@@ -1,0 +1,164 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { words, chars, grammar, coverage, wordsByTheme } from '../../data/hsk3';
+import { url } from '../../data/baseUrl';
+
+const cov = coverage();
+const pct = Math.round((cov.known / cov.total) * 100);
+const themes = wordsByTheme();
+const writeChars = chars.filter(c => c.write).length;
+---
+
+<Layout title="HSK 3.0 · Уровень 1 — Курс китайского" activePage="hsk3">
+  <div class="content">
+    <div class="std-hero">
+      <div class="hero-label">国际中文教育中文水平等级标准 · 2021</div>
+      <h1>HSK 3.0<br />Уровень 1</h1>
+      <p>
+        Государственный стандарт КНР описывает каждый уровень по четырём измерениям.
+        Первый уровень — это 500 слов, 300 иероглифов, 48 грамматических тем и 269 слогов.
+        Здесь собраны все четыре списка с переводом на русский.
+      </p>
+
+      <div class="dims">
+        <a class="dim" href={url('/hsk3/words')}>
+          <div class="dim-n">{words.length}</div>
+          <div class="dim-l">слов</div>
+          <div class="dim-zh">词汇</div>
+        </a>
+        <a class="dim" href={url('/hsk3/chars')}>
+          <div class="dim-n">{chars.length}</div>
+          <div class="dim-l">иероглифов</div>
+          <div class="dim-zh">汉字</div>
+        </a>
+        <a class="dim" href={url('/hsk3/grammar')}>
+          <div class="dim-n">{grammar.length}</div>
+          <div class="dim-l">тем грамматики</div>
+          <div class="dim-zh">语法</div>
+        </a>
+        <div class="dim flat">
+          <div class="dim-n">269</div>
+          <div class="dim-l">слогов</div>
+          <div class="dim-zh">音节</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="lesson">
+      <h2 class="section-title">Что уже пройдено</h2>
+      <p class="hint">
+        {cov.known} из {cov.total} слов уже встречались на сайте — в учебнике HSK 1
+        или в основном курсе. Остальные {cov.missing} и есть то, что осталось выучить.
+      </p>
+      <div class="bar" role="img" aria-label={`Пройдено ${pct} процентов`}>
+        <div class="bar-fill" style={`width:${pct}%`}></div>
+        <span class="bar-pct">{pct}%</span>
+      </div>
+      <div class="cov-legend">
+        <span><i class="sw known"></i> Пройдено — {cov.known}</span>
+        <span><i class="sw todo"></i> Осталось — {cov.missing}</span>
+      </div>
+      <a class="cta" href={url('/hsk3/words?filter=todo')}>Показать только невыученные →</a>
+    </section>
+
+    <section class="lesson">
+      <h2 class="section-title">Слова по темам</h2>
+      <p class="hint">
+        Официальный список отсортирован по алфавиту пиньиня, поэтому 妈妈 и 爸爸 оказываются
+        в разных концах. Здесь слова сгруппированы по смыслу — так они лучше запоминаются.
+      </p>
+      <div class="theme-grid">
+        {themes.map(t => {
+          const known = t.words.filter(w => w.known).length;
+          return (
+            <a class="theme-card" href={url(`/hsk3/words#${t.key}`)}>
+              <div class="tc-top">
+                <span class="tc-zh">{t.zh}</span>
+                <span class="tc-count">{t.words.length}</span>
+              </div>
+              <div class="tc-ru">{t.ru}</div>
+              <div class="tc-bar"><i style={`width:${Math.round((known / t.words.length) * 100)}%`}></i></div>
+              <div class="tc-meta">{known} из {t.words.length} пройдено</div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="lesson">
+      <h2 class="section-title">О стандарте</h2>
+      <div class="note">
+        <p>
+          «HSK 3.0» — это принятый в 2021 году стандарт 《国际中文教育中文水平等级标准》,
+          где девять уровней сгруппированы в три ступени. Первый уровень требует 500 слов,
+          тогда как в прежней версии HSK их было всего 150 — поэтому старые учебники,
+          включая «HSK 标准教程 1», покрывают лишь часть списка.
+        </p>
+        <p>
+          Из 300 иероглифов уровня {writeChars} нужно уметь писать от руки.
+        </p>
+        <p class="warn-line">
+          Внимание: экзаменационная программа 2025 года (新版HSK考试大纲) считает иначе —
+          246 иероглифов и 70 грамматических пунктов. Здесь приведён именно стандарт 2021 года,
+          в котором слов ровно 500.
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .std-hero { padding: 56px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 44px; }
+  .std-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 900; line-height: 1.05; margin: 0 0 16px;
+  }
+  .std-hero p { max-width: 660px; color: var(--muted); line-height: 1.7; }
+
+  .dims { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 32px; }
+  .dim {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px; text-decoration: none; color: var(--text); transition: all .15s;
+  }
+  .dim:not(.flat):hover { border-color: var(--red); transform: translateY(-2px); }
+  .dim.flat { opacity: .55; }
+  .dim-n { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--red2); line-height: 1; }
+  .dim-l { font-size: .85rem; margin-top: 4px; }
+  .dim-zh { font-family: 'Noto Sans SC', sans-serif; font-size: .78rem; color: var(--muted); margin-top: 2px; }
+
+  .hint { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 16px; max-width: 680px; }
+  .bar {
+    position: relative; height: 26px; border-radius: 13px;
+    background: color-mix(in srgb, var(--muted) 18%, transparent); overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, var(--navy2), var(--red)); }
+  .bar-pct {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: .78rem; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.4);
+  }
+  .cov-legend { display: flex; gap: 20px; margin-top: 10px; font-size: .82rem; color: var(--muted); }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+  .sw.known { background: var(--navy2); }
+  .sw.todo { background: color-mix(in srgb, var(--muted) 40%, transparent); }
+  .cta { display: inline-block; margin-top: 16px; color: var(--red); font-weight: 700; text-decoration: none; font-size: .9rem; }
+  .cta:hover { text-decoration: underline; }
+
+  .theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+  .theme-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; text-decoration: none; color: var(--text); transition: all .15s;
+  }
+  .theme-card:hover { border-color: var(--red); transform: translateY(-2px); }
+  .tc-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .tc-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.15rem; color: var(--red); }
+  .tc-count { font-family: monospace; font-size: .75rem; color: var(--muted); }
+  .tc-ru { font-size: .88rem; font-weight: 600; margin-top: 2px; }
+  .tc-bar { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--muted) 20%, transparent); margin: 10px 0 6px; overflow: hidden; }
+  .tc-bar i { display: block; height: 100%; background: var(--navy2); }
+  .tc-meta { font-size: .72rem; color: var(--muted); }
+
+  .warn-line { color: var(--red); }
+  .note p { margin-bottom: 10px; line-height: 1.7; }
+  .note p:last-child { margin-bottom: 0; }
+</style>

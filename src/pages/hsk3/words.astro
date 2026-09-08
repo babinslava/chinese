@@ -1,0 +1,219 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AudioButton from '../../components/AudioButton.astro';
+import { wordsByTheme, words, coverage } from '../../data/hsk3';
+import { url } from '../../data/baseUrl';
+
+const themes = wordsByTheme();
+const cov = coverage();
+const alphabetical = [...words].sort((a, b) => a.py.localeCompare(b.py, 'en'));
+---
+
+<Layout title="500 слов HSK 3.0 · Уровень 1" activePage="hsk3-words">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">词</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">HSK 3.0 · Уровень 1</div>
+          <div class="lesson-title">500 слов</div>
+          <div class="lesson-subtitle">
+            Сгруппированы по темам. {cov.known} пройдено, {cov.missing} осталось.
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="filters" role="group" aria-label="Фильтр слов">
+          <button class="fbtn on" data-filter="all">Все 500</button>
+          <button class="fbtn" data-filter="todo">Только невыученные</button>
+          <button class="fbtn" data-filter="known">Только пройденные</button>
+        </div>
+        <div class="filters" role="group" aria-label="Порядок">
+          <button class="sbtn on" data-sort="theme">По темам</button>
+          <button class="sbtn" data-sort="alpha">По алфавиту</button>
+        </div>
+        <input id="wsearch" type="search" placeholder="Поиск: иероглиф, пиньинь или перевод…" aria-label="Поиск слов" />
+      </div>
+      <div id="wcount" class="wcount"></div>
+
+      <!-- ── grouped by theme ─────────────────────────────────────── -->
+      <div id="by-theme">
+        {themes.map(t => (
+          <div class="theme-block" id={t.key} data-theme-block>
+            <h2 class="section-title">
+              {t.zh} · {t.ru}
+              <span class="tcount">{t.words.length}</span>
+            </h2>
+            <div class="wgrid">
+              {t.words.map(w => (
+                <div class={`wcard${w.known ? ' known' : ''}`}
+                     data-word data-known={w.known ? '1' : '0'}
+                     data-s={`${w.zh} ${w.alt ?? ''} ${w.py} ${w.pron} ${w.ru} ${w.en}`.toLowerCase()}>
+                  <div class="w-top">
+                    <a class="w-zh" href={url(`/vocab/${encodeURIComponent(w.zh)}`)}>{w.zh}</a>
+                    <AudioButton text={w.zh} size="sm" />
+                    {w.alt && <span class="w-alt">/ {w.alt}</span>}
+                    {w.lesson && (
+                      <a class="w-lesson" href={url(`/hsk1/${w.lesson}`)} title={`Учебник HSK 1, урок ${w.lesson}`}>
+                        У{w.lesson}
+                      </a>
+                    )}
+                  </div>
+                  <div class="w-py">{w.py} <span class="w-pron">{w.pron}</span></div>
+                  <div class="w-ru">{w.ru}</div>
+                  <div class="w-en">{w.en}</div>
+                  {w.example && <div class="w-ex">{w.example}</div>}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- ── flat alphabetical index ──────────────────────────────── -->
+      <div id="by-alpha" hidden>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>№</th><th>Слово</th><th>Пиньинь</th><th>Часть речи</th><th>Перевод</th><th>Урок</th></tr>
+            </thead>
+            <tbody>
+              {alphabetical.map(w => (
+                <tr data-word data-known={w.known ? '1' : '0'}
+                    data-s={`${w.zh} ${w.py} ${w.pron} ${w.ru} ${w.en}`.toLowerCase()}>
+                  <td class="a-n">{w.n}</td>
+                  <td class="a-zh">
+                    <a href={url(`/vocab/${encodeURIComponent(w.zh)}`)}>{w.zh}</a>
+                    <AudioButton text={w.zh} size="sm" />
+                  </td>
+                  <td class="a-py">{w.py}<span class="w-pron">{w.pron}</span></td>
+                  <td class="a-pos">{w.pos}</td>
+                  <td>{w.ru}</td>
+                  <td class="a-l">{w.lesson ? <a href={url(`/hsk1/${w.lesson}`)}>У{w.lesson}</a> : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline>
+  (function () {
+    var filter = 'all', sort = 'theme';
+
+    function apply() {
+      var q = (document.getElementById('wsearch').value || '').trim().toLowerCase();
+      var shown = 0;
+      document.querySelectorAll('[data-word]').forEach(function (el) {
+        var known = el.getAttribute('data-known') === '1';
+        var ok = (filter === 'all') || (filter === 'known' && known) || (filter === 'todo' && !known);
+        if (ok && q) ok = el.getAttribute('data-s').indexOf(q) !== -1;
+        el.style.display = ok ? '' : 'none';
+        // Count only the visible pane so the total is not doubled.
+        var pane = el.closest('#by-alpha') ? 'alpha' : 'theme';
+        if (ok && pane === sort) shown++;
+      });
+      // Hide theme headings that have no visible cards left.
+      document.querySelectorAll('[data-theme-block]').forEach(function (b) {
+        var any = Array.prototype.some.call(b.querySelectorAll('[data-word]'), function (c) {
+          return c.style.display !== 'none';
+        });
+        b.style.display = any ? '' : 'none';
+      });
+      document.getElementById('wcount').textContent = 'Показано слов: ' + shown;
+    }
+
+    document.querySelectorAll('.fbtn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('.fbtn').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on');
+        filter = b.getAttribute('data-filter');
+        apply();
+      });
+    });
+    document.querySelectorAll('.sbtn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('.sbtn').forEach(function (x) { x.classList.remove('on'); });
+        b.classList.add('on');
+        sort = b.getAttribute('data-sort');
+        document.getElementById('by-theme').hidden = sort !== 'theme';
+        document.getElementById('by-alpha').hidden = sort !== 'alpha';
+        apply();
+      });
+    });
+    document.getElementById('wsearch').addEventListener('input', apply);
+
+    // /hsk3/words?filter=todo deep-links the study queue from the overview page.
+    var p = new URLSearchParams(location.search).get('filter');
+    if (p === 'todo' || p === 'known') {
+      var btn = document.querySelector('.fbtn[data-filter="' + p + '"]');
+      if (btn) btn.click(); else apply();
+    } else {
+      apply();
+    }
+  })();
+</script>
+
+<style>
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .filters { display: flex; gap: 6px; }
+  .fbtn, .sbtn {
+    font-family: 'Mulish', sans-serif; font-size: .8rem; font-weight: 600;
+    padding: 7px 13px; border-radius: 8px; cursor: pointer;
+    background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+    transition: all .15s;
+  }
+  .fbtn:hover, .sbtn:hover { border-color: var(--red); }
+  .fbtn.on, .sbtn.on { background: var(--navy2); border-color: var(--navy2); color: #fff; }
+  #wsearch {
+    flex: 1; min-width: 220px; padding: 8px 13px; font-family: 'Mulish', sans-serif;
+    font-size: .85rem; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--card-bg); color: var(--text);
+  }
+  #wsearch:focus { outline: none; border-color: var(--red); }
+  .wcount { font-size: .78rem; color: var(--muted); margin-bottom: 20px; }
+
+  .theme-block { margin-bottom: 34px; scroll-margin-top: 20px; }
+  .tcount {
+    font-family: monospace; font-size: .7rem; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; margin-left: 8px;
+    text-transform: none; letter-spacing: 0;
+  }
+  .wgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 10px; }
+  .wcard {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-left: 3px solid color-mix(in srgb, var(--muted) 35%, transparent);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .wcard.known { border-left-color: var(--navy2); }
+  .w-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .w-zh {
+    font-family: 'Noto Sans SC', sans-serif; font-size: 1.45rem; color: var(--red);
+    text-decoration: none; line-height: 1.2;
+  }
+  .w-zh:hover { color: var(--navy2); }
+  .w-alt { font-family: 'Noto Sans SC', sans-serif; font-size: 1rem; color: var(--muted); }
+  .w-lesson {
+    margin-left: auto; font-size: .65rem; font-family: monospace; text-decoration: none;
+    color: var(--navy2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px;
+  }
+  .w-lesson:hover { border-color: var(--navy2); }
+  .w-py { font-size: .82rem; color: var(--navy2); margin-top: 3px; }
+  .w-pron { color: var(--muted); margin-left: 6px; }
+  .w-ru { font-size: .9rem; margin-top: 3px; }
+  .w-en { font-size: .74rem; color: var(--muted); font-style: italic; margin-top: 1px; }
+  .w-ex { font-size: .74rem; color: var(--muted); margin-top: 5px; }
+
+  .a-n { font-family: monospace; font-size: .75rem; color: var(--muted); width: 46px; }
+  .a-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.25rem; white-space: nowrap; }
+  .a-zh a { color: var(--red); text-decoration: none; }
+  .a-py { white-space: nowrap; }
+  .a-py .w-pron { display: block; margin-left: 0; font-size: .72rem; }
+  .a-pos { font-size: .75rem; color: var(--muted); font-style: italic; }
+  .a-l { font-family: monospace; font-size: .75rem; }
+  .a-l a { color: var(--navy2); text-decoration: none; }
+</style>

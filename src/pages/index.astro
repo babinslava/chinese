@@ -3,6 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import { lessonNav } from '../data/lessonNav';
 import { url } from '../data/baseUrl';
 import { lessons as hsk1Lessons } from '../data/hsk1';
+import { words as hsk3Words, chars as hsk3Chars, grammar as hsk3Grammar, coverage } from '../data/hsk3';
+
+const cov = coverage();
 
 const mainLessons = lessonNav.filter(l => l.id.startsWith('l') && !isNaN(Number(l.id.slice(1))));
 const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
@@ -67,6 +70,32 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
     </div>
 
     <div class="toc-section">
+      <h2 class="toc-heading">Стандарт HSK 3.0</h2>
+      <p class="toc-note">
+        Официальный список первого уровня: {hsk3Words.length} слов, {hsk3Chars.length} иероглифов
+        и {hsk3Grammar.length} тем грамматики. Пройдено {cov.known} слов из {cov.total}.
+      </p>
+      <div class="toc-grid">
+        <a class="toc-card std" href={url('/hsk3')}>
+          <div class="toc-num">级</div>
+          <div class="toc-label">Обзор уровня 1</div>
+        </a>
+        <a class="toc-card std" href={url('/hsk3/words')}>
+          <div class="toc-num">{hsk3Words.length}</div>
+          <div class="toc-label">Слова по темам</div>
+        </a>
+        <a class="toc-card std" href={url('/hsk3/chars')}>
+          <div class="toc-num">{hsk3Chars.length}</div>
+          <div class="toc-label">Иероглифы</div>
+        </a>
+        <a class="toc-card std" href={url('/hsk3/grammar')}>
+          <div class="toc-num">{hsk3Grammar.length}</div>
+          <div class="toc-label">Грамматика</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="toc-section">
       <h2 class="toc-heading">Инструменты</h2>
       <div class="toc-grid">
         <a class="toc-card vocab" href={url('/vocab')}>
@@ -114,6 +143,8 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
   }
   .toc-card.ref { border-left: 4px solid var(--red); }
   .toc-card.vocab { border-left: 4px solid var(--navy2); }
+  .toc-card.std { border-left: 4px solid #2fa36b; }
+  .toc-card.std .toc-num { color: #2fa36b; font-size: 1.5rem; }
   .toc-card.book { border-left: 4px solid #e8a33d; }
   .toc-card.book .toc-num { color: #e8a33d; }
   .toc-card.book .toc-label { font-size: .92rem; }

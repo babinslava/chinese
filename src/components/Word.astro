@@ -1,5 +1,6 @@
 ---
 import { url } from '../data/baseUrl';
+import { getVocab } from '../data/vocab';
 
 /**
  * Inline word component: shows Chinese character as a link
@@ -18,13 +19,18 @@ interface Props {
 }
 
 const { zh, py, pron, meaning, audio = false } = Astro.props;
+// Only link to a dictionary card that actually exists; phrases like 你好吗？
+// have no entry of their own, and linking them produced 404s.
+const hasCard = !!getVocab(zh);
 const href = url(`/vocab/${encodeURIComponent(zh)}`);
 const tooltip = meaning ? `${py} — ${meaning}` : py;
 const safeText = zh.replace(/'/g, "\\'");
 ---
 
 <span class="word-wrap" data-tooltip={tooltip}>
-  <a class="word-link" href={href}>{zh}</a>
+  {hasCard
+    ? <a class="word-link" href={href}>{zh}</a>
+    : <span class="word-link plain">{zh}</span>}
   {audio && (
     <button
       class="word-audio"
@@ -52,6 +58,7 @@ const safeText = zh.replace(/'/g, "\\'");
     transition: all .15s;
     cursor: pointer;
   }
+  .word-link.plain { border-bottom-style: dotted; border-bottom-color: var(--muted); color: var(--text); cursor: default; }
   .word-link:hover {
     color: var(--navy2);
     border-bottom-color: var(--navy2);

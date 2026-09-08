@@ -24,3 +24,6 @@ Thumbs.db
 # Test results
 test-results/
 playwright-report/
+
+# Playwright MCP scratch output
+.playwright-mcp/
