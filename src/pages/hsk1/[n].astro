@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
 import Scene from '../../components/Scene.astro';
 import BookSection from '../../components/BookSection.astro';
+import StarWord from '../../components/StarWord.astro';
 import { lessons, getHsk1NavContext, type Lesson } from '../../data/hsk1';
 import { url } from '../../data/baseUrl';
 
@@ -82,6 +83,7 @@ const proper = lesson.newWords.filter(w => w.proper);
                 <td class="c-zh">
                   <a href={url(`/vocab/${encodeURIComponent(w.zh)}`)} class="w-link">{w.zh}</a>
                   <AudioButton text={w.zh} size="sm" />
+                  <StarWord zh={w.zh} py={w.py} />
                 </td>
                 <td class="c-py">{w.py}<span class="pron">{w.pron}</span></td>
                 <td class="c-pos">{w.pos}</td>

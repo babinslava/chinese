@@ -4,6 +4,7 @@ import { lessonNav } from '../data/lessonNav';
 import { url } from '../data/baseUrl';
 import { lessons as hsk1Lessons } from '../data/hsk1';
 import { words as hsk3Words, chars as hsk3Chars, grammar as hsk3Grammar, coverage } from '../data/hsk3';
+import { allCards } from '../data/cards';
 
 const cov = coverage();
 
@@ -98,6 +99,10 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
     <div class="toc-section">
       <h2 class="toc-heading">Инструменты</h2>
       <div class="toc-grid">
+        <a class="toc-card cards" href={url('/cards')}>
+          <div class="toc-num">卡</div>
+          <div class="toc-label">Карточки · {allCards.length}</div>
+        </a>
         <a class="toc-card vocab" href={url('/vocab')}>
           <div class="toc-num">字</div>
           <div class="toc-label">Словарь</div>
@@ -143,6 +148,8 @@ const refLessons = lessonNav.filter(l => !mainLessons.includes(l));
   }
   .toc-card.ref { border-left: 4px solid var(--red); }
   .toc-card.vocab { border-left: 4px solid var(--navy2); }
+  .toc-card.cards { border-left: 4px solid #a06cd5; }
+  .toc-card.cards .toc-num { color: #a06cd5; font-size: 1.5rem; }
   .toc-card.std { border-left: 4px solid #2fa36b; }
   .toc-card.std .toc-num { color: #2fa36b; font-size: 1.5rem; }
   .toc-card.book { border-left: 4px solid #e8a33d; }

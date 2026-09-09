@@ -58,6 +58,8 @@ const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+SC:wght@400;700&family=Mulish:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
+  <!-- Loaded in head so page scripts can rely on window.MyDeck existing. -->
+  <script is:inline src={url('/mydeck.js')}></script>
   <style is:global>
     :root {
       --navy: #0f2a4a; --navy2: #1B4F8A;
@@ -346,6 +348,9 @@ const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
         ))}
       </details>
       <span class="nav-group-title">Инструменты</span>
+      <a class={`nav-link${activePage === 'cards' ? ' active' : ''}`} href={url('/cards')}>
+        <span class="num">卡</span> Карточки
+      </a>
       <a class={`nav-link${activePage === 'vocab' ? ' active' : ''}`} href={url('/vocab')}>
         <span class="num">字</span> Словарь
       </a>
@@ -455,9 +460,10 @@ const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
       _loadVoices();
     }
 
+    // btn is optional: the flashcards speak a card with no button attached.
     window.playZh = function(text, btn) {
       if (!synth) {
-        btn.title = 'TTS не поддерживается в этом браузере';
+        if (btn) btn.title = 'TTS не поддерживается в этом браузере';
         return;
       }
       synth.cancel();
@@ -468,9 +474,11 @@ const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
       utter.pitch = 1;
       if (_zhVoice) utter.voice = _zhVoice;
 
-      btn.classList.add('playing');
-      utter.onend  = () => btn.classList.remove('playing');
-      utter.onerror = () => btn.classList.remove('playing');
+      if (btn) {
+        btn.classList.add('playing');
+        utter.onend  = () => btn.classList.remove('playing');
+        utter.onerror = () => btn.classList.remove('playing');
+      }
 
       // Must call speak() synchronously inside the user-gesture handler —
       // any setTimeout causes Chrome to lose the gesture context and silently block it.

@@ -1,0 +1,284 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { allCards, decks } from '../../data/cards';
+import { url } from '../../data/baseUrl';
+
+// One page serves every deck: the whole card set ships once and the deck is
+// chosen client-side from ?deck=, which keeps the static build to one page
+// instead of one per deck.
+const payload = {
+  cards: allCards.map(c => ({
+    id: c.id, zh: c.zh, py: c.py, pron: c.pron, ru: c.ru,
+    ...(c.en ? { en: c.en } : {}),
+    ...(c.hint ? { hint: c.hint } : {}),
+    d: c.decks,
+  })),
+  decks: Object.fromEntries(decks.map(d => [d.id, d.ru])),
+};
+---
+
+<Layout title="Карточки — тренировка" activePage="cards">
+  <div class="content study">
+    <div class="bar-top">
+      <a class="back" href={url('/cards')}>← Все колоды</a>
+      <div class="deck-name" id="deck-name"></div>
+      <div class="progress" id="card-progress"></div>
+    </div>
+
+    <div class="modes" role="group" aria-label="Режим карточек">
+      <button class="mbtn on" data-mode="zh-ru">汉字 → перевод</button>
+      <button class="mbtn" data-mode="ru-zh">перевод → 汉字</button>
+      <button class="mbtn" data-mode="audio">🔊 на слух</button>
+    </div>
+
+    <div id="card-area">
+      <div class="card" id="card" tabindex="0" role="button" aria-label="Показать ответ">
+        <div class="face front" id="front"></div>
+        <div class="face back" id="back" hidden></div>
+        <div class="flip-hint" id="flip-hint">нажми или пробел, чтобы посмотреть</div>
+      </div>
+
+      <div class="grades" id="grades" hidden>
+        <button class="g again" data-q="0"><b>Снова</b><span>1</span></button>
+        <button class="g hard"  data-q="3"><b>Трудно</b><span>2</span></button>
+        <button class="g good"  data-q="4"><b>Хорошо</b><span>3</span></button>
+        <button class="g easy"  data-q="5"><b>Легко</b><span>4</span></button>
+      </div>
+    </div>
+
+    <div id="done" class="done" hidden>
+      <div class="done-zh">好了！</div>
+      <h2>На сегодня всё</h2>
+      <p id="done-text"></p>
+      <div class="done-actions">
+        <a class="btn" href={url('/cards')}>К колодам</a>
+        <button class="btn ghost" id="again-all">Повторить колоду целиком</button>
+      </div>
+    </div>
+
+    <div id="empty" class="done" hidden>
+      <h2 id="empty-title">Колода не найдена</h2>
+      <p id="empty-text">Выберите колоду из списка.</p>
+      <a class="btn" href={url('/cards')}>К колодам</a>
+    </div>
+  </div>
+
+  <script type="application/json" id="card-data" set:html={JSON.stringify(payload)} />
+  <script is:inline src={url('/srs.js')}></script>
+  <script is:inline>
+    (function () {
+      var data = JSON.parse(document.getElementById('card-data').textContent);
+      var deckId = new URLSearchParams(location.search).get('deck');
+      var state = SRS.load();
+      var mode = 'zh-ru';
+
+      // "my" is assembled in the browser from the personal list; every other
+      // deck is a tag baked into the card data at build time.
+      var pool;
+      if (deckId === 'my') {
+        var mine = (window.MyDeck ? MyDeck.load() : []);
+        pool = data.cards.filter(function (c) { return mine.indexOf(c.id) !== -1; });
+      } else {
+        pool = data.cards.filter(function (c) { return c.d.indexOf(deckId) !== -1; });
+      }
+      if (!deckId || !pool.length) {
+        document.getElementById('card-area').hidden = true;
+        document.querySelector('.modes').hidden = true;
+        if (deckId === 'my') {
+          document.getElementById('empty-title').textContent = 'Моя колода пуста';
+          document.getElementById('empty-text').innerHTML =
+            'Отметьте слова звёздочкой ★ в списках, и они появятся здесь.';
+        }
+        document.getElementById('empty').hidden = false;
+        return;
+      }
+      document.getElementById('deck-name').textContent =
+        deckId === 'my' ? 'Моя колода' : (data.decks[deckId] || deckId);
+
+      var queue = [], current = null, revealed = false, reviewed = 0;
+
+      function buildQueue(all) {
+        var now = Date.now();
+        queue = pool
+          .filter(function (c) { return all || SRS.isDue(state, c.id, now); })
+          // Unseen cards first, then the most overdue.
+          .sort(function (a, b) {
+            var sa = state[a.id], sb = state[b.id];
+            if (!sa && sb) return -1;
+            if (sa && !sb) return 1;
+            return ((sa && sa.due) || 0) - ((sb && sb.due) || 0);
+          });
+        reviewed = 0;
+      }
+
+      function speak(text) {
+        if (typeof window.playZh === 'function') window.playZh(text, null);
+      }
+
+      function render() {
+        var front = document.getElementById('front');
+        var back = document.getElementById('back');
+        if (!queue.length) {
+          document.getElementById('card-area').hidden = true;
+          var s = SRS.stats(state, pool.map(function (c) { return c.id; }));
+          document.getElementById('done-text').textContent =
+            'Повторено карточек: ' + reviewed + '. Выучено ' + s.learned + ' из ' + s.total +
+            (s.later ? '. Следующие вернутся позже.' : '.');
+          document.getElementById('done').hidden = false;
+          document.getElementById('card-progress').textContent = '';
+          return;
+        }
+        current = queue[0];
+        revealed = false;
+        back.hidden = true;
+        document.getElementById('grades').hidden = true;
+        document.getElementById('flip-hint').hidden = false;
+
+        if (mode === 'ru-zh') {
+          front.innerHTML = '<div class="f-ru">' + current.ru + '</div>';
+        } else if (mode === 'audio') {
+          front.innerHTML = '<div class="f-audio">🔊</div><div class="f-sub">послушай и вспомни</div>';
+          speak(current.zh);
+        } else {
+          front.innerHTML = '<div class="f-zh">' + current.zh + '</div>';
+        }
+
+        var pyLine = current.py ? '<div class="b-py">' + current.py + '</div>' : '';
+        back.innerHTML =
+          (mode === 'zh-ru' ? '' : '<div class="b-zh">' + current.zh + '</div>') +
+          pyLine +
+          '<div class="b-pron">' + current.pron + '</div>' +
+          '<div class="b-ru">' + current.ru + '</div>' +
+          (current.en ? '<div class="b-en">' + current.en + '</div>' : '') +
+          (current.hint ? '<div class="b-hint">' + current.hint + '</div>' : '');
+
+        document.getElementById('card-progress').textContent = 'Осталось: ' + queue.length;
+      }
+
+      function reveal() {
+        if (revealed || !current) return;
+        revealed = true;
+        document.getElementById('back').hidden = false;
+        document.getElementById('grades').hidden = false;
+        document.getElementById('flip-hint').hidden = true;
+        if (mode !== 'audio') speak(current.zh);
+      }
+
+      function answer(q) {
+        if (!revealed || !current) return;
+        SRS.grade(state, current.id, q);
+        reviewed++;
+        var card = queue.shift();
+        // "Снова" puts the card back a few positions on, so it returns in
+        // this session rather than tomorrow.
+        if (q < 3) queue.splice(Math.min(4, queue.length), 0, card);
+        render();
+      }
+
+      document.getElementById('card').addEventListener('click', reveal);
+      document.getElementById('grades').addEventListener('click', function (e) {
+        var b = e.target.closest('.g');
+        if (b) answer(+b.getAttribute('data-q'));
+      });
+      document.querySelectorAll('.mbtn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          document.querySelectorAll('.mbtn').forEach(function (x) { x.classList.remove('on'); });
+          b.classList.add('on');
+          mode = b.getAttribute('data-mode');
+          render();
+        });
+      });
+      document.getElementById('again-all').addEventListener('click', function () {
+        document.getElementById('done').hidden = true;
+        document.getElementById('card-area').hidden = false;
+        buildQueue(true);
+        render();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+        if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); revealed ? null : reveal(); return; }
+        if (revealed && e.key >= '1' && e.key <= '4') {
+          answer([0, 3, 4, 5][+e.key - 1]);
+        }
+      });
+
+      buildQueue(false);
+      render();
+    })();
+  </script>
+</Layout>
+
+<style>
+  .study { max-width: 720px; }
+  .bar-top { display: flex; align-items: center; gap: 14px; padding: 28px 0 18px; flex-wrap: wrap; }
+  .back { color: var(--muted); text-decoration: none; font-size: .82rem; }
+  .back:hover { color: var(--red); }
+  .deck-name { font-weight: 700; font-size: .95rem; }
+  .progress { margin-left: auto; font-size: .78rem; color: var(--muted); font-family: monospace; }
+
+  .modes { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
+  .mbtn {
+    font-family: 'Mulish', sans-serif; font-size: .78rem; font-weight: 600; cursor: pointer;
+    padding: 7px 13px; border-radius: 8px; background: var(--card-bg);
+    border: 1px solid var(--border); color: var(--text); transition: all .15s;
+  }
+  .mbtn:hover { border-color: var(--red); }
+  .mbtn.on { background: var(--navy2); border-color: var(--navy2); color: #fff; }
+
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    min-height: 280px; padding: 36px 28px 46px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; cursor: pointer; position: relative; user-select: none;
+  }
+  .card:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+  .face { width: 100%; }
+  .back { margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border); }
+
+  .front :global(.f-zh) { font-family: 'Noto Sans SC', sans-serif; font-size: 4.2rem; color: var(--red); line-height: 1.1; }
+  .front :global(.f-ru) { font-size: 1.6rem; font-weight: 600; line-height: 1.35; }
+  .front :global(.f-audio) { font-size: 3.4rem; }
+  .front :global(.f-sub) { font-size: .8rem; color: var(--muted); margin-top: 8px; }
+
+  .back :global(.b-zh) { font-family: 'Noto Sans SC', sans-serif; font-size: 2.6rem; color: var(--red); line-height: 1.15; }
+  .back :global(.b-py) { font-size: 1.05rem; color: var(--navy2); margin-top: 4px; }
+  .back :global(.b-pron) { font-size: .88rem; color: var(--muted); }
+  .back :global(.b-ru) { font-size: 1.15rem; font-weight: 600; margin-top: 8px; }
+  .back :global(.b-en) { font-size: .82rem; color: var(--muted); font-style: italic; margin-top: 2px; }
+  .back :global(.b-hint) { font-size: .78rem; color: var(--muted); margin-top: 8px; }
+
+  .flip-hint { position: absolute; bottom: 16px; left: 0; right: 0; font-size: .72rem; color: var(--muted); }
+
+  .grades { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+  .g {
+    font-family: 'Mulish', sans-serif; cursor: pointer; padding: 12px 6px; border-radius: 10px;
+    background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+    display: flex; flex-direction: column; gap: 3px; transition: all .15s;
+  }
+  .g b { font-size: .85rem; }
+  .g span { font-size: .65rem; color: var(--muted); font-family: monospace; }
+  .g:hover { transform: translateY(-2px); }
+  .g.again:hover { border-color: var(--red); color: var(--red); }
+  .g.hard:hover  { border-color: #e8a33d; color: #e8a33d; }
+  .g.good:hover  { border-color: var(--navy2); color: var(--navy2); }
+  .g.easy:hover  { border-color: #2fa36b; color: #2fa36b; }
+
+  .done { text-align: center; padding: 60px 20px; }
+  .done-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 3rem; color: var(--red); }
+  .done h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 10px 0 8px; }
+  .done p { color: var(--muted); }
+  .done-actions { display: flex; gap: 10px; justify-content: center; margin-top: 22px; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Mulish', sans-serif; font-size: .85rem; font-weight: 700; cursor: pointer;
+    padding: 10px 18px; border-radius: 9px; text-decoration: none;
+    background: var(--navy2); border: 1px solid var(--navy2); color: #fff;
+  }
+  .btn.ghost { background: transparent; border-color: var(--border); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--red); color: var(--red); }
+
+  @media (max-width: 520px) {
+    .grades { grid-template-columns: repeat(2, 1fr); }
+    .front :global(.f-zh) { font-size: 3.2rem; }
+  }
+</style>

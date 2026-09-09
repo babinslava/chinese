@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import AudioButton from '../../components/AudioButton.astro';
 import { wordsByTheme, words, coverage } from '../../data/hsk3';
+import StarWord from '../../components/StarWord.astro';
 import { url } from '../../data/baseUrl';
 
 const themes = wordsByTheme();
@@ -53,6 +54,7 @@ const alphabetical = [...words].sort((a, b) => a.py.localeCompare(b.py, 'en'));
                   <div class="w-top">
                     <a class="w-zh" href={url(`/vocab/${encodeURIComponent(w.zh)}`)}>{w.zh}</a>
                     <AudioButton text={w.zh} size="sm" />
+                    <StarWord zh={w.zh} py={w.py} />
                     {w.alt && <span class="w-alt">/ {w.alt}</span>}
                     {w.lesson && (
                       <a class="w-lesson" href={url(`/hsk1/${w.lesson}`)} title={`Учебник HSK 1, урок ${w.lesson}`}>
@@ -86,6 +88,7 @@ const alphabetical = [...words].sort((a, b) => a.py.localeCompare(b.py, 'en'));
                   <td class="a-zh">
                     <a href={url(`/vocab/${encodeURIComponent(w.zh)}`)}>{w.zh}</a>
                     <AudioButton text={w.zh} size="sm" />
+                    <StarWord zh={w.zh} py={w.py} />
                   </td>
                   <td class="a-py">{w.py}<span class="w-pron">{w.pron}</span></td>
                   <td class="a-pos">{w.pos}</td>

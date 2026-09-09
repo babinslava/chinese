@@ -1,0 +1,44 @@
+---
+import { cardId } from '../data/cards';
+
+/**
+ * Adds a word to the personal flashcard deck with one click.
+ *
+ * Renders in the "off" state and is switched on by mydeck.js once
+ * localStorage is read, so it works on a static page with no flash of wrong
+ * state beyond the first paint. The id must match the flashcard id exactly,
+ * so it goes through the same cardId() the deck builder uses.
+ */
+interface Props {
+  zh: string;
+  py: string;
+  size?: 'sm' | 'md';
+}
+const { zh, py, size = 'sm' } = Astro.props;
+const id = cardId(zh, py);
+---
+
+<button
+  class={`star star-${size}`}
+  data-star={id}
+  type="button"
+  aria-pressed="false"
+  title="Добавить в мою колоду"
+  aria-label={`Добавить ${zh} в мою колоду`}
+>★</button>
+
+<style>
+  .star {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 2px;
+    line-height: 1;
+    color: color-mix(in srgb, var(--muted) 55%, transparent);
+    transition: color .15s, transform .15s;
+  }
+  .star-sm { font-size: .85rem; }
+  .star-md { font-size: 1.1rem; }
+  .star:hover { color: #e8a33d; transform: scale(1.2); }
+  .star.on { color: #e8a33d; }
+</style>

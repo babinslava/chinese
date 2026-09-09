@@ -1,0 +1,184 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { allCards } from '../../data/cards';
+import { url } from '../../data/baseUrl';
+
+// The whole card set is shipped so the page can resolve saved ids offline;
+// only the saved ones are ever rendered.
+const lookup = Object.fromEntries(
+  allCards.map(c => [c.id, { zh: c.zh, py: c.py, pron: c.pron, ru: c.ru, en: c.en ?? '' }])
+);
+---
+
+<Layout title="Моя колода — Карточки" activePage="cards">
+  <div class="content">
+    <div class="my-hero">
+      <div class="hero-label">Своя подборка</div>
+      <h1>Моя колода</h1>
+      <p>
+        Слова, отмеченные звёздочкой ★ в списках HSK 3.0 и в уроках учебника.
+        Отсюда их можно повторять как обычную колоду и выгрузить файлом,
+        чтобы не потерять при смене браузера.
+      </p>
+      <div class="my-actions">
+        <a class="btn" id="study" href={url('/cards/study?deck=my')}>Повторять колоду</a>
+        <button class="btn ghost" id="export">Выгрузить (CSV)</button>
+        <button class="btn ghost" id="import-btn">Загрузить из файла</button>
+        <input type="file" id="import" accept=".csv,.json,text/csv,application/json" hidden />
+        <button class="btn ghost danger" id="clear">Очистить</button>
+      </div>
+    </div>
+
+    <section class="lesson">
+      <h2 class="section-title">Слова <span class="mcount" id="count">0</span></h2>
+      <div id="empty" class="empty">
+        <p>Колода пока пуста.</p>
+        <p class="sub">
+          Откройте <a href={url('/hsk3/words')}>список 500 слов</a> или любой
+          <a href={url('/hsk1')}>урок учебника</a> и нажмите ★ рядом со словом.
+        </p>
+      </div>
+      <div class="mgrid" id="grid"></div>
+    </section>
+  </div>
+
+  <script type="application/json" id="card-lookup" set:html={JSON.stringify(lookup)} />
+  <script is:inline src={url('/mydeck.js')}></script>
+  <script is:inline>
+    (function () {
+      var LOOKUP = JSON.parse(document.getElementById('card-lookup').textContent);
+      var grid = document.getElementById('grid');
+
+      function paint() {
+        var ids = MyDeck.load().filter(function (id) { return LOOKUP[id]; });
+        document.getElementById('count').textContent = ids.length;
+        document.getElementById('empty').hidden = ids.length > 0;
+        document.getElementById('study').classList.toggle('disabled', ids.length === 0);
+        grid.innerHTML = ids.map(function (id) {
+          var c = LOOKUP[id];
+          return '<div class="mcard" data-id="' + id + '">' +
+            '<button class="rm" title="Убрать из колоды" aria-label="Убрать">×</button>' +
+            '<div class="m-zh">' + c.zh + '</div>' +
+            '<div class="m-py">' + c.py + '</div>' +
+            '<div class="m-pron">' + c.pron + '</div>' +
+            '<div class="m-ru">' + c.ru + '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      grid.addEventListener('click', function (e) {
+        var b = e.target.closest('.rm');
+        if (!b) return;
+        MyDeck.remove(b.parentNode.getAttribute('data-id'));
+        paint();
+      });
+
+      document.getElementById('clear').addEventListener('click', function () {
+        if (!confirm('Убрать все слова из моей колоды?')) return;
+        MyDeck.clear();
+        paint();
+      });
+
+      // CSV keeps it openable in a spreadsheet and importable into Anki/Pleco.
+      document.getElementById('export').addEventListener('click', function () {
+        var ids = MyDeck.load().filter(function (id) { return LOOKUP[id]; });
+        if (!ids.length) return;
+        var rows = [['hanzi', 'pinyin', 'transcription', 'russian', 'english']];
+        ids.forEach(function (id) {
+          var c = LOOKUP[id];
+          rows.push([c.zh, c.py, c.pron, c.ru, c.en]);
+        });
+        var csv = rows.map(function (r) {
+          return r.map(function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(',');
+        }).join('\n');
+        var blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'my-chinese-deck.csv';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      document.getElementById('import-btn').addEventListener('click', function () {
+        document.getElementById('import').click();
+      });
+      document.getElementById('import').addEventListener('change', function (e) {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          var text = String(reader.result);
+          // Match on the Chinese column, so a file exported from elsewhere
+          // still lines up as long as it contains the words.
+          var byZh = {};
+          Object.keys(LOOKUP).forEach(function (id) {
+            var zh = LOOKUP[id].zh;
+            if (!byZh[zh]) byZh[zh] = id;
+          });
+          var found = [], missing = 0;
+          text.split(/\r?\n/).forEach(function (line, i) {
+            if (!line.trim() || (i === 0 && /hanzi/i.test(line))) return;
+            var first = (line.match(/"([^"]*)"/) || [null, line.split(',')[0]])[1];
+            var zh = (first || '').trim();
+            if (!zh) return;
+            if (byZh[zh]) { if (found.indexOf(byZh[zh]) === -1) found.push(byZh[zh]); }
+            else missing++;
+          });
+          var current = MyDeck.load();
+          found.forEach(function (id) { if (current.indexOf(id) === -1) current.push(id); });
+          MyDeck.save(current);
+          paint();
+          alert('Добавлено слов: ' + found.length +
+                (missing ? '. Не найдено на сайте: ' + missing : ''));
+        };
+        reader.readAsText(f);
+        e.target.value = '';
+      });
+
+      paint();
+    })();
+  </script>
+</Layout>
+
+<style>
+  .my-hero { padding: 56px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+  .my-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.05; margin: 0 0 14px;
+  }
+  .my-hero p { max-width: 640px; color: var(--muted); line-height: 1.7; }
+  .my-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .btn {
+    font-family: 'Mulish', sans-serif; font-size: .82rem; font-weight: 700; cursor: pointer;
+    padding: 9px 16px; border-radius: 9px; text-decoration: none;
+    background: var(--navy2); border: 1px solid var(--navy2); color: #fff;
+  }
+  .btn.ghost { background: transparent; border-color: var(--border); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--red); color: var(--red); }
+  .btn.danger:hover { border-color: var(--red); color: var(--red); }
+  .btn.disabled { opacity: .45; pointer-events: none; }
+
+  .mcount {
+    font-family: monospace; font-size: .72rem; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; margin-left: 8px;
+    text-transform: none; letter-spacing: 0;
+  }
+  .empty { color: var(--muted); }
+  .empty .sub { font-size: .88rem; margin-top: 6px; }
+  .empty a { color: var(--red); }
+
+  .mgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+  .mgrid :global(.mcard) {
+    position: relative; background: var(--card-bg); border: 1px solid var(--border);
+    border-left: 3px solid #e8a33d; border-radius: 10px; padding: 12px 14px;
+  }
+  .mgrid :global(.rm) {
+    position: absolute; top: 6px; right: 8px; background: none; border: none;
+    color: var(--muted); cursor: pointer; font-size: 1rem; line-height: 1; padding: 2px;
+  }
+  .mgrid :global(.rm:hover) { color: var(--red); }
+  .mgrid :global(.m-zh) { font-family: 'Noto Sans SC', sans-serif; font-size: 1.5rem; color: var(--red); line-height: 1.2; }
+  .mgrid :global(.m-py) { font-size: .8rem; color: var(--navy2); margin-top: 2px; }
+  .mgrid :global(.m-pron) { font-size: .74rem; color: var(--muted); }
+  .mgrid :global(.m-ru) { font-size: .88rem; margin-top: 4px; }
+</style>

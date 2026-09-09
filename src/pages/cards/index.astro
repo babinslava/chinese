@@ -1,0 +1,187 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { deckGroups, allCards, decks } from '../../data/cards';
+import { url } from '../../data/baseUrl';
+
+const groups = deckGroups();
+// The deck list needs to know which card belongs where to count what's due.
+const deckIds = Object.fromEntries(
+  decks.map(d => [d.id, allCards.filter(c => c.decks.includes(d.id)).map(c => c.id)])
+);
+---
+
+<Layout title="Карточки — Курс китайского" activePage="cards">
+  <div class="content">
+    <div class="cards-hero">
+      <div class="hero-label">Интервальное повторение</div>
+      <h1>Карточки</h1>
+      <p>
+        {allCards.length} карточек из тех же слов, что и на сайте. Показывается то,
+        что пора повторить: чем увереннее ответ, тем позже слово вернётся.
+        Прогресс хранится в браузере — ни аккаунта, ни сервера.
+      </p>
+      <div class="totals" id="totals"></div>
+    </div>
+
+    <section class="lesson">
+      <h2 class="section-title">Моя колода</h2>
+      <div class="deck-grid">
+        <a class="deck mine" href={url('/cards/study?deck=my')} id="my-deck">
+          <div class="d-top">
+            <span class="d-zh">★</span>
+            <span class="d-count" id="my-count">0</span>
+          </div>
+          <div class="d-ru">Отмеченные слова</div>
+          <div class="d-bar"><i></i></div>
+          <div class="d-stats"><span class="s-due" id="my-due">—</span></div>
+        </a>
+        <a class="deck ghost" href={url('/cards/my')}>
+          <div class="d-top"><span class="d-zh">⚙</span></div>
+          <div class="d-ru">Управление колодой</div>
+          <div class="d-stats"><span>добавить, убрать, выгрузить</span></div>
+        </a>
+      </div>
+    </section>
+
+    {groups.map(g => (
+      <section class="lesson">
+        <h2 class="section-title">{g.group}</h2>
+        <div class="deck-grid">
+          {g.decks.map(d => (
+            <a class="deck" href={url(`/cards/study?deck=${encodeURIComponent(d.id)}`)} data-deck={d.id}>
+              <div class="d-top">
+                {d.zh && <span class="d-zh">{d.zh}</span>}
+                <span class="d-count">{d.count}</span>
+              </div>
+              <div class="d-ru">{d.ru}</div>
+              <div class="d-bar"><i></i></div>
+              <div class="d-stats">
+                <span class="s-due">—</span>
+                <span class="s-fresh">—</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="lesson">
+      <h2 class="section-title">Прогресс</h2>
+      <p class="hint">
+        Данные хранятся только в этом браузере. Если очистить их, все интервалы
+        начнутся заново.
+      </p>
+      <button id="wipe" class="danger">Сбросить весь прогресс</button>
+    </section>
+  </div>
+
+  <script type="application/json" id="deck-ids" set:html={JSON.stringify(deckIds)} />
+  <script is:inline src={url('/srs.js')}></script>
+  <script is:inline>
+    (function () {
+      var deckIds = JSON.parse(document.getElementById('deck-ids').textContent);
+      var state = SRS.load();
+
+      function paint() {
+        var everyId = [];
+        Object.keys(deckIds).forEach(function (k) {
+          deckIds[k].forEach(function (id) {
+            if (everyId.indexOf(id) === -1) everyId.push(id);
+          });
+        });
+        var overall = SRS.stats(state, everyId);
+        document.getElementById('totals').innerHTML =
+          '<div class="t"><b>' + overall.due + '</b><span>к повторению</span></div>' +
+          '<div class="t"><b>' + overall.fresh + '</b><span>новых</span></div>' +
+          '<div class="t"><b>' + overall.learned + '</b><span>выучено</span></div>' +
+          '<div class="t"><b>' + overall.total + '</b><span>всего</span></div>';
+
+        document.querySelectorAll('[data-deck]').forEach(function (el) {
+          var ids = deckIds[el.getAttribute('data-deck')] || [];
+          var s = SRS.stats(state, ids);
+          var pct = s.total ? Math.round((s.learned / s.total) * 100) : 0;
+          el.querySelector('.d-bar i').style.width = pct + '%';
+          // "Всё повторено" only when there is genuinely nothing left today:
+          // unseen cards count as new, not as due.
+          el.querySelector('.s-due').textContent =
+            s.due ? s.due + ' к повторению' : (s.fresh ? '' : 'всё повторено');
+          el.querySelector('.s-due').className = 's-due' + (s.due ? ' hot' : '');
+          el.querySelector('.s-fresh').textContent = s.fresh ? s.fresh + ' новых' : '';
+          el.classList.toggle('has-due', s.due > 0);
+        });
+      }
+
+      function paintMine() {
+        var mine = (window.MyDeck ? MyDeck.load() : []);
+        document.getElementById('my-count').textContent = mine.length;
+        var s = SRS.stats(state, mine);
+        var el = document.getElementById('my-deck');
+        el.querySelector('.d-bar i').style.width =
+          (s.total ? Math.round((s.learned / s.total) * 100) : 0) + '%';
+        document.getElementById('my-due').textContent =
+          !mine.length ? 'пусто — отметьте слова ★'
+            : s.due ? s.due + ' к повторению'
+            : s.fresh ? s.fresh + ' новых'
+            : 'всё повторено';
+        document.getElementById('my-due').className = 's-due' + (s.due ? ' hot' : '');
+        el.classList.toggle('has-due', s.due > 0 || s.fresh > 0);
+      }
+      document.addEventListener('mydeck:change', paintMine);
+
+      document.getElementById('wipe').addEventListener('click', function () {
+        if (!confirm('Сбросить прогресс по всем карточкам?')) return;
+        state = {};
+        SRS.save(state);
+        paint();
+      });
+
+      paint();
+      paintMine();
+    })();
+  </script>
+</Layout>
+
+<style>
+  .cards-hero { padding: 56px 0 36px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+  .cards-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 900; line-height: 1.05; margin: 0 0 16px;
+  }
+  .cards-hero p { max-width: 640px; color: var(--muted); line-height: 1.7; }
+
+  .totals { display: flex; flex-wrap: wrap; gap: 26px; margin-top: 28px; }
+  .totals :global(.t) { display: flex; flex-direction: column; }
+  .totals :global(.t b) {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+    color: var(--red2); line-height: 1;
+  }
+  .totals :global(.t span) { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-top: 4px; }
+
+  .deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 12px; }
+  .deck {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; text-decoration: none; color: var(--text); transition: all .15s;
+  }
+  .deck:hover { border-color: var(--red); transform: translateY(-2px); }
+  .deck.has-due { border-left: 3px solid var(--red); }
+  .deck.mine { border-left: 3px solid #e8a33d; }
+  .deck.mine .d-zh { color: #e8a33d; }
+  .deck.ghost { border-style: dashed; }
+  .deck.ghost .d-zh { color: var(--muted); }
+  .d-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .d-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--red); }
+  .d-count { font-family: monospace; font-size: .72rem; color: var(--muted); }
+  .d-ru { font-size: .9rem; font-weight: 600; margin-top: 2px; }
+  .d-bar { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--muted) 20%, transparent); margin: 10px 0 6px; overflow: hidden; }
+  .d-bar i { display: block; height: 100%; width: 0; background: var(--navy2); transition: width .3s; }
+  .d-stats { display: flex; gap: 10px; font-size: .72rem; color: var(--muted); }
+  .d-stats :global(.hot) { color: var(--red); font-weight: 700; }
+
+  .hint { color: var(--muted); font-size: .88rem; margin-bottom: 14px; max-width: 620px; line-height: 1.6; }
+  .danger {
+    font-family: 'Mulish', sans-serif; font-size: .82rem; font-weight: 600; cursor: pointer;
+    padding: 9px 16px; border-radius: 8px; background: transparent;
+    border: 1px solid var(--border); color: var(--muted); transition: all .15s;
+  }
+  .danger:hover { border-color: var(--red); color: var(--red); }
+</style>
