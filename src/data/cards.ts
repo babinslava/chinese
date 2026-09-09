@@ -7,6 +7,10 @@
 import { words as hsk3Words, THEMES } from './hsk3';
 import { lessons as hsk1Lessons } from './hsk1';
 import top40 from './top40.json';
+import syllableTable from './pinyinSyllables.json';
+
+/** Per-syllable [toneless syllable, tone 1-5] — drives the tone drill. */
+const SYLLABLES = syllableTable as Record<string, [string, number][]>;
 
 /**
  * Stable card id. Keyed on the word *and* its reading, because the standard
@@ -29,6 +33,8 @@ export interface Card {
   en?: string;
   /** Extra line shown on the back — examples, part of speech. */
   hint?: string;
+  /** Syllables with their tones, for the tone drill. */
+  syl?: [string, number][];
   decks: string[];
 }
 
@@ -42,13 +48,13 @@ export interface Deck {
 
 const cards = new Map<string, Card>();
 
-function add(c: Omit<Card, 'decks'>, deck: string) {
+function add(c: Omit<Card, 'decks' | 'syl'>, deck: string) {
   const existing = cards.get(c.id);
   if (existing) {
     if (!existing.decks.includes(deck)) existing.decks.push(deck);
     return;
   }
-  cards.set(c.id, { ...c, decks: [deck] });
+  cards.set(c.id, { ...c, syl: SYLLABLES[c.py], decks: [deck] });
 }
 
 // — HSK 3.0 Level 1: one deck per theme, plus everything still to learn —

@@ -89,6 +89,9 @@ const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
       --sound-bg: #0d1929; --sound-fg: #4a9eff; --sound-border: #1a3050;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* A class that sets display beats the UA rule for [hidden]; make the
+       attribute win so hidden elements stay hidden. */
+    [hidden] { display: none !important; }
     body {
       font-family: 'Mulish', sans-serif;
       background: var(--bg); color: var(--text);

@@ -85,6 +85,49 @@
     return { total: ids.length, fresh: fresh, due: due, later: later, learned: learned };
   }
 
+  /* ── daily budget for new cards ──────────────────────────────────────
+   * Anki and Pleco both cap how many unseen cards get introduced per day,
+   * so a 317-word deck does not arrive all at once. The count resets at
+   * local midnight.
+   */
+  var SET = 'zh-srs-settings';
+  var LOG = 'zh-srs-newlog';
+
+  function settings() {
+    try {
+      var s = JSON.parse(localStorage.getItem(SET) || '{}');
+      return { newPerDay: typeof s.newPerDay === 'number' ? s.newPerDay : 20 };
+    } catch (e) {
+      return { newPerDay: 20 };
+    }
+  }
+  function setSettings(s) {
+    try { localStorage.setItem(SET, JSON.stringify(s)); } catch (e) {}
+    document.dispatchEvent(new CustomEvent('srs:settings', { detail: s }));
+  }
+
+  function today() {
+    var d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+  function introducedToday() {
+    try {
+      var l = JSON.parse(localStorage.getItem(LOG) || '{}');
+      return l.date === today() ? (l.count || 0) : 0;
+    } catch (e) { return 0; }
+  }
+  function noteIntroduced(n) {
+    try {
+      localStorage.setItem(LOG, JSON.stringify({ date: today(), count: introducedToday() + (n || 1) }));
+    } catch (e) {}
+  }
+  /** How many new cards may still be started today; Infinity when uncapped. */
+  function newBudget() {
+    var cap = settings().newPerDay;
+    if (!cap || cap < 0) return Infinity;
+    return Math.max(0, cap - introducedToday());
+  }
+
   function resetDeck(state, ids) {
     ids.forEach(function (id) { delete state[id]; });
     save(state);
@@ -98,6 +141,11 @@
     stats: stats,
     resetDeck: resetDeck,
     startOfTomorrow: startOfTomorrow,
+    settings: settings,
+    setSettings: setSettings,
+    introducedToday: introducedToday,
+    noteIntroduced: noteIntroduced,
+    newBudget: newBudget,
     DAY: DAY
   };
 })();

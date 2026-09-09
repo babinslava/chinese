@@ -21,26 +21,22 @@ const deckIds = Object.fromEntries(
         Прогресс хранится в браузере — ни аккаунта, ни сервера.
       </p>
       <div class="totals" id="totals"></div>
+      <div class="settings">
+        <label for="new-per-day">Новых слов в день</label>
+        <select id="new-per-day">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="40">40</option>
+          <option value="0">без лимита</option>
+        </select>
+        <span class="s-note" id="new-note"></span>
+      </div>
     </div>
 
     <section class="lesson">
       <h2 class="section-title">Моя колода</h2>
-      <div class="deck-grid">
-        <a class="deck mine" href={url('/cards/study?deck=my')} id="my-deck">
-          <div class="d-top">
-            <span class="d-zh">★</span>
-            <span class="d-count" id="my-count">0</span>
-          </div>
-          <div class="d-ru">Отмеченные слова</div>
-          <div class="d-bar"><i></i></div>
-          <div class="d-stats"><span class="s-due" id="my-due">—</span></div>
-        </a>
-        <a class="deck ghost" href={url('/cards/my')}>
-          <div class="d-top"><span class="d-zh">⚙</span></div>
-          <div class="d-ru">Управление колодой</div>
-          <div class="d-stats"><span>добавить, убрать, выгрузить</span></div>
-        </a>
-      </div>
+      <div class="deck-grid" id="my-decks"></div>
     </section>
 
     {groups.map(g => (
@@ -75,12 +71,15 @@ const deckIds = Object.fromEntries(
     </section>
   </div>
 
+  <span id="study-base" data-href={url('/cards/study')} data-manage={url('/cards/my')} hidden></span>
   <script type="application/json" id="deck-ids" set:html={JSON.stringify(deckIds)} />
   <script is:inline src={url('/srs.js')}></script>
   <script is:inline>
     (function () {
       var deckIds = JSON.parse(document.getElementById('deck-ids').textContent);
       var state = SRS.load();
+      var STUDY = document.getElementById('study-base').getAttribute('data-href') + '?deck=';
+      var MANAGE = document.getElementById('study-base').getAttribute('data-manage');
 
       function paint() {
         var everyId = [];
@@ -112,21 +111,46 @@ const deckIds = Object.fromEntries(
       }
 
       function paintMine() {
-        var mine = (window.MyDeck ? MyDeck.load() : []);
-        document.getElementById('my-count').textContent = mine.length;
-        var s = SRS.stats(state, mine);
-        var el = document.getElementById('my-deck');
-        el.querySelector('.d-bar i').style.width =
-          (s.total ? Math.round((s.learned / s.total) * 100) : 0) + '%';
-        document.getElementById('my-due').textContent =
-          !mine.length ? 'пусто — отметьте слова ★'
+        var st = window.MyDeck ? MyDeck.load() : { decks: [], active: '' };
+        var html = st.decks.map(function (d) {
+          var s = SRS.stats(state, d.ids);
+          var pct = s.total ? Math.round((s.learned / s.total) * 100) : 0;
+          var label = !d.ids.length ? 'пусто — отметьте слова ★'
             : s.due ? s.due + ' к повторению'
             : s.fresh ? s.fresh + ' новых'
             : 'всё повторено';
-        document.getElementById('my-due').className = 's-due' + (s.due ? ' hot' : '');
-        el.classList.toggle('has-due', s.due > 0 || s.fresh > 0);
+          return '<a class="deck mine' + (d.id === st.active ? ' active-deck' : '') +
+              '" href="' + STUDY + encodeURIComponent('my:' + d.id) + '">' +
+            '<div class="d-top"><span class="d-zh">★</span>' +
+              '<span class="d-count">' + d.ids.length + '</span></div>' +
+            '<div class="d-ru">' + d.name + '</div>' +
+            '<div class="d-bar"><i style="width:' + pct + '%"></i></div>' +
+            '<div class="d-stats"><span class="s-due' + (s.due ? ' hot' : '') + '">' + label + '</span>' +
+              (d.id === st.active ? '<span class="badge">активная</span>' : '') + '</div>' +
+          '</a>';
+        }).join('');
+        html += '<a class="deck ghost" href="' + MANAGE + '">' +
+          '<div class="d-top"><span class="d-zh">⚙</span></div>' +
+          '<div class="d-ru">Управление колодами</div>' +
+          '<div class="d-stats"><span>создать, выгрузить, выбрать активную</span></div></a>';
+        document.getElementById('my-decks').innerHTML = html;
       }
       document.addEventListener('mydeck:change', paintMine);
+
+      var sel = document.getElementById('new-per-day');
+      sel.value = String(SRS.settings().newPerDay);
+      function paintBudget() {
+        var cap = SRS.settings().newPerDay;
+        var used = SRS.introducedToday();
+        document.getElementById('new-note').textContent = !cap
+          ? 'сегодня начато новых: ' + used
+          : 'сегодня начато ' + used + ' из ' + cap;
+      }
+      sel.addEventListener('change', function () {
+        SRS.setSettings({ newPerDay: +sel.value });
+        paintBudget();
+      });
+      paintBudget();
 
       document.getElementById('wipe').addEventListener('click', function () {
         if (!confirm('Сбросить прогресс по всем карточкам?')) return;
@@ -155,27 +179,43 @@ const deckIds = Object.fromEntries(
     font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
     color: var(--red2); line-height: 1;
   }
+  .settings { display: flex; align-items: center; gap: 10px; margin-top: 26px; flex-wrap: wrap; }
+  .settings label { font-size: .78rem; color: var(--muted); }
+  .settings select {
+    font-family: 'Mulish', sans-serif; font-size: .8rem; padding: 6px 10px;
+    border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+  }
+  .s-note { font-size: .74rem; color: var(--muted); }
+
   .totals :global(.t span) { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-top: 4px; }
 
-  .deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 12px; }
-  .deck {
+  /* These rules must be global: the personal decks are injected with
+     innerHTML, so they never receive Astro's scoping attribute. */
+  :global(.deck-grid) { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 12px; }
+  :global(.deck) {
     background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
     padding: 14px 16px; text-decoration: none; color: var(--text); transition: all .15s;
+    display: block;
   }
-  .deck:hover { border-color: var(--red); transform: translateY(-2px); }
-  .deck.has-due { border-left: 3px solid var(--red); }
-  .deck.mine { border-left: 3px solid #e8a33d; }
-  .deck.mine .d-zh { color: #e8a33d; }
-  .deck.ghost { border-style: dashed; }
-  .deck.ghost .d-zh { color: var(--muted); }
-  .d-top { display: flex; justify-content: space-between; align-items: baseline; }
-  .d-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--red); }
-  .d-count { font-family: monospace; font-size: .72rem; color: var(--muted); }
-  .d-ru { font-size: .9rem; font-weight: 600; margin-top: 2px; }
-  .d-bar { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--muted) 20%, transparent); margin: 10px 0 6px; overflow: hidden; }
-  .d-bar i { display: block; height: 100%; width: 0; background: var(--navy2); transition: width .3s; }
-  .d-stats { display: flex; gap: 10px; font-size: .72rem; color: var(--muted); }
-  .d-stats :global(.hot) { color: var(--red); font-weight: 700; }
+  :global(.deck:hover) { border-color: var(--red); transform: translateY(-2px); }
+  :global(.deck.has-due) { border-left: 3px solid var(--red); }
+  :global(.deck.mine) { border-left: 3px solid #e8a33d; }
+  :global(.deck.mine .d-zh) { color: #e8a33d; }
+  :global(.deck.active-deck) { box-shadow: 0 0 0 1px #e8a33d inset; }
+  :global(.deck.ghost) { border-style: dashed; }
+  :global(.deck.ghost .d-zh) { color: var(--muted); }
+  :global(.badge) {
+    font-size: .62rem; text-transform: uppercase; letter-spacing: .08em;
+    color: #e8a33d; border: 1px solid #e8a33d; border-radius: 4px; padding: 0 4px;
+  }
+  :global(.d-top) { display: flex; justify-content: space-between; align-items: baseline; }
+  :global(.d-zh) { font-family: 'Noto Sans SC', sans-serif; font-size: 1.1rem; color: var(--red); }
+  :global(.d-count) { font-family: monospace; font-size: .72rem; color: var(--muted); }
+  :global(.d-ru) { font-size: .9rem; font-weight: 600; margin-top: 2px; }
+  :global(.d-bar) { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--muted) 20%, transparent); margin: 10px 0 6px; overflow: hidden; }
+  :global(.d-bar i) { display: block; height: 100%; width: 0; background: var(--navy2); transition: width .3s; }
+  :global(.d-stats) { display: flex; gap: 10px; align-items: center; font-size: .72rem; color: var(--muted); }
+  :global(.d-stats .hot) { color: var(--red); font-weight: 700; }
 
   .hint { color: var(--muted); font-size: .88rem; margin-bottom: 14px; max-width: 620px; line-height: 1.6; }
   .danger {

@@ -14,12 +14,20 @@ const lookup = Object.fromEntries(
   <div class="content">
     <div class="my-hero">
       <div class="hero-label">Своя подборка</div>
-      <h1>Моя колода</h1>
+      <h1>Мои колоды</h1>
       <p>
         Слова, отмеченные звёздочкой ★ в списках HSK 3.0 и в уроках учебника.
         Отсюда их можно повторять как обычную колоду и выгрузить файлом,
         чтобы не потерять при смене браузера.
       </p>
+      <div class="deck-switch">
+        <label for="deck-pick">Колода</label>
+        <select id="deck-pick"></select>
+        <button class="btn ghost mini" id="new-deck">+ Новая</button>
+        <button class="btn ghost mini" id="rename-deck">Переименовать</button>
+        <button class="btn ghost mini danger" id="delete-deck">Удалить</button>
+      </div>
+
       <div class="my-actions">
         <a class="btn" id="study" href={url('/cards/study?deck=my')}>Повторять колоду</a>
         <button class="btn ghost" id="export">Выгрузить (CSV)</button>
@@ -49,8 +57,18 @@ const lookup = Object.fromEntries(
       var LOOKUP = JSON.parse(document.getElementById('card-lookup').textContent);
       var grid = document.getElementById('grid');
 
+      function paintDecks() {
+        var st = MyDeck.load();
+        document.getElementById('deck-pick').innerHTML = st.decks.map(function (d) {
+          return '<option value="' + d.id + '"' + (d.id === st.active ? ' selected' : '') + '>' +
+                 d.name + ' (' + d.ids.length + ')</option>';
+        }).join('');
+        document.getElementById('delete-deck').disabled = st.decks.length < 2;
+      }
+
       function paint() {
-        var ids = MyDeck.load().filter(function (id) { return LOOKUP[id]; });
+        paintDecks();
+        var ids = MyDeck.ids().filter(function (id) { return LOOKUP[id]; });
         document.getElementById('count').textContent = ids.length;
         document.getElementById('empty').hidden = ids.length > 0;
         document.getElementById('study').classList.toggle('disabled', ids.length === 0);
@@ -73,15 +91,38 @@ const lookup = Object.fromEntries(
         paint();
       });
 
+      document.getElementById('deck-pick').addEventListener('change', function (e) {
+        MyDeck.setActive(e.target.value);
+        paint();
+      });
+      document.getElementById('new-deck').addEventListener('click', function () {
+        var name = prompt('Название новой колоды', 'Новая колода');
+        if (!name) return;
+        MyDeck.create(name.trim());
+        paint();
+      });
+      document.getElementById('rename-deck').addEventListener('click', function () {
+        var d = MyDeck.activeDeck();
+        var name = prompt('Новое название', d.name);
+        if (!name) return;
+        MyDeck.rename(d.id, name.trim());
+        paint();
+      });
+      document.getElementById('delete-deck').addEventListener('click', function () {
+        var d = MyDeck.activeDeck();
+        if (!confirm('Удалить колоду «' + d.name + '»?')) return;
+        MyDeck.destroy(d.id);
+        paint();
+      });
       document.getElementById('clear').addEventListener('click', function () {
-        if (!confirm('Убрать все слова из моей колоды?')) return;
+        if (!confirm('Убрать все слова из колоды «' + MyDeck.activeDeck().name + '»?')) return;
         MyDeck.clear();
         paint();
       });
 
       // CSV keeps it openable in a spreadsheet and importable into Anki/Pleco.
       document.getElementById('export').addEventListener('click', function () {
-        var ids = MyDeck.load().filter(function (id) { return LOOKUP[id]; });
+        var ids = MyDeck.ids().filter(function (id) { return LOOKUP[id]; });
         if (!ids.length) return;
         var rows = [['hanzi', 'pinyin', 'transcription', 'russian', 'english']];
         ids.forEach(function (id) {
@@ -94,7 +135,7 @@ const lookup = Object.fromEntries(
         var blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'my-chinese-deck.csv';
+        a.download = (MyDeck.activeDeck().name || 'deck').replace(/[^\wа-яА-Я -]/g, '') + '.csv';
         a.click();
         URL.revokeObjectURL(a.href);
       });
@@ -124,11 +165,9 @@ const lookup = Object.fromEntries(
             if (byZh[zh]) { if (found.indexOf(byZh[zh]) === -1) found.push(byZh[zh]); }
             else missing++;
           });
-          var current = MyDeck.load();
-          found.forEach(function (id) { if (current.indexOf(id) === -1) current.push(id); });
-          MyDeck.save(current);
+          var added = MyDeck.addMany(found);
           paint();
-          alert('Добавлено слов: ' + found.length +
+          alert('Добавлено слов: ' + added +
                 (missing ? '. Не найдено на сайте: ' + missing : ''));
         };
         reader.readAsText(f);
@@ -147,7 +186,15 @@ const lookup = Object.fromEntries(
     font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.05; margin: 0 0 14px;
   }
   .my-hero p { max-width: 640px; color: var(--muted); line-height: 1.7; }
-  .my-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .deck-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 24px; }
+  .deck-switch label { font-size: .78rem; color: var(--muted); }
+  .deck-switch select {
+    font-family: 'Mulish', sans-serif; font-size: .82rem; padding: 7px 10px; min-width: 190px;
+    border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+  }
+  .btn.mini { padding: 6px 11px; font-size: .76rem; }
+  .btn:disabled { opacity: .4; pointer-events: none; }
+  .my-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
   .btn {
     font-family: 'Mulish', sans-serif; font-size: .82rem; font-weight: 700; cursor: pointer;
     padding: 9px 16px; border-radius: 9px; text-decoration: none;
