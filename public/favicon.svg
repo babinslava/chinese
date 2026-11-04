@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 中 drawn as strokes rather than text, so it renders the same without a CJK font -->
+  <rect width="64" height="64" rx="14" fill="#0f2a4a"/>
+  <g fill="none" stroke="#e74c3c" stroke-width="6.5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M15 20.5 H49 V41.5 H15 Z"/>
+    <path d="M32 9 V56"/>
+  </g>
+</svg>
