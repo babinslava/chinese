@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { texts, tokenize, glossary } from '../data/texts';
+import { url } from '../data/baseUrl';
+
+const rendered = texts.map(t => ({
+  ...t,
+  lines: t.lines.map(l => ({ ...l, tokens: tokenize(l.zh) })),
+}));
+---
+
+<Layout title="Тексты для чтения — Курс китайского" activePage="texts">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">读</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Чтение</div>
+          <div class="lesson-title">Тексты</div>
+          <div class="lesson-subtitle">
+            Короткие тексты из <a href={url('/words')}>моих слов</a>. Нажмите на слово,
+            чтобы увидеть чтение и перевод.
+          </div>
+        </div>
+      </div>
+
+      <nav class="tnav" aria-label="Тексты">
+        {rendered.map(t => (
+          <a href={`#t${t.id}`}><span class="tn-zh">{t.zh}</span><span class="tn-ru">{t.ru}</span></a>
+        ))}
+      </nav>
+
+      <div class="tbar" role="toolbar" aria-label="Отображение">
+        <button class="tbtn" id="b-py" aria-pressed="true">Пиньинь</button>
+        <button class="tbtn" id="b-ru" aria-pressed="true">Перевод</button>
+        <button class="tbtn" id="b-tap" aria-pressed="false" title="Пиньинь и перевод скрыты — нажмите на строку, чтобы проверить себя">Проверка</button>
+      </div>
+
+      {rendered.map(t => (
+        <article class="text" id={`t${t.id}`}>
+          <header class="t-head">
+            <span class="t-n">Текст {t.id}{t.source && ` · ${t.source}`}</span>
+            <h2><span class="t-zh">{t.zh}</span> {t.ru}</h2>
+            <button class="say-all" data-say={t.lines.map(l => l.zh).join('')} title="Прочитать весь текст вслух">🔊 Весь текст</button>
+          </header>
+          <ol class="lines">
+            {t.lines.map(l => (
+              <li>
+                <div class="l-zh">
+                  {l.tokens.map(tok => tok.g === undefined
+                    ? <span>{tok.t}</span>
+                    : <button class="w" data-g={tok.g}>{tok.t}</button>)}
+                  <button class="say" data-say={l.zh} title="Прочитать строку" aria-label="Прочитать строку">🔊</button>
+                </div>
+                <div class="l-py">{l.py}</div>
+                <div class="l-ru">{l.ru}</div>
+              </li>
+            ))}
+          </ol>
+          <details class="plain">
+            <summary>Только иероглифы</summary>
+            <p>{t.lines.map(l => l.zh).join('')}</p>
+          </details>
+        </article>
+      ))}
+    </section>
+  </div>
+
+  <div class="pop" id="pop" role="dialog" aria-label="Слово" hidden>
+    <div class="p-zh" id="p-zh"></div>
+    <div class="p-py" id="p-py"></div>
+    <div class="p-ru" id="p-ru"></div>
+  </div>
+
+  <script type="application/json" id="glossary" set:html={JSON.stringify(glossary)} />
+  <script is:inline>
+    (function () {
+      var G = JSON.parse(document.getElementById('glossary').textContent);
+      var body = document.body;
+      var KEY = 'zh-texts-view';
+      var view = { py: true, ru: true, tap: false };
+      try { Object.assign(view, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
+
+      function apply() {
+        body.classList.toggle('t-nopy', !view.py);
+        body.classList.toggle('t-noru', !view.ru);
+        body.classList.toggle('t-tap', view.tap);
+        document.getElementById('b-py').setAttribute('aria-pressed', view.py);
+        document.getElementById('b-ru').setAttribute('aria-pressed', view.ru);
+        document.getElementById('b-tap').setAttribute('aria-pressed', view.tap);
+        try { localStorage.setItem(KEY, JSON.stringify(view)); } catch (e) {}
+      }
+      [['b-py', 'py'], ['b-ru', 'ru'], ['b-tap', 'tap']].forEach(function (p) {
+        document.getElementById(p[0]).addEventListener('click', function () {
+          view[p[1]] = !view[p[1]];
+          if (p[1] === 'tap') document.querySelectorAll('.lines li.show').forEach(function (li) { li.classList.remove('show'); });
+          apply();
+        });
+      });
+      apply();
+
+      var pop = document.getElementById('pop');
+      var openFor = null;
+      function closePop() { pop.hidden = true; if (openFor) openFor.classList.remove('on'); openFor = null; }
+      function showPop(btn) {
+        var g = G[+btn.getAttribute('data-g')];
+        document.getElementById('p-zh').textContent = g.zh;
+        document.getElementById('p-py').textContent = g.py;
+        document.getElementById('p-ru').textContent = g.ru;
+        pop.hidden = false;
+        var r = btn.getBoundingClientRect();
+        var w = pop.offsetWidth;
+        var left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, window.innerWidth - w - 8));
+        pop.style.left = left + 'px';
+        pop.style.top = (r.bottom + window.scrollY + 6) + 'px';
+        if (openFor) openFor.classList.remove('on');
+        openFor = btn;
+        btn.classList.add('on');
+      }
+
+      document.addEventListener('click', function (e) {
+        var say = e.target.closest('[data-say]');
+        if (say) { if (typeof playZh === 'function') playZh(say.getAttribute('data-say'), say); return; }
+
+        var li = e.target.closest('.lines li');
+        // In check mode a tap reveals the line rather than a single word.
+        if (li && body.classList.contains('t-tap') && !li.classList.contains('show')) {
+          li.classList.add('show');
+          closePop();
+          return;
+        }
+        var w = e.target.closest('.w');
+        if (w) {
+          if (openFor === w) { closePop(); return; }
+          showPop(w);
+          if (typeof playZh === 'function') playZh(G[+w.getAttribute('data-g')].zh, null);
+          return;
+        }
+        if (!e.target.closest('#pop')) closePop();
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePop(); });
+      window.addEventListener('resize', closePop);
+    })();
+  </script>
+</Layout>
+
+<style>
+  .lesson-subtitle a { color: var(--red); }
+  .tnav { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
+  .tnav a {
+    display: flex; flex-direction: column; text-decoration: none; padding: 10px 12px;
+    border: 1px solid var(--border); border-radius: 10px; background: var(--card-bg);
+  }
+  .tnav a:hover { border-color: var(--red); }
+  .tn-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; color: var(--red); }
+  .tn-ru { font-size: .78rem; color: var(--muted); }
+
+  .tbar {
+    position: sticky; top: 0; z-index: 5; background: var(--bg);
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .tbtn {
+    font-family: 'Mulish', sans-serif; font-size: .8rem; font-weight: 600; cursor: pointer;
+    padding: 7px 13px; border-radius: 8px; background: var(--card-bg);
+    border: 1px solid var(--border); color: var(--text);
+  }
+  .tbtn:hover { border-color: var(--red); }
+  .tbtn[aria-pressed="true"] { background: var(--navy2); border-color: var(--navy2); color: #fff; }
+
+  .text { margin-top: 40px; scroll-margin-top: 64px; }
+  .t-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-bottom: 8px; }
+  .t-n { width: 100%; font-size: .68rem; text-transform: uppercase; letter-spacing: .14em; color: var(--red); font-weight: 700; }
+  .t-head h2 { margin: 0; font-size: 1rem; font-weight: 400; color: var(--muted); }
+  .t-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.6rem; color: var(--heading); font-weight: 600; margin-right: 6px; }
+  .say-all, .say {
+    background: none; border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+    font-size: .78rem; color: var(--text); padding: 4px 9px;
+  }
+  .say-all:hover, .say:hover { border-color: var(--red); }
+  .say { border: none; padding: 2px 6px; font-size: .85rem; opacity: .55; vertical-align: middle; }
+  .say:hover { opacity: 1; }
+
+  .lines { list-style: none; margin: 0; padding: 0; }
+  .lines li { padding: 12px 0; border-top: 1px solid var(--border); }
+  .l-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.45rem; line-height: 1.6; }
+  .w {
+    font: inherit; color: inherit; background: none; border: none; padding: 0; margin: 0;
+    cursor: pointer; border-bottom: 1px dotted transparent;
+  }
+  .w:hover { border-bottom-color: var(--muted); }
+  .w.on { color: var(--red); border-bottom-color: var(--red); }
+  .l-py { font-size: .92rem; color: var(--navy2); margin-top: 2px; }
+  .l-ru { font-size: .9rem; color: var(--muted); font-style: italic; margin-top: 1px; }
+
+  :global(body.t-nopy) .l-py, :global(body.t-noru) .l-ru { visibility: hidden; }
+  :global(body.t-tap) .l-py, :global(body.t-tap) .l-ru { visibility: hidden; }
+  :global(body.t-tap) .lines li { cursor: pointer; }
+  :global(body.t-tap) .lines li.show .l-py, :global(body.t-tap) .lines li.show .l-ru { visibility: visible; }
+
+  .plain { margin-top: 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; }
+  .plain summary { cursor: pointer; font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+  .plain p { font-family: 'Noto Sans SC', sans-serif; font-size: 1.4rem; line-height: 1.9; margin: 10px 0 0; letter-spacing: .04em; }
+
+  .pop {
+    position: absolute; z-index: 50; min-width: 140px; max-width: 260px;
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.18); padding: 10px 14px; text-align: center;
+  }
+  .p-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.6rem; color: var(--red); line-height: 1.2; }
+  .p-py { font-size: .9rem; color: var(--navy2); margin-top: 2px; }
+  .p-ru { font-size: .88rem; margin-top: 4px; }
+</style>

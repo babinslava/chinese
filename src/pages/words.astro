@@ -4,8 +4,18 @@ import AudioButton from '../components/AudioButton.astro';
 import { myWords } from '../data/mywords';
 import { url } from '../data/baseUrl';
 
-// Newest day first; within a day, the order they were written down.
-const days = [...new Set(myWords.map(w => w.added))].sort().reverse();
+// Newest day first; within a day, words written down by hand come before a
+// bulk import, and each keeps the order it was added in.
+const key = (w: { added: string; source?: string }) => `${w.added}|${w.source ?? ''}`;
+const groups = [...new Set(myWords.map(key))]
+  .sort((a, b) => {
+    const [da, sa] = a.split('|'), [db, sb] = b.split('|');
+    return da === db ? (sa ? 1 : 0) - (sb ? 1 : 0) : db.localeCompare(da);
+  })
+  .map(k => {
+    const [added, source] = k.split('|');
+    return { added, source, words: myWords.filter(w => key(w) === k) };
+  });
 const fmt = (d: string) =>
   new Date(d + 'T00:00:00Z').toLocaleDateString('ru-RU', {
     day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
@@ -32,11 +42,14 @@ const fmt = (d: string) =>
       </div>
       <div id="mempty" class="mempty" hidden>Ничего не найдено.</div>
 
-      {days.map(day => (
+      {groups.map(g => (
         <div class="day" data-day>
-          <h2 class="section-title">{fmt(day)}</h2>
+          <h2 class="section-title">
+            {fmt(g.added)}{g.source && <span class="src"> · {g.source}</span>}
+            <span class="gcount">{g.words.length}</span>
+          </h2>
           <div class="mlist">
-            {myWords.filter(w => w.added === day).map(w => (
+            {g.words.map(w => (
               <div class="mword" data-word
                    data-s={`${w.zh} ${w.trad ?? ''} ${w.py} ${w.py.replace(/\s+/g, '')} ${w.pron} ${w.ru}`.toLowerCase()}>
                 <div class="m-top">
@@ -93,6 +106,11 @@ const fmt = (d: string) =>
     background: var(--card-bg); color: var(--text);
   }
   #msearch:focus { outline: none; border-color: var(--red); }
+  .section-title .src { color: var(--muted); font-weight: 400; }
+  .gcount {
+    font-family: monospace; font-size: .7rem; color: var(--muted); font-weight: 400;
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; margin-left: 8px;
+  }
   .mempty { color: var(--muted); font-size: .9rem; margin-top: 20px; }
 
   .mlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }

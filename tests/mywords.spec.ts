@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import myWords from '../src/data/mywords.json' with { type: 'json' };
+import texts from '../src/data/texts.json' with { type: 'json' };
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -56,5 +57,71 @@ test.describe('My words', () => {
     const syl = (zh: string) => cards.find((c: any) => c.zh === zh)?.syl;
     expect(syl('病人')).toEqual([['bing', 4], ['ren', 2]]);
     expect(syl('一点儿')).toEqual([['yi', 1], ['dianr', 3]]);
+  });
+});
+
+test.describe('Imported words', () => {
+  test('Duolingo words are grouped apart and form their own deck', async ({ page }) => {
+    const duo = myWords.filter((w: any) => w.source === 'Duolingo');
+    await page.goto('/words');
+    await expect(page.locator('.day', { hasText: 'Duolingo' }).locator('.mword')).toHaveCount(duo.length);
+    await page.goto('/cards');
+    await expect(page.locator('[data-deck="mywords:Duolingo"]')).toContainText(String(duo.length));
+  });
+
+  test('no word is listed twice', () => {
+    const zh = myWords.map((w: any) => w.zh);
+    expect(zh.length).toBe(new Set(zh).size);
+  });
+});
+
+test.describe('Reading texts', () => {
+  test('every text renders, reachable from the sidebar', async ({ page }) => {
+    await page.goto('/');
+    await page.click('#sidebar a.nav-link:has-text("Тексты")');
+    await expect(page.locator('article.text')).toHaveCount(texts.length);
+    await expect(page.locator('.tnav a')).toHaveCount(texts.length);
+  });
+
+  test('every character in the texts belongs to a known word', async ({ page }) => {
+    await page.goto('/texts');
+    const loose = await page.locator('.l-zh > span').allTextContents();
+    expect(loose.filter(t => /\p{Script=Han}/u.test(t))).toEqual([]);
+  });
+
+  test('tapping a word shows its reading and meaning', async ({ page }) => {
+    await page.goto('/texts');
+    await page.locator('#t5 .w', { hasText: '火车站' }).first().click();
+    await expect(page.locator('#pop')).toBeVisible();
+    await expect(page.locator('#p-py')).toHaveText('huǒchēzhàn');
+    await expect(page.locator('#p-ru')).toHaveText('вокзал');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#pop')).toBeHidden();
+  });
+
+  test('check mode hides pinyin until a line is tapped', async ({ page }) => {
+    await page.goto('/texts');
+    const first = page.locator('#t1 .lines li').first();
+    await expect(first.locator('.l-py')).toBeVisible();
+    await page.click('#b-tap');
+    await expect(first.locator('.l-py')).toBeHidden();
+    await first.click();
+    await expect(first.locator('.l-py')).toBeVisible();
+    await expect(page.locator('#pop')).toBeHidden();   // revealing is not a word lookup
+  });
+
+  test('a word inside a longer phrase gets the phrase meaning', async ({ page }) => {
+    await page.goto('/texts');
+    await page.locator('#t7 .w', { hasText: '一对' }).click();
+    await expect(page.locator('#p-ru')).toHaveText('пара (одна)');
+  });
+
+  test('display toggles survive a reload', async ({ page }) => {
+    await page.goto('/texts');
+    await page.click('#b-ru');
+    await expect(page.locator('#t1 .l-ru').first()).toBeHidden();
+    await page.reload();
+    await expect(page.locator('#b-ru')).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.locator('#t1 .l-ru').first()).toBeHidden();
   });
 });

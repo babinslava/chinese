@@ -7,7 +7,7 @@
 import { words as hsk3Words, THEMES } from './hsk3';
 import { lessons as hsk1Lessons } from './hsk1';
 import top40 from './top40.json';
-import { myWords, myCardId } from './mywords';
+import { myWords, mySources, myCardId } from './mywords';
 import { splitPinyin } from './pinyin';
 
 /**
@@ -57,10 +57,9 @@ function add(c: Omit<Card, 'decks' | 'syl'>, deck: string) {
 
 // — Words of your own, from src/data/mywords.json —
 for (const w of myWords) {
-  add(
-    { id: myCardId(w), zh: w.zh, py: w.py, pron: w.pron, ru: w.ru, hint: w.note },
-    'mywords'
-  );
+  const card = { id: myCardId(w), zh: w.zh, py: w.py, pron: w.pron, ru: w.ru, hint: w.note };
+  add(card, 'mywords');
+  if (w.source) add(card, `mywords:${w.source}`);
 }
 
 // — HSK 3.0 Level 1: one deck per theme, plus everything still to learn —
@@ -135,6 +134,12 @@ export const decks: Deck[] = [
     group: 'Мои слова',
     count: allCards.filter(c => c.decks.includes('mywords')).length,
   },
+  ...mySources.map(src => ({
+    id: `mywords:${src}`,
+    ru: `Мои слова · ${src}`,
+    group: 'Мои слова',
+    count: allCards.filter(c => c.decks.includes(`mywords:${src}`)).length,
+  })),
   {
     id: 'hsk3:todo',
     ru: 'HSK 3.0 — осталось выучить',

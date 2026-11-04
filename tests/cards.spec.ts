@@ -17,8 +17,8 @@ test.describe('Flashcards', () => {
     await page.goto('/cards');
     await expect(page.locator('#my-decks .deck.mine')).toHaveCount(1);
     await expect(page.locator('#my-decks .deck.mine')).toContainText('пусто');
-    // my words + 18 themes + todo + 15 lessons + radicals
-    await expect(page.locator('[data-deck]')).toHaveCount(36);
+    // my words (all + one per source) + 18 themes + todo + 15 lessons + radicals
+    await expect(page.locator('[data-deck]')).toHaveCount(36 + new Set(myWords.map((w: any) => w.source).filter(Boolean)).size);
   });
 
   test('everything starts as new, nothing due', async ({ page }) => {

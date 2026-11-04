@@ -16,9 +16,14 @@ export interface MyWord {
   note?: string;
   /** ISO date the word was added; the page groups by it. */
   added: string;
+  /** Where the word comes from, when it was imported in bulk (Duolingo). */
+  source?: string;
 }
 
 export const myWords: MyWord[] = data;
+
+/** Sources that words were imported from, in first-seen order. */
+export const mySources = [...new Set(myWords.map(w => w.source).filter(Boolean))] as string[];
 
 /**
  * Card id for a word of your own. Kept apart from the w: ids of the course
