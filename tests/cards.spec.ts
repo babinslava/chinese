@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import myWords from '../src/data/mywords.json' with { type: 'json' };
 
 // Every test starts from a clean slate: both the schedule and the personal
 // deck live in localStorage.
@@ -16,14 +17,14 @@ test.describe('Flashcards', () => {
     await page.goto('/cards');
     await expect(page.locator('#my-decks .deck.mine')).toHaveCount(1);
     await expect(page.locator('#my-decks .deck.mine')).toContainText('пусто');
-    // 18 themes + todo + 15 lessons + radicals
-    await expect(page.locator('[data-deck]')).toHaveCount(35);
+    // my words + 18 themes + todo + 15 lessons + radicals
+    await expect(page.locator('[data-deck]')).toHaveCount(36);
   });
 
   test('everything starts as new, nothing due', async ({ page }) => {
     await page.goto('/cards');
     const totals = page.locator('#totals');
-    await expect(totals).toContainText('560');
+    await expect(totals).toContainText(String(560 + myWords.length));
     await expect(totals.locator('.t').first()).toContainText('0'); // к повторению
   });
 

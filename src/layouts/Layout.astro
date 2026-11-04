@@ -353,6 +353,9 @@ const hsk3Open = activePage === 'hsk3' || activePage.startsWith('hsk3-');
         ))}
       </details>
       <span class="nav-group-title">Инструменты</span>
+      <a class={`nav-link${activePage === 'words' ? ' active' : ''}`} href={url('/words')}>
+        <span class="num">我</span> Мои слова
+      </a>
       <a class={`nav-link${activePage === 'cards' ? ' active' : ''}`} href={url('/cards')}>
         <span class="num">卡</span> Карточки
       </a>

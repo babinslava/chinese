@@ -1,0 +1,110 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AudioButton from '../components/AudioButton.astro';
+import { myWords } from '../data/mywords';
+import { url } from '../data/baseUrl';
+
+// Newest day first; within a day, the order they were written down.
+const days = [...new Set(myWords.map(w => w.added))].sort().reverse();
+const fmt = (d: string) =>
+  new Date(d + 'T00:00:00Z').toLocaleDateString('ru-RU', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  });
+---
+
+<Layout title="Мои слова — Курс китайского" activePage="words">
+  <div class="content">
+    <section class="lesson">
+      <div class="lesson-header">
+        <div class="lesson-num">我</div>
+        <div class="lesson-meta">
+          <div class="lesson-tag">Свой словарь</div>
+          <div class="lesson-title">Мои слова</div>
+          <div class="lesson-subtitle">
+            Слова и фразы, которые я учу помимо курса. Всего: {myWords.length}.
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <a class="btn" href={url('/cards/study?deck=mywords')}>Учить карточками</a>
+        <input id="msearch" type="search" placeholder="Поиск: иероглиф, пиньинь или перевод…" aria-label="Поиск слов" />
+      </div>
+      <div id="mempty" class="mempty" hidden>Ничего не найдено.</div>
+
+      {days.map(day => (
+        <div class="day" data-day>
+          <h2 class="section-title">{fmt(day)}</h2>
+          <div class="mlist">
+            {myWords.filter(w => w.added === day).map(w => (
+              <div class="mword" data-word
+                   data-s={`${w.zh} ${w.trad ?? ''} ${w.py} ${w.py.replace(/\s+/g, '')} ${w.pron} ${w.ru}`.toLowerCase()}>
+                <div class="m-top">
+                  <span class="m-zh">{w.zh}</span>
+                  {w.trad && <span class="m-trad" title="Традиционное написание">{w.trad}</span>}
+                  <AudioButton text={w.zh} size="sm" />
+                </div>
+                <div class="m-py">{w.py} <span class="m-pron">{w.pron}</span></div>
+                <div class="m-ru">{w.ru}</div>
+                {w.note && <div class="m-note">{w.note}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var input = document.getElementById('msearch');
+      // Pinyin is matched without tone marks, so "gaoxing" finds gāoxìng.
+      function fold(s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+      input.addEventListener('input', function () {
+        var q = fold(input.value.trim().toLowerCase());
+        var any = false;
+        document.querySelectorAll('[data-day]').forEach(function (day) {
+          var shown = 0;
+          day.querySelectorAll('[data-word]').forEach(function (el) {
+            var hit = !q || fold(el.getAttribute('data-s')).indexOf(q) !== -1;
+            el.hidden = !hit;
+            if (hit) shown++;
+          });
+          day.hidden = shown === 0;
+          if (shown) any = true;
+        });
+        document.getElementById('mempty').hidden = any;
+      });
+    })();
+  </script>
+</Layout>
+
+<style>
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; }
+  .btn {
+    font-family: 'Mulish', sans-serif; font-size: .85rem; font-weight: 700;
+    padding: 9px 16px; border-radius: 9px; text-decoration: none;
+    background: var(--navy2); border: 1px solid var(--navy2); color: #fff;
+  }
+  .btn:hover { filter: brightness(1.1); }
+  #msearch {
+    flex: 1; min-width: 200px; padding: 8px 13px; font-family: 'Mulish', sans-serif;
+    font-size: .85rem; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--card-bg); color: var(--text);
+  }
+  #msearch:focus { outline: none; border-color: var(--red); }
+  .mempty { color: var(--muted); font-size: .9rem; margin-top: 20px; }
+
+  .mlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+  .mword {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-left: 3px solid var(--red); border-radius: 10px; padding: 12px 14px;
+  }
+  .m-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .m-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.45rem; color: var(--red); line-height: 1.25; }
+  .m-trad { font-family: 'Noto Sans SC', sans-serif; font-size: 1rem; color: var(--muted); }
+  .m-py { font-size: .85rem; color: var(--navy2); margin-top: 3px; }
+  .m-pron { color: var(--muted); margin-left: 6px; }
+  .m-ru { font-size: .95rem; margin-top: 4px; }
+  .m-note { font-size: .78rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+</style>

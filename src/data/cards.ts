@@ -7,10 +7,8 @@
 import { words as hsk3Words, THEMES } from './hsk3';
 import { lessons as hsk1Lessons } from './hsk1';
 import top40 from './top40.json';
-import syllableTable from './pinyinSyllables.json';
-
-/** Per-syllable [toneless syllable, tone 1-5] — drives the tone drill. */
-const SYLLABLES = syllableTable as Record<string, [string, number][]>;
+import { myWords, myCardId } from './mywords';
+import { splitPinyin } from './pinyin';
 
 /**
  * Stable card id. Keyed on the word *and* its reading, because the standard
@@ -54,7 +52,15 @@ function add(c: Omit<Card, 'decks' | 'syl'>, deck: string) {
     if (!existing.decks.includes(deck)) existing.decks.push(deck);
     return;
   }
-  cards.set(c.id, { ...c, syl: SYLLABLES[c.py], decks: [deck] });
+  cards.set(c.id, { ...c, syl: c.py ? splitPinyin(c.py) : undefined, decks: [deck] });
+}
+
+// — Words of your own, from src/data/mywords.json —
+for (const w of myWords) {
+  add(
+    { id: myCardId(w), zh: w.zh, py: w.py, pron: w.pron, ru: w.ru, hint: w.note },
+    'mywords'
+  );
 }
 
 // — HSK 3.0 Level 1: one deck per theme, plus everything still to learn —
@@ -122,6 +128,13 @@ export const allCards: Card[] = [...cards.values()];
 const themeLabel = new Map(THEMES.map(t => [t.key, t] as const));
 
 export const decks: Deck[] = [
+  {
+    id: 'mywords',
+    ru: 'Мои слова',
+    zh: '我的词',
+    group: 'Мои слова',
+    count: allCards.filter(c => c.decks.includes('mywords')).length,
+  },
   {
     id: 'hsk3:todo',
     ru: 'HSK 3.0 — осталось выучить',
