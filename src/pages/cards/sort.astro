@@ -1,0 +1,534 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { allCards, deckGroups } from '../../data/cards';
+import { url } from '../../data/baseUrl';
+
+// Sorting is a quick pass over a deck, one word at a time: swipe left for
+// "не сейчас" (known already, or not yet), right for "учить" — which puts it
+// into one of the personal decks. Built-in decks are tags baked into the card
+// data, personal ones are read from localStorage, same as on the study page.
+const payload = {
+  cards: allCards.map(c => ({
+    id: c.id, zh: c.zh, py: c.py, pron: c.pron, ru: c.ru,
+    ...(c.en ? { en: c.en } : {}),
+    ...(c.hint ? { hint: c.hint } : {}),
+    d: c.decks,
+  })),
+  groups: deckGroups().map(g => ({
+    group: g.group,
+    decks: g.decks.map(d => ({ id: d.id, ru: d.ru, count: d.count })),
+  })),
+};
+---
+
+<Layout title="Разбор слов — Карточки" activePage="cards">
+  <div class="content sort">
+    <div class="bar-top">
+      <a class="back" href={url('/cards')}>← Все колоды</a>
+      <div class="route" id="route"></div>
+      <div class="progress" id="sort-progress"></div>
+    </div>
+
+    <!-- Step 1: where from, where to -->
+    <section id="setup" class="setup" hidden>
+      <div class="hero-label">Разбор слов</div>
+      <h1>Собрать колоду</h1>
+      <p class="lead">
+        Пройдитесь по словам любой колоды и решите про каждое: учить сейчас
+        или нет. Слова «учить» попадут в выбранную колоду, «не сейчас» —
+        запомнятся и в следующий раз не появятся.
+      </p>
+
+      <label class="field">
+        <span>Куда добавлять</span>
+        <select id="to-pick"></select>
+      </label>
+      <label class="field" id="new-name-field" hidden>
+        <span>Название новой колоды</span>
+        <input id="new-name" type="text" placeholder="Например, «Урок 3 — учить»" />
+      </label>
+
+      <label class="field">
+        <span>Откуда брать слова</span>
+        <select id="from-pick"></select>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" id="show-skipped" />
+        <span>Показать и то, что раньше отложено <em id="skip-count"></em></span>
+      </label>
+
+      <button class="btn" id="start">Начать</button>
+    </section>
+
+    <!-- Step 2: one card at a time -->
+    <section id="deal" hidden>
+      <div class="stack">
+        <div class="scard" id="scard">
+          <div class="stamp left" id="stamp-left"></div>
+          <div class="stamp right" id="stamp-right"></div>
+          <button class="say" id="say" title="Произнести (S)" aria-label="Произнести">🔊</button>
+          <div class="s-zh" id="s-zh"></div>
+          <div class="s-py" id="s-py"></div>
+          <div class="s-pron" id="s-pron"></div>
+          <div class="s-meaning" id="s-meaning">
+            <div class="s-ru" id="s-ru"></div>
+            <div class="s-en" id="s-en"></div>
+            <div class="s-hint" id="s-hint"></div>
+          </div>
+          <div class="s-reveal" id="s-reveal" hidden>нажми, чтобы увидеть перевод</div>
+        </div>
+      </div>
+
+      <div class="choices">
+        <button class="c-btn no" id="btn-no"><b id="no-label">Не сейчас</b><small id="no-sub">знаю или потом</small><span>← или 1</span></button>
+        <button class="c-btn yes" id="btn-yes"><b id="yes-label">Учить</b><small id="yes-sub">в колоду</small><span>→ или 2</span></button>
+      </div>
+      <div class="under">
+        <button class="link" id="undo" disabled>↶ Отменить <span>(Z)</span></button>
+        <label class="check small">
+          <input type="checkbox" id="hide-meaning" />
+          <span>скрывать перевод</span>
+        </label>
+        <button class="link" id="finish">Закончить</button>
+      </div>
+    </section>
+
+    <!-- Step 3: summary -->
+    <section id="summary" class="done" hidden>
+      <div class="done-zh">好了！</div>
+      <h2 id="sum-title">Разобрано</h2>
+      <p id="sum-text"></p>
+      <div class="done-actions">
+        <a class="btn" id="sum-study" href="#">Учить колоду</a>
+        <a class="btn ghost" id="sum-more" href="#">Разобрать ещё</a>
+        <a class="btn ghost" href={url('/cards/my')}>Мои колоды</a>
+      </div>
+      <button class="link sum-undo" id="sum-undo" hidden>↶ Отменить последнее</button>
+    </section>
+  </div>
+
+  <span id="links" data-sort={url('/cards/sort')} data-study={url('/cards/study')} hidden></span>
+  <script type="application/json" id="sort-data" set:html={JSON.stringify(payload)} />
+  <script is:inline>
+    (function () {
+      var data = JSON.parse(document.getElementById('sort-data').textContent);
+      var links = document.getElementById('links');
+      var SORT = links.getAttribute('data-sort');
+      var STUDY = links.getAttribute('data-study');
+      var params = new URLSearchParams(location.search);
+      var $ = function (id) { return document.getElementById(id); };
+
+      var byId = {};
+      data.cards.forEach(function (c) { byId[c.id] = c; });
+      var builtinName = {};
+      data.groups.forEach(function (g) { g.decks.forEach(function (d) { builtinName[d.id] = d.ru; }); });
+
+      function myDeck(id) {
+        return MyDeck.load().decks.filter(function (d) { return d.id === id; })[0] || null;
+      }
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, function (ch) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+        });
+      }
+
+      /** Cards of a source, in deck order. "all" is every card on the site. */
+      function sourceCards(from) {
+        if (from === 'all') return data.cards.slice();
+        if (from.indexOf('my:') === 0) {
+          var d = myDeck(from.slice(3));
+          return d ? d.ids.map(function (id) { return byId[id]; }).filter(Boolean) : [];
+        }
+        return data.cards.filter(function (c) { return c.d.indexOf(from) !== -1; });
+      }
+      function sourceName(from) {
+        if (from === 'all') return 'Все карточки';
+        if (from.indexOf('my:') === 0) {
+          var d = myDeck(from.slice(3));
+          return d ? d.name : '—';
+        }
+        return builtinName[from] || from;
+      }
+
+      /* ── setup ─────────────────────────────────────────────────────── */
+      function paintSetup() {
+        var st = MyDeck.load();
+        var to = params.get('to') || st.active;
+        $('to-pick').innerHTML = st.decks.map(function (d) {
+          return '<option value="' + d.id + '"' + (d.id === to ? ' selected' : '') + '>★ ' +
+            esc(d.name) + ' (' + d.ids.length + ')</option>';
+        }).join('') + '<option value="__new">+ Новая колода…</option>';
+        paintFrom();
+      }
+
+      function paintFrom() {
+        var to = $('to-pick').value;
+        var prev = $('from-pick').value || params.get('from') || '';
+        var st = MyDeck.load();
+        var html = '<option value="all">Все карточки (' + data.cards.length + ')</option>';
+        var mine = st.decks.filter(function (d) { return d.id !== to && d.ids.length; });
+        var self = st.decks.filter(function (d) { return d.id === to && d.ids.length; })[0];
+        if (mine.length || self) {
+          html += '<optgroup label="Мои колоды">';
+          if (self) {
+            html += '<option value="my:' + self.id + '">Пересмотреть саму «' + esc(self.name) +
+              '» — оставить или убрать (' + self.ids.length + ')</option>';
+          }
+          html += mine.map(function (d) {
+            return '<option value="my:' + d.id + '">★ ' + esc(d.name) + ' (' + d.ids.length + ')</option>';
+          }).join('');
+          html += '</optgroup>';
+        }
+        data.groups.forEach(function (g) {
+          html += '<optgroup label="' + esc(g.group) + '">' + g.decks.map(function (d) {
+            return '<option value="' + d.id + '">' + esc(d.ru) + ' (' + d.count + ')</option>';
+          }).join('') + '</optgroup>';
+        });
+        $('from-pick').innerHTML = html;
+        if (prev && [].some.call($('from-pick').options, function (o) { return o.value === prev; })) {
+          $('from-pick').value = prev;
+        }
+        var n = to === '__new' ? 0 : MyDeck.skipped(to).length;
+        $('skip-count').textContent = n ? '(' + n + ')' : '';
+        $('show-skipped').parentNode.hidden = !n;
+        $('new-name-field').hidden = to !== '__new';
+      }
+
+      $('to-pick').addEventListener('change', function () {
+        paintFrom();
+        if ($('to-pick').value === '__new') $('new-name').focus();
+      });
+      $('from-pick').addEventListener('change', paintFrom);
+
+      $('start').addEventListener('click', function () {
+        var to = $('to-pick').value;
+        var from = $('from-pick').value;
+        if (to === '__new') {
+          var name = ($('new-name').value || '').trim() || sourceName(from);
+          to = MyDeck.create(name);
+        }
+        var q = '?to=' + encodeURIComponent(to) + '&from=' + encodeURIComponent(from);
+        if ($('show-skipped').checked) q += '&skipped=1';
+        history.pushState(null, '', SORT + q);
+        params = new URLSearchParams(q);
+        boot();
+      });
+
+      /* ── dealing ───────────────────────────────────────────────────── */
+      var to, from, review, deck, queue, pos, history_, added, skipped, kept;
+
+      function startDeal() {
+        to = params.get('to');
+        from = params.get('from');
+        deck = myDeck(to);
+        if (!deck || !from) return false;
+        review = from === 'my:' + to;   // pruning the deck itself
+
+        var skip = params.get('skipped') ? [] : MyDeck.skipped(to);
+        var cards = sourceCards(from);
+        queue = review ? cards : cards.filter(function (c) {
+          return deck.ids.indexOf(c.id) === -1 && skip.indexOf(c.id) === -1;
+        });
+        pos = 0; history_ = []; added = 0; skipped = 0; kept = 0;
+
+        $('route').innerHTML = review
+          ? 'Пересмотр: <b>' + esc(deck.name) + '</b>'
+          : esc(sourceName(from)) + ' <span class="arrow">→</span> <b>★ ' + esc(deck.name) + '</b>';
+        $('no-label').textContent = review ? 'Убрать' : 'Не сейчас';
+        $('yes-label').textContent = review ? 'Оставить' : 'Учить';
+        $('no-sub').textContent = review ? 'и больше не предлагать' : 'знаю или потом';
+        $('yes-sub').textContent = review ? 'в колоде' : 'в «' + deck.name + '»';
+        $('stamp-left').textContent = review ? 'убрать' : 'не сейчас';
+        $('stamp-right').textContent = review ? 'оставить' : 'учить';
+        $('sum-study').href = STUDY + '?deck=' + encodeURIComponent('my:' + to);
+        $('sum-more').href = SORT + '?to=' + encodeURIComponent(to);
+        return true;
+      }
+
+      var hideMeaning = false;
+      try { hideMeaning = localStorage.getItem('zh-sort-hide') === '1'; } catch (e) {}
+      $('hide-meaning').checked = hideMeaning;
+      $('hide-meaning').addEventListener('change', function () {
+        hideMeaning = $('hide-meaning').checked;
+        try { localStorage.setItem('zh-sort-hide', hideMeaning ? '1' : '0'); } catch (e) {}
+        paintCard();
+      });
+
+      var revealed = false;
+      function paintCard() {
+        if (pos >= queue.length) { showSummary(); return; }
+        var c = queue[pos];
+        revealed = !hideMeaning;
+        $('s-zh').textContent = c.zh;
+        $('s-py').textContent = c.py;
+        $('s-pron').textContent = c.pron;
+        $('s-ru').textContent = c.ru;
+        $('s-en').textContent = c.en || '';
+        $('s-hint').textContent = c.hint || '';
+        $('s-meaning').hidden = !revealed;
+        $('s-reveal').hidden = revealed;
+        $('sort-progress').textContent = (pos + 1) + ' / ' + queue.length;
+        $('undo').disabled = !history_.length;
+        var card = $('scard');
+        card.style.transition = 'none';
+        card.style.transform = '';
+        card.classList.remove('lean-left', 'lean-right');
+      }
+
+      function say() {
+        if (pos < queue.length && typeof window.playZh === 'function') window.playZh(queue[pos].zh, null);
+      }
+
+      /** yes: learn / keep. no: not now / remove. */
+      function decide(yes) {
+        if (pos >= queue.length) return;
+        var c = queue[pos];
+        var step = { id: c.id, yes: yes, at: -1 };
+        if (review) {
+          if (yes) kept++;
+          else { step.at = MyDeck.setCard(to, c.id, false, true); skipped++; }
+        } else if (yes) {
+          MyDeck.setCard(to, c.id, true, false); added++;
+        } else {
+          MyDeck.setCard(to, c.id, false, true); skipped++;
+        }
+        history_.push(step);
+        fling(yes, function () { pos++; paintCard(); });
+      }
+
+      function undo() {
+        var step = history_.pop();
+        if (!step) return;
+        if (review) {
+          if (step.yes) kept--;
+          else { MyDeck.setCard(to, step.id, true, false, step.at); skipped--; }
+        } else {
+          MyDeck.setCard(to, step.id, false, false);
+          if (step.yes) added--; else skipped--;
+        }
+        pos--;
+        $('deal').hidden = false;
+        $('summary').hidden = true;
+        paintCard();
+      }
+
+      function fling(yes, done) {
+        var card = $('scard');
+        card.style.transition = 'transform .18s ease-in, opacity .18s';
+        card.style.transform = 'translateX(' + (yes ? 120 : -120) + '%) rotate(' + (yes ? 14 : -14) + 'deg)';
+        card.style.opacity = '0';
+        setTimeout(function () { card.style.opacity = ''; done(); }, 180);
+      }
+
+      function showSummary() {
+        $('deal').hidden = true;
+        $('summary').hidden = false;
+        $('sort-progress').textContent = '';
+        var name = '«' + deck.name + '»';
+        var n = MyDeck.idsOf(to).length;
+        if (review) {
+          $('sum-title').textContent = 'Колода пересмотрена';
+          $('sum-text').textContent = 'Оставлено: ' + kept + '. Убрано: ' + skipped +
+            '. Сейчас в ' + name + ' ' + n + ' сл.';
+        } else if (!queue.length) {
+          $('sum-title').textContent = 'Здесь уже всё разобрано';
+          $('sum-text').textContent = 'Каждое слово этой колоды уже есть в ' + name +
+            ' или отложено раньше. Отложенные можно показать снова при выборе колоды.';
+        } else {
+          $('sum-title').textContent = 'Разобрано';
+          $('sum-text').textContent = 'Добавлено в ' + name + ': ' + added +
+            '. Отложено: ' + skipped + '. Всего в колоде ' + n + ' сл.';
+        }
+        $('undo').disabled = !history_.length;
+        $('sum-undo').hidden = !history_.length;
+      }
+
+      $('btn-yes').addEventListener('click', function () { decide(true); });
+      $('btn-no').addEventListener('click', function () { decide(false); });
+      $('undo').addEventListener('click', undo);
+      $('sum-undo').addEventListener('click', undo);
+      $('finish').addEventListener('click', showSummary);
+      $('say').addEventListener('click', function (e) { e.stopPropagation(); say(); });
+
+      /* Swipe: the card follows the finger (or mouse); past a third of its
+       * width it is decided, otherwise it springs back. A tap without
+       * movement reveals the hidden translation. */
+      (function () {
+        var card = $('scard');
+        var x0 = null, y0 = 0, dx = 0, id = null;
+        card.addEventListener('pointerdown', function (e) {
+          if (e.target.closest('.say')) return;
+          x0 = e.clientX; y0 = e.clientY; dx = 0; id = e.pointerId;
+          card.setPointerCapture(id);
+          card.style.transition = 'none';
+        });
+        card.addEventListener('pointermove', function (e) {
+          if (x0 === null || e.pointerId !== id) return;
+          dx = e.clientX - x0;
+          var dy = e.clientY - y0;
+          card.style.transform = 'translate(' + dx + 'px,' + dy * 0.15 + 'px) rotate(' + dx / 18 + 'deg)';
+          card.classList.toggle('lean-right', dx > 30);
+          card.classList.toggle('lean-left', dx < -30);
+        });
+        function end(e) {
+          if (x0 === null || e.pointerId !== id) return;
+          x0 = null;
+          var limit = Math.min(140, card.offsetWidth / 3);
+          if (Math.abs(dx) > limit) { decide(dx > 0); return; }
+          card.style.transition = 'transform .18s';
+          card.style.transform = '';
+          card.classList.remove('lean-left', 'lean-right');
+          if (Math.abs(dx) < 6 && !revealed) {
+            revealed = true;
+            $('s-meaning').hidden = false;
+            $('s-reveal').hidden = true;
+          }
+        }
+        card.addEventListener('pointerup', end);
+        card.addEventListener('pointercancel', end);
+      })();
+
+      document.addEventListener('keydown', function (e) {
+        if ($('deal').hidden && $('summary').hidden) return;
+        if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName) && e.target.type !== 'checkbox') return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        var k = e.key;
+        if (!$('deal').hidden && (k === 'ArrowRight' || k === '2')) { e.preventDefault(); decide(true); }
+        else if (!$('deal').hidden && (k === 'ArrowLeft' || k === '1')) { e.preventDefault(); decide(false); }
+        else if (k === 'z' || k === 'Z' || k === 'я' || k === 'Я' || k === 'Backspace') { e.preventDefault(); undo(); }
+        else if (!$('deal').hidden && (k === ' ' || k === 'Enter')) {
+          e.preventDefault();
+          if (!revealed) { revealed = true; $('s-meaning').hidden = false; $('s-reveal').hidden = true; }
+          else say();
+        }
+        else if (!$('deal').hidden && (k === 's' || k === 'S' || k === 'ы' || k === 'Ы')) say();
+      });
+
+      function boot() {
+        if (params.get('from') && params.get('to') && startDeal()) {
+          $('setup').hidden = true;
+          $('summary').hidden = true;
+          $('deal').hidden = false;
+          paintCard();
+        } else {
+          $('route').textContent = '';
+          $('sort-progress').textContent = '';
+          $('deal').hidden = true;
+          $('summary').hidden = true;
+          $('setup').hidden = false;
+          paintSetup();
+        }
+      }
+      window.addEventListener('popstate', function () {
+        params = new URLSearchParams(location.search);
+        boot();
+      });
+      boot();
+    })();
+  </script>
+</Layout>
+
+<style>
+  .sort { max-width: 620px; }
+  .bar-top { display: flex; align-items: center; gap: 14px; padding: 28px 0 18px; flex-wrap: wrap; }
+  .back { color: var(--muted); text-decoration: none; font-size: .82rem; }
+  .back:hover { color: var(--red); }
+  .route { font-size: .88rem; }
+  .route :global(.arrow) { color: var(--muted); margin: 0 4px; }
+  .progress { margin-left: auto; font-size: .78rem; color: var(--muted); font-family: monospace; }
+
+  .setup h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; line-height: 1.05; margin: 0 0 12px;
+  }
+  .lead { color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .field span { font-size: .78rem; color: var(--muted); }
+  .field select, .field input {
+    font-family: 'Mulish', sans-serif; font-size: .9rem; padding: 9px 11px; width: 100%;
+    border-radius: 9px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+  }
+  .check { display: flex; align-items: center; gap: 8px; font-size: .84rem; margin: 4px 0 20px; cursor: pointer; }
+  .check em { font-style: normal; color: var(--muted); }
+  .check.small { font-size: .76rem; color: var(--muted); margin: 0; }
+
+  .stack { position: relative; }
+  .scard {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px;
+    min-height: 300px; padding: 40px 24px 34px; position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; user-select: none; touch-action: pan-y; cursor: grab;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, .06);
+  }
+  .scard:active { cursor: grabbing; }
+  .scard.lean-right { border-color: #2fa36b; }
+  .scard.lean-left { border-color: var(--muted); }
+  .stamp {
+    position: absolute; top: 18px; padding: 3px 10px; border-radius: 6px; font-weight: 800;
+    font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; opacity: 0;
+    transition: opacity .1s; pointer-events: none;
+  }
+  .stamp.right { left: 18px; color: #2fa36b; border: 2px solid #2fa36b; transform: rotate(-8deg); }
+  .stamp.left { right: 18px; color: var(--muted); border: 2px solid var(--muted); transform: rotate(8deg); }
+  .scard.lean-right .stamp.right, .scard.lean-left .stamp.left { opacity: 1; }
+  .say {
+    position: absolute; top: 12px; right: 12px; background: none; border: none; cursor: pointer;
+    font-size: 1.1rem; padding: 6px; border-radius: 8px; opacity: .7;
+  }
+  .say:hover { opacity: 1; background: color-mix(in srgb, var(--muted) 12%, transparent); }
+  .scard.lean-left .say { opacity: 0; }
+
+  .s-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 3.8rem; color: var(--red); line-height: 1.15; }
+  .s-py { font-size: 1.1rem; color: var(--navy2); margin-top: 6px; }
+  .s-pron { font-size: .86rem; color: var(--muted); }
+  .s-meaning { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border); width: 100%; }
+  .s-ru { font-size: 1.2rem; font-weight: 600; }
+  .s-en { font-size: .82rem; color: var(--muted); font-style: italic; margin-top: 2px; }
+  .s-en:empty, .s-hint:empty { display: none; }
+  .s-hint { font-size: .78rem; color: var(--muted); margin-top: 8px; }
+  .s-reveal { margin-top: 18px; font-size: .74rem; color: var(--muted); }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .c-btn {
+    font-family: 'Mulish', sans-serif; cursor: pointer; padding: 14px 8px; border-radius: 12px;
+    background: var(--card-bg); border: 1px solid var(--border); color: var(--text);
+    display: flex; flex-direction: column; gap: 3px; align-items: center; transition: all .15s;
+  }
+  .c-btn b { font-size: .95rem; }
+  .c-btn small { font-size: .7rem; color: var(--muted); }
+  .c-btn span { font-size: .65rem; color: var(--muted); font-family: monospace; }
+  .c-btn.no:hover { border-color: var(--muted); }
+  .c-btn.yes { border-color: #2fa36b; }
+  .c-btn.yes b { color: #2fa36b; }
+  .c-btn.yes:hover { background: #2fa36b; }
+  .c-btn.yes:hover b, .c-btn.yes:hover span, .c-btn.yes:hover small { color: #fff; }
+  .sum-undo { margin-top: 16px; }
+
+  .under { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .link {
+    background: none; border: none; cursor: pointer; font-family: 'Mulish', sans-serif;
+    font-size: .8rem; color: var(--muted); padding: 4px 2px;
+  }
+  .link span { font-family: monospace; font-size: .68rem; }
+  .link:hover:not(:disabled) { color: var(--red); }
+  .link:disabled { opacity: .35; cursor: default; }
+
+  .done { text-align: center; padding: 50px 10px; }
+  .done-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 3rem; color: var(--red); }
+  .done h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 10px 0 8px; }
+  .done p { color: var(--muted); line-height: 1.6; }
+  .done-actions { display: flex; gap: 10px; justify-content: center; margin-top: 22px; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Mulish', sans-serif; font-size: .85rem; font-weight: 700; cursor: pointer;
+    padding: 10px 18px; border-radius: 9px; text-decoration: none; display: inline-block;
+    background: var(--navy2); border: 1px solid var(--navy2); color: #fff;
+  }
+  .btn.ghost { background: transparent; border-color: var(--border); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--red); color: var(--red); }
+
+  @media (max-width: 520px) {
+    .s-zh { font-size: 3rem; }
+    .scard { min-height: 260px; }
+  }
+</style>

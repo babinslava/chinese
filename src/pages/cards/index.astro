@@ -71,7 +71,7 @@ const deckIds = Object.fromEntries(
     </section>
   </div>
 
-  <span id="study-base" data-href={url('/cards/study')} data-manage={url('/cards/my')} hidden></span>
+  <span id="study-base" data-href={url('/cards/study')} data-manage={url('/cards/my')} data-sort={url('/cards/sort')} hidden></span>
   <script type="application/json" id="deck-ids" set:html={JSON.stringify(deckIds)} />
   <script is:inline src={url('/srs.js')}></script>
   <script is:inline>
@@ -80,6 +80,7 @@ const deckIds = Object.fromEntries(
       var state = SRS.load();
       var STUDY = document.getElementById('study-base').getAttribute('data-href') + '?deck=';
       var MANAGE = document.getElementById('study-base').getAttribute('data-manage');
+      var SORT = document.getElementById('study-base').getAttribute('data-sort');
 
       function paint() {
         var everyId = [];
@@ -129,6 +130,10 @@ const deckIds = Object.fromEntries(
               (d.id === st.active ? '<span class="badge">активная</span>' : '') + '</div>' +
           '</a>';
         }).join('');
+        html += '<a class="deck ghost sort-tile" href="' + SORT + '">' +
+          '<div class="d-top"><span class="d-zh">⇄</span></div>' +
+          '<div class="d-ru">Разобрать колоду</div>' +
+          '<div class="d-stats"><span>свайпом: учить или не сейчас</span></div></a>';
         html += '<a class="deck ghost" href="' + MANAGE + '">' +
           '<div class="d-top"><span class="d-zh">⚙</span></div>' +
           '<div class="d-ru">Управление колодами</div>' +

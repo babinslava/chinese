@@ -30,6 +30,7 @@ const lookup = Object.fromEntries(
 
       <div class="my-actions">
         <a class="btn" id="study" href={url('/cards/study?deck=my')}>Повторять колоду</a>
+        <a class="btn ghost" id="sort" href={url('/cards/sort')}>Добавить из другой колоды</a>
         <button class="btn ghost" id="export">Выгрузить (CSV)</button>
         <button class="btn ghost" id="import-btn">Загрузить из файла</button>
         <input type="file" id="import" accept=".csv,.json,text/csv,application/json" hidden />
@@ -43,13 +44,15 @@ const lookup = Object.fromEntries(
         <p>Колода пока пуста.</p>
         <p class="sub">
           Откройте <a href={url('/hsk3/words')}>список 500 слов</a> или любой
-          <a href={url('/hsk1')}>урок учебника</a> и нажмите ★ рядом со словом.
+          <a href={url('/hsk1')}>урок учебника</a> и нажмите ★ рядом со словом —
+          или <a href={url('/cards/sort')}>разберите любую колоду</a> по одной карточке.
         </p>
       </div>
       <div class="mgrid" id="grid"></div>
     </section>
   </div>
 
+  <span id="sort-base" data-href={url('/cards/sort')} hidden></span>
   <script type="application/json" id="card-lookup" set:html={JSON.stringify(lookup)} />
   <script is:inline src={url('/mydeck.js')}></script>
   <script is:inline>
@@ -64,6 +67,8 @@ const lookup = Object.fromEntries(
                  d.name + ' (' + d.ids.length + ')</option>';
         }).join('');
         document.getElementById('delete-deck').disabled = st.decks.length < 2;
+        document.getElementById('sort').href =
+          document.getElementById('sort-base').getAttribute('data-href') + '?to=' + encodeURIComponent(st.active);
       }
 
       function paint() {

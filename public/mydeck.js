@@ -130,6 +130,47 @@
     if (d) { d.ids = []; save(state); }
   }
 
+  function deckById(state, deckId) {
+    return state.decks.filter(function (x) { return x.id === deckId; })[0] || null;
+  }
+
+  /* ── sorting (/cards/sort) ───────────────────────────────────────────
+   * While sorting words into a deck, "не сейчас" is remembered per deck in
+   * d.skip, so the next pass over the same source picks up where the last
+   * one stopped instead of showing the same words again.
+   */
+  function skipped(deckId) {
+    var d = deckById(load(), deckId);
+    return d && d.skip ? d.skip.slice() : [];
+  }
+
+  /**
+   * Put a card in or out of a deck, and in or out of its skip list. pos puts
+   * a re-added card back where it was (for undo); returns where it was.
+   */
+  function setCard(deckId, cardId, inDeck, inSkip, pos) {
+    var state = load();
+    var d = deckById(state, deckId);
+    if (!d) return -1;
+    d.skip = d.skip || [];
+    var at = d.ids.indexOf(cardId);
+    if (inDeck && at === -1) {
+      if (typeof pos === 'number' && pos >= 0 && pos <= d.ids.length) d.ids.splice(pos, 0, cardId);
+      else d.ids.push(cardId);
+    }
+    if (!inDeck && at !== -1) d.ids.splice(at, 1);
+    d.skip = d.skip.filter(function (x) { return x !== cardId; });
+    if (inSkip) d.skip.push(cardId);
+    save(state);
+    return at;
+  }
+
+  function clearSkipped(deckId) {
+    var state = load();
+    var d = deckById(state, deckId);
+    if (d) { d.skip = []; save(state); }
+  }
+
   /** Wire every [data-star] button on the page to the active deck. */
   function bindStars() {
     var state = load();
@@ -158,7 +199,8 @@
     load: load, save: save, activeDeck: activeDeck,
     ids: ids, idsOf: idsOf, has: has, toggle: toggle, remove: remove, addMany: addMany,
     create: create, rename: rename, destroy: destroy, setActive: setActive,
-    clear: clear, bindStars: bindStars, KEY: KEY
+    clear: clear, bindStars: bindStars, KEY: KEY,
+    skipped: skipped, setCard: setCard, clearSkipped: clearSkipped
   };
 
   if (document.readyState === 'loading') {
